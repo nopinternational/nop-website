@@ -27,9 +27,11 @@
 
 
     <div class="col">
-      <h2>Vill ni vara med?</h2>
-      Vi kommer att öppna upp tjänsten till att börja med för par som vill träffas i Stockholmstrakten.
-      Är ni intresserade att vara med så fyll i formuläret så håller vi kontakten.
+      <h2>Bli medlem</h2>
+      <p>Nätverket Night of Passion är under uppbyggnad. Vi bjuder in personer som medlemmar som kan vara med och testa nätverket samt siten. </p>
+      <p>Har du blivit inbjuden till Night of Passion, vänligen ange din inbjudningskod nedan.</p>
+      
+      <p>Har du inte blivit injuden ännu så kan du ange ditt namn och epost nedan. Då kommer du bla få vårt nyhetsbrev med information om vad som händer i Night of Passion.</p>
     </div>
 
     <hr>
@@ -39,15 +41,25 @@
       <form id="signup-form" onsubmit="return signup(this)">
 
         <div class="form-group">
-          <label for="signupName">Namn, ange bådas namn</label>
+          <label for="signupName">Namn</label>
           <input type="text" class="form-control" id="signupName" placeholder="Namn">
         </div>
         <div class="form-group">
-          <label for="signupEmail">Epost address, ange en adress vi kan kontakta er på.</label>
+          <label for="signupEmail">Epost address</label>
           <input type="email" class="form-control" id="signupEmail" aria-describedby="emailHelp" placeholder="Ange epost">
-          <small id="emailHelp" class="form-text text-muted">Vi håller på er integritet, vi delar aldrig ut er data, ej så er epost</small>
+          <small id="emailHelp" class="form-text text-muted">Vi håller på er integritet, vi kommer aldrig att dela din data till andra</small>
         </div>
-        <button type="submit" id="signup-button" class="btn btn-primary">Ja, ta med oss!</button>
+        <div class="form-group">
+            <label for="invitationcode">Inbjudninskod</label>
+            <input type="text" class="form-control" id="invitationcode" placeholder="Inbjudningskod">
+            <small id="invitationcodeHelp" class="form-text text-muted">Har du fått en injudningskod anger du den här</small>
+        </div>
+        <div class="form-group">
+            <label for="message">Meddelande</label>
+            <input type="text" class="form-control" id="message" placeholder="Meddelande">
+            <small id="messageHelp" class="form-text text-muted">Har du något du behöver meddela oss?</small>
+        </div>
+        <button type="submit" id="signup-button" class="btn btn-primary">Ja tack!</button>
       </form>
         </div>
   </div>

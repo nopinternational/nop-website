@@ -30,21 +30,21 @@ $(document).ready(function () {
     };
     function signup(formObj) {
         // Store emails to firebase
-        writeUserData(formObj.signupName.value, formObj.signupEmail.value)
-/*
-      var myFirebaseRef = new Firebase("https://ultra-guard-182606.firebaseio.com/");
-        myFirebaseRef.push({
-          email: formObj.signupEmail.value,
-          name:  formObj.signupName.value,
-        }, onSignupComplete);
-*/
+        writeUserData(formObj.signupName.value, 
+          formObj.signupEmail.value,
+          formObj.invitationcode.value,
+          formObj.message.value
+          );
+
         signupBtn.disabled = true;
         return false;
     }
 
-    function writeUserData(name, email) {
+    function writeUserData(name, email, invitationCode,message) {
   firebase.database().ref('users').push().set({
     username: name,
-    email: email,
+    email,
+    invitationCode, 
+    message
   },onSignupComplete);
 }
