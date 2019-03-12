@@ -7,7 +7,7 @@ $(window).scroll(function(e){
     parallax();
 });
 $(document).ready(function () {
-    $('div.hidden').fadeIn(500).removeClass('hidden');
+   // $('div.hidden').fadeIn(500).removeClass('hidden');
     parallax();
 });
 
