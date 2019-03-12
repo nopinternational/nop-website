@@ -43,6 +43,7 @@ $(document).ready(function () {
   firebase.database().ref('users').push().set({
     username: name,
     email,
-    message
+    message,
+    created: new Date().toISOString()
   },onSignupComplete);
 }
