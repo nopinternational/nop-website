@@ -32,7 +32,6 @@ $(document).ready(function () {
         // Store emails to firebase
         writeUserData(formObj.signupName.value, 
           formObj.signupEmail.value,
-          formObj.invitationcode.value,
           formObj.message.value
           );
 
@@ -40,11 +39,10 @@ $(document).ready(function () {
         return false;
     }
 
-    function writeUserData(name, email, invitationCode,message) {
+    function writeUserData(name, email, message) {
   firebase.database().ref('users').push().set({
     username: name,
     email,
-    invitationCode, 
     message
   },onSignupComplete);
 }
