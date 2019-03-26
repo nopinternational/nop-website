@@ -10,7 +10,7 @@ import ListItem from "@material-ui/core/ListItem";
 import Tooltip from "@material-ui/core/Tooltip";
 
 // @material-ui/icons
-import { Apps, CloudDownload } from "@material-ui/icons";
+import { Apps, CloudDownload ,AccountCircle} from "@material-ui/icons";
 
 // core components
 import CustomDropdown from "components/CustomDropdown/CustomDropdown.jsx";
@@ -22,6 +22,7 @@ function HeaderLinks({ ...props }) {
   const { classes } = props;
   return (
     <List className={classes.list}>
+    {/*
       <ListItem className={classes.listItem}>
         <CustomDropdown
           noLiPadding
@@ -106,6 +107,24 @@ function HeaderLinks({ ...props }) {
           </Button>
         </Tooltip>
       </ListItem>
+        */}
+      <ListItem className={classes.listItem}>
+        <Tooltip
+          id="account-tooltip"
+          title="Ditt konto"
+          placement={window.innerWidth > 959 ? "top" : "left"}
+          classes={{ tooltip: classes.tooltip }}
+        >
+          <Button
+            color="transparent"
+            href="/login-page"
+            className={classes.navLink}
+          >
+            <AccountCircle className={classes.inputIconsColor} />
+          </Button>
+        </Tooltip>
+      </ListItem>
+      
     </List>
   );
 }
