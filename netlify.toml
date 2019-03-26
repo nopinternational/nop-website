@@ -1,0 +1,11 @@
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "http://www.nightofpassion.se/*"
+  to = "https://www.nightofpassion.se/:splat"
+  status = 301
+
+  
