@@ -1,31 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
-import { Router, Route, Switch } from "react-router-dom";
+import AppRoutes from 'views/Components/AppRoutes.jsx'
+
 
 import "assets/scss/material-kit-react.scss?v=1.4.0";
 
-// pages for this product
-import Components from "views/Components/Components.jsx";
-import LandingPage from "views/LandingPage/LandingPage.jsx";
-import ProfilePage from "views/ProfilePage/ProfilePage.jsx";
-import LoginPage from "views/LoginPage/LoginPage.jsx";
-import SignupPage from "views/SignupPage/SignupPage.jsx";
-import PartyPage from "views/PartyPage/PartyPage.jsx";
 
 
-var hist = createBrowserHistory();
+import ReactGA from 'react-ga'
+
+ReactGA.initialize('UA-134177845-1')
+
+
 
 ReactDOM.render(
-  <Router history={hist}>
-    <Switch>
-      <Route path="/landing-page" component={LandingPage} />
-      <Route path="/profile-page" component={ProfilePage} />
-      <Route path="/login-page" component={LoginPage} />
-      <Route path="/fest" component={PartyPage} />
-      <Route path="/signup" component={SignupPage} />
-      <Route path="/" component={LandingPage} />
-    </Switch>
-  </Router>,
+  <AppRoutes/>,
   document.getElementById("root")
 );
+
