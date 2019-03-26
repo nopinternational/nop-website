@@ -65,16 +65,11 @@ class AboutNoP extends React.Component {
     this.setState({
       open: false,
     });
-    console.log('handleBecomeMember');
-    console.log(this.state);
     this.writeUserData (this.state.email,this.state.email,this.state.message);
   };
 
   writeUserData = (name, email, message) => {
-    console.log('name: ', name)
-    console.log('email: ', email)
-    console.log('msg: ', message )
-    firebase.database().ref('users').push().set({
+     firebase.database().ref('users').push().set({
       username: name,
       email,
       message,
@@ -84,14 +79,11 @@ class AboutNoP extends React.Component {
   }
 
   render() {
-    console.log('render')
+
     const dataSent = this.state.dataSent;
-    
-    console.log('dataSent:', dataSent)
     const { classes } = this.props;
 
     if (dataSent) {
-      console.log('renderThanks')
       
       return (
         <div className={classes.section}>
@@ -114,7 +106,6 @@ class AboutNoP extends React.Component {
       )
     }
     else {
-      console.log('renderForm')
       return (
         <div className={classes.section}>
         <GridContainer justify="center">
@@ -131,11 +122,10 @@ class AboutNoP extends React.Component {
 
               <CustomInput
                 labelText="Namn"
-                id="material"
+                id="name"
                 formControlProps={{
                   fullWidth: true
                 }}
-
                 inputProps={{
                   inputProps:  {onChange: this.handleNameChange},
                   type: "text",
@@ -148,7 +138,7 @@ class AboutNoP extends React.Component {
               />
               <CustomInput
                 labelText="Epost adress"
-                id="material"
+                id="email"
                 formControlProps={{
                   fullWidth: true
                 }}
@@ -164,7 +154,7 @@ class AboutNoP extends React.Component {
               />
               <CustomInput
                 labelText="Meddelande, kod"
-                id="material"
+                id="message"
                 formControlProps={{
                   fullWidth: true
                 }}
