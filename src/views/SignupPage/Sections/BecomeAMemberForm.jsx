@@ -42,7 +42,9 @@ class AboutNoP extends React.Component {
       storageBucket: "ultra-guard-182606.appspot.com",
       messagingSenderId: "928295750233"
     };
-    firebase.initializeApp(config);
+    if (!firebase.apps.length) {
+      firebase.initializeApp(config);
+    }
   }
 
 

@@ -54,6 +54,10 @@ class SpringParty extends React.Component {
               Vi kommer att prioritera öppna, trevliga, ärliga par där vi tror att ni kommer passa ihop med övriga på festen. Vi har därför inte möjlighet att kunna erbjuda alla par en plats på festen.
             </li></ul>
             </h5>
+            <h2 className={classes.title}>Anmälan till vårfest</h2>
+            <h5 className={classes.description}>
+            Är ni intresserade av att vara med? Anmäl ert intresse genom att gå med i Night of Passion. Ange 'Vårfest2019' som meddelande till oss.
+            </h5>
           </GridItem>
         </GridContainer>
         {/*
