@@ -26,6 +26,7 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
+import ReactGA from 'react-ga'
 
 import image from "assets/img/bg7.jpg";
 
@@ -43,6 +44,10 @@ class LoginPage extends React.Component {
 
 
   handleLogin = () => {
+    ReactGA.event({
+      category: 'Login',
+      action: 'Login clicked'
+    });
     this.setState({ open: true });
   };
 
