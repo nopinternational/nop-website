@@ -16,7 +16,7 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx";
 
 import firebase from 'firebase/app';
-
+import 'firebase/database';
 class AboutNoP extends React.Component {
 
   state = {
@@ -40,6 +40,7 @@ class AboutNoP extends React.Component {
     };
     if (!firebase.apps.length) {
       firebase.initializeApp(config);
+      this.fb_database = firebase.database();
     }
   }
 
@@ -65,7 +66,7 @@ class AboutNoP extends React.Component {
   };
 
   writeUserData = (name, email, message) => {
-     firebase.database().ref('users').push().set({
+    this.fb_database.ref('users').push().set({
       username: name,
       email,
       message,
