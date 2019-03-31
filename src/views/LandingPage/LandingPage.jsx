@@ -8,10 +8,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 // core components
 import Header from "components/Header/Header.jsx";
-import Footer from "components/Footer/Footer.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
-import Button from "components/CustomButtons/Button.jsx";
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
 
@@ -22,9 +20,6 @@ import AboutNoP from "./Sections/AboutNoP.jsx";
 import SpringPartyTeaser from "./Sections/SpringPartyTeaser.jsx";
 import BecomeAMember from "./Sections/BecomeAMember.jsx";
 import WhosBehind from "./Sections/WhosBehind.jsx";
-import ProductSection from "./Sections/ProductSection.jsx";
-import TeamSection from "./Sections/TeamSection.jsx";
-import WorkSection from "./Sections/WorkSection.jsx";
 
 const dashboardRoutes = [];
 

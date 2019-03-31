@@ -4,9 +4,6 @@ import { Link } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 // @material-ui/icons
-import Chat from "@material-ui/icons/Chat";
-import VerifiedUser from "@material-ui/icons/VerifiedUser";
-import Fingerprint from "@material-ui/icons/Fingerprint";
 import Email from "@material-ui/icons/Email";
 import People from "@material-ui/icons/People";
 import Message from "@material-ui/icons/Message";
@@ -14,12 +11,11 @@ import Message from "@material-ui/icons/Message";
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
-import InfoArea from "components/InfoArea/InfoArea.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx";
 
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
 
 class AboutNoP extends React.Component {
 
@@ -153,7 +149,7 @@ class AboutNoP extends React.Component {
                 }}
               />
               <CustomInput
-                labelText="Meddelande, kod"
+                labelText="Ev meddelande till oss, kod, kik etc"
                 id="message"
                 formControlProps={{
                   fullWidth: true
