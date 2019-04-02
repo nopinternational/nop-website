@@ -121,6 +121,7 @@ function HeaderLinks({ ...props }) {
             className={classes.navLink}
           >
             <AccountCircle className={classes.inputIconsColor} />
+            Konto
           </Button>
         </Tooltip>
       </ListItem>
