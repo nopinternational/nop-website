@@ -124,7 +124,7 @@ class AboutNoP extends React.Component {
                   fullWidth: true
                 }}
                 inputProps={{
-                  inputProps:  {onChange: this.handleNameChange},
+                  onChange: this.handleNameChange,
                   type: "text",
                   endAdornment: (
                     <InputAdornment position="end">
@@ -140,7 +140,7 @@ class AboutNoP extends React.Component {
                   fullWidth: true
                 }}
                 inputProps={{
-                  inputProps:  {onChange: this.handleEmailChange},
+                  onChange: this.handleEmailChange,
                   type: "email",
                   endAdornment: (
                     <InputAdornment position="end">
@@ -156,7 +156,7 @@ class AboutNoP extends React.Component {
                   fullWidth: true
                 }}
                 inputProps={{
-                  inputProps:  {onChange: this.handleMessageChange},
+                  onChange: this.handleMessageChange,
                   type: "text",
                   endAdornment: (
                     <InputAdornment position="end">
