@@ -19,7 +19,7 @@ class SpringParty extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <h2 className={classes.title}>Vårfest 6e april</h2>
             <h5 className={classes.description}>
-            Våren är snart här och vi arranger en exklusiv vårfest för social sexiga par. För mer info om festen klicka nedan.
+            Våren är snart här och vi arranger en exklusiv vårfest för sociala sexiga par. För mer info om festen klicka nedan.
             </h5>
             <Link to={"/fest"} className={classes.link}>
               <Button
