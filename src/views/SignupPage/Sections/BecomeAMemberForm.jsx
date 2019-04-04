@@ -27,23 +27,21 @@ class AboutNoP extends React.Component {
     message: ''
   };
 
-
-
   componentDidMount() {
     const   config = {
-      apiKey: "AIzaSyBvsvqTM8uSO60h54ZnDM2HuBb6OaN1LWs",
-      authDomain: "ultra-guard-182606.firebaseapp.com",
-      databaseURL: "https://ultra-guard-182606.firebaseio.com",
-      projectId: "ultra-guard-182606",
-      storageBucket: "ultra-guard-182606.appspot.com",
-      messagingSenderId: "928295750233"
+      apiKey: process.env.REACT_APP_FIREBSE_APIKEY,
+      authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
+      databaseURL: process.env.REACT_APP_FIREBASE_DATABASEURL,
+      projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+      storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
+      messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDERID
     };
+
     if (!firebase.apps.length) {
       firebase.initializeApp(config);
       this.fb_database = firebase.database();
     }
   }
-
 
   handleNameChange = (event) => {
     this.setState({name: event.target.value})
@@ -57,7 +55,6 @@ class AboutNoP extends React.Component {
     this.setState({message: event.target.value})
   };
 
-  
   handleBecomeMember = () => {
     this.setState({
       open: false,
