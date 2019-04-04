@@ -5,7 +5,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // @material-ui/icons
 import Chat from "@material-ui/icons/Chat";
 import VerifiedUser from "@material-ui/icons/VerifiedUser";
-import Fingerprint from "@material-ui/icons/Fingerprint";
+import Wc from "@material-ui/icons/Wc";
+
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
@@ -13,11 +14,12 @@ import InfoArea from "components/InfoArea/InfoArea.jsx";
 
 import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx";
 
-class ProductSection extends React.Component {
+class ThreeBenefitsOfNoP extends React.Component {
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.section}>
+      {/*
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={8}>
             <h2 className={classes.title}>Let's talk product</h2>
@@ -30,21 +32,13 @@ class ProductSection extends React.Component {
             </h5>
           </GridItem>
         </GridContainer>
+        */}
         <div>
           <GridContainer>
             <GridItem xs={12} sm={12} md={4}>
               <InfoArea
-                title="Free Chat"
-                description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={Chat}
-                iconColor="info"
-                vertical
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-              <InfoArea
-                title="Verified Users"
-                description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
+                title="Riktiga och verifierade par"
+                description="Medlemmar i Night of Passion finns på riktigt. För att vara med i Night of Passion genomgår alla en verifieringsprocess, inga troll är välkomna."
                 icon={VerifiedUser}
                 iconColor="success"
                 vertical
@@ -52,9 +46,18 @@ class ProductSection extends React.Component {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <InfoArea
-                title="Fingerprint"
-                description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={Fingerprint}
+                title="Kommunicera med andra par"
+                description="Medlemmar i Night of Passion kan kontakta och kommunicera med andra på ett tryggt och säkert sätt."
+                icon={Chat}
+                iconColor="info"
+                vertical
+              />
+            </GridItem>
+            <GridItem xs={12} sm={12} md={4}>
+              <InfoArea
+                title="Möts och träffas"
+                description="Night of Passion ordnar träffar och fester så att par kan mötas. Ni kan själv ordna egna träffar tillsammans andra medlemmar i Night of Passion"
+                icon={Wc}
                 iconColor="danger"
                 vertical
               />
@@ -66,4 +69,4 @@ class ProductSection extends React.Component {
   }
 }
 
-export default withStyles(productStyle)(ProductSection);
+export default withStyles(productStyle)(ThreeBenefitsOfNoP);

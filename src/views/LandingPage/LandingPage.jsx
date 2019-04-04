@@ -19,6 +19,7 @@ import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.js
 import AboutNoP from "./Sections/AboutNoP.jsx";
 import SpringPartyTeaser from "./Sections/SpringPartyTeaser.jsx";
 import BecomeAMember from "./Sections/BecomeAMember.jsx";
+import ThreeBenefitsOfNoP from "./Sections/ThreeBenefitsOfNoP.jsx";
 import WhosBehind from "./Sections/WhosBehind.jsx";
 
 const dashboardRoutes = [];
@@ -56,12 +57,13 @@ class LandingPage extends React.Component {
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
             <AboutNoP />
+            <ThreeBenefitsOfNoP />
             <SpringPartyTeaser />
             <BecomeAMember />
             <WhosBehind />
 
           {/*
-            <ProductSection />
+            
             <TeamSection />
             <WorkSection />
             */}
