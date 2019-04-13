@@ -24,7 +24,7 @@ class MingleSection extends React.Component {
             <h5 className={classes.description}>
               Vårt nätverk består av väldigt trevliga och sociala par.
               Ta chansen att träffa dom och passa på att gå med i Night of Passion själva! 
-              Night of Passion är nätverk vars medlemmar ska vara riktiga och verifierade par.</h5>
+              Night of Passion är ett nätverk vars medlemmar ska vara riktiga och verifierade par.</h5>
 
             <h5 className={classes.description}>
               Under kvällen så kommer ni även att få möjlighet att träffa paren bakom Night of Passion och få mer information om hur nätverket fungerar.
@@ -53,7 +53,7 @@ class MingleSection extends React.Component {
               Respektera andras önskan att vara diskret i samband med träffen. Det som händer på AWn stannar på AWn som man brukar säga...</h5>
 
             <h5 className={classes.description}>
-            För att vara med på mingelträffen så är första steget att anmäla er till Night of Passion, skriv 'AW-17maj' som meddelande så vi vet att ni vill komma på AW. 
+            För att vara med på mingelträffen så är första steget att anmäla er till Night of Passion, skriv 'MINGEL-17maj' som meddelande så vi vet att ni vill komma på den här träffen. 
             Vi kommer sedan kontakta er så att ni kan göra en bild-verifiering. 
             Endast par som har anmält sig till Night of Passion och gjort bild-verifiering kommer att bjudas in till mingelträffen. 
             Vi kommer att tacka nej till par som inte är seriösa eller som vi tror på annat sätt inte delar träffen och nätverkets värderingar.</h5>
