@@ -56,7 +56,7 @@ class ThreeBenefitsOfNoP extends React.Component {
             <GridItem xs={12} sm={12} md={4}>
               <InfoArea
                 title="Mötas och träffas"
-                description="Night of Passion ordnar träffar och fester så att par kan mötas. Ni kan själv ordna egna träffar tillsammans andra medlemmar i Night of Passion"
+                description="Night of Passion ordnar träffar och fester så att par kan mötas. Ni kan själv ordna egna träffar tillsammans med andra medlemmar i Night of Passion"
                 icon={Wc}
                 iconColor="danger"
                 vertical
