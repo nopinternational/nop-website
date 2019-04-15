@@ -25,8 +25,6 @@ import productStyle from "assets/jss/material-kit-react/views/landingPageSection
 
 import { withFirebase } from '../../../components/Firebase';
 import { compose } from 'recompose';
-import firebase from 'firebase/app';
-import 'firebase/database';
 import sgMail from '@sendgrid/mail';
 
 class AboutNoP extends React.Component {
@@ -40,20 +38,6 @@ class AboutNoP extends React.Component {
   };
  
   componentDidMount() {
-    const   config = {
-      apiKey: process.env.REACT_APP_FIREBSE_APIKEY,
-      authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
-      databaseURL: process.env.REACT_APP_FIREBASE_DATABASEURL,
-      projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
-      storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
-      messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDERID,
-    };
-
-    if (!firebase.apps.length) {
-      firebase.initializeApp(config);
-      
-    }
-    this.fb_database = firebase.database();
     this.templateId = process.env.REACT_APP_SENDGRID_WELCOME_TEMPLATEID
   }
 
@@ -74,7 +58,6 @@ class AboutNoP extends React.Component {
   };
 
   handleBecomeMember = () => {
-<<<<<<< Updated upstream
     const email = this.state.email;
     if (!this.validateEmail(email)) {
       this.setState({
@@ -82,15 +65,9 @@ class AboutNoP extends React.Component {
       });
       return
     }
-    this.setState({ open: true });
+    
     this.writeUserData (this.state.name,this.state.email,this.state.message);
     this.sendWelcomeMail(this.state.email,this.state.name);
-=======
-    this.setState({
-      open: false,
-    });
-    this.writeUserData(this.state.email,this.state.email,this.state.message);
->>>>>>> Stashed changes
   };
 
   validateEmail = (email)  => {
@@ -116,16 +93,8 @@ class AboutNoP extends React.Component {
   }
 
   writeUserData = (name, email, message) => {
-    console.log('writeUserData',name,email,message)
-    /*
-    this.fb_database.ref('users').push().set({
-      username: name,
-      email,
-      message,
-      created: new Date().toISOString()
-    });
+    this.props.firebase.doAddNewUserData(name, email, message);
     this.setState({dataSent: true})
-    */
   }
 
   render() {
