@@ -9,6 +9,7 @@ import ProfilePage from "views/ProfilePage/ProfilePage.jsx";
 import LoginPage from "views/LoginPage/LoginPage.jsx";
 import SignupPage from "views/SignupPage/SignupPage.jsx";
 import PartyPage from "views/PartyPage/PartyPage.jsx";
+import MinglePage from "views/MinglePage/MinglePage.jsx"
 
 
 const history = createBrowserHistory();
@@ -30,6 +31,7 @@ export default class AppRoutes extends React.Component {
         <Route path="/profile-page" component={ProfilePage} />
         <Route path="/login-page" component={LoginPage} />
         <Route path="/fest" component={PartyPage} />
+        <Route path="/mingel" component={MinglePage} />
         <Route path="/signup" component={SignupPage} />
         <Route path="/" component={LandingPage} />
       </Switch>
