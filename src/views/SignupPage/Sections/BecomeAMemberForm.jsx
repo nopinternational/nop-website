@@ -25,7 +25,7 @@ import productStyle from "assets/jss/material-kit-react/views/landingPageSection
 
 import { withFirebase } from '../../../components/Firebase';
 import { compose } from 'recompose';
-import sgMail from '@sendgrid/mail';
+import axios from 'axios';
 
 class AboutNoP extends React.Component {
 
@@ -76,9 +76,8 @@ class AboutNoP extends React.Component {
 
   }
   sendWelcomeMail = (mailTo, name) => {
-    sgMail.setApiKey(process.env.REACT_APP_SENDGRID_APIKEY);
     
-    const msg = {
+    const mailConfig = {
       to: mailTo,
       from: {
         name: 'Night of Passion',
@@ -89,7 +88,22 @@ class AboutNoP extends React.Component {
       html: '<strong>Night of Passion - Välkommen</strong>',
       templateId: this.templateId,
     };
-    sgMail.send(msg);
+    const mailSenderUrl = process.env.REACT_APP_MAILSENDER_URL
+    const mailSenderUser = process.env.REACT_APP_MAILSENDER_USER
+    const mailSenderPass = process.env.REACT_APP_MAILSENDER_PASS
+
+    axios.post(mailSenderUrl, mailConfig, {
+      auth: {
+        username: mailSenderUser,
+        password: mailSenderPass
+      }
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
   writeUserData = (name, email, message) => {
