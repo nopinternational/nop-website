@@ -10,6 +10,7 @@ import LoginPage from "views/LoginPage/LoginPage.jsx";
 import SignupPage from "views/SignupPage/SignupPage.jsx";
 import PartyPage from "views/PartyPage/PartyPage.jsx";
 import MinglePage from "views/MinglePage/MinglePage.jsx"
+import AboutSringPartyPage from "views/AboutSpringParty/AboutSringPartyPage.jsx"
 
 
 const history = createBrowserHistory();
@@ -31,6 +32,7 @@ export default class AppRoutes extends React.Component {
         <Route path="/profile-page" component={ProfilePage} />
         <Route path="/login-page" component={LoginPage} />
         <Route path="/fest" component={PartyPage} />
+        <Route path="/om-varfesten" component={AboutSringPartyPage} />
         <Route path="/mingel" component={MinglePage} />
         <Route path="/signup" component={SignupPage} />
         <Route path="/" component={LandingPage} />
