@@ -13,7 +13,6 @@ import productStyle from "assets/jss/material-kit-react/views/landingPageSection
 class SaveTheDate extends React.Component {
   render() {
     const { classes } = this.props;
-    console.log(classes)
     return (
       <div className={classes.section}>
         <GridContainer justify="center">
