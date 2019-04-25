@@ -50,9 +50,10 @@ class SpringParty extends React.Component {
             </li></ul>
             </h5>
             <h2 className={classes.title}>Anmälan till vårfest</h2>
-            <h5 className={classes.description}>
+            <h5 className={classes.description} style={{textDecorationLine: 'line-through', textDecorationStyle: 'solid'}}>
             Är ni intresserade av att vara med? Anmäl ert intresse genom att gå med i Night of Passion. Ange 'Vårfest2019' som meddelande till oss.
             </h5>
+            <h5 className={classes.description}>Vårfesten har redan varit...</h5>
           </GridItem>
         </GridContainer>
         {/*

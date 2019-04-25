@@ -10,7 +10,7 @@ import Button from "components/CustomButtons/Button.jsx";
 
 import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx";
 
-class SaveTheDate extends React.Component {
+class AboutSpringPartyTeaser extends React.Component {
   render() {
     const { classes } = this.props;
     console.log(classes)
@@ -18,20 +18,15 @@ class SaveTheDate extends React.Component {
       <div className={classes.section}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={8}>
-            <h2 className={classes.title}>Mingelträff - Fredag 17 Maj</h2>
+            <h2 className={classes.title}>Om vårfesten </h2>
             <h5 className={classes.description}>
-              Vi ordnar en mingelträff i form av en After Work i Stockholm city där ni kan mingla tillsammans med andra sociala sexiga par.
-              Under kvällen så kommer ni få träffa andra par som är öppna för fester eller träffar tillsammans med andra par.
-            Se det som en kemiträff de luxe!</h5>
-
-            <h5 className={classes.description}>
-              För mer info om träffen klicka nedan.
-            </h5>
-            <Link to={"/mingel"} className={classes.link}>
+              Vad händer på våra fester? Läs den här berättelsen så vet ni ;)
+      </h5>
+            <Link to={"/om-varfesten"} className={classes.link}>
               <Button
                 color="primary">
-                Mingelträff
-              </Button>
+                Om Vårfesten
+        </Button>
             </Link>
           </GridItem>
         </GridContainer>
@@ -40,4 +35,4 @@ class SaveTheDate extends React.Component {
   }
 }
 
-export default withStyles(productStyle)(SaveTheDate);
+export default withStyles(productStyle)(AboutSpringPartyTeaser);

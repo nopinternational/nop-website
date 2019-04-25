@@ -1,5 +1,4 @@
 import React from "react";
-
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -14,25 +13,15 @@ import GridItem from "components/Grid/GridItem.jsx";
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
 
-
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
 
 // Sections for this page
-import AboutNoP from "./Sections/AboutNoP.jsx";
-import SaveTheDate from "./Sections/SaveTheDate.jsx";
-import BecomeAMember from "./Sections/BecomeAMember.jsx";
-import ThreeBenefitsOfNoP from "./Sections/ThreeBenefitsOfNoP.jsx";
-import WhosBehind from "./Sections/WhosBehind.jsx";
-import AboutSpringPartyTeaser from "./Sections/AboutSpringPartyTeaser.jsx";
-
+import AboutSringPartySection from "./AboutSringPartySection.jsx";
 
 
 const dashboardRoutes = [];
 
-class LandingPage extends React.Component {
-
-
-
+class AboutSringPartyPage extends React.Component {
   render() {
     const { classes, ...rest } = this.props;
     return (
@@ -64,18 +53,8 @@ class LandingPage extends React.Component {
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
-            <AboutNoP />
-            <ThreeBenefitsOfNoP />            
-            <SaveTheDate sectionId="mingel"/>
-            <AboutSpringPartyTeaser />
-            <BecomeAMember />
-            <WhosBehind />
+            <AboutSringPartySection />
 
-          {/*
-            
-            <TeamSection />
-            <WorkSection />
-            */}
           </div>
         </div>
         {/*
@@ -85,4 +64,5 @@ class LandingPage extends React.Component {
     );
   }
 }
-export default withStyles(landingPageStyle)(LandingPage);
+
+export default withStyles(landingPageStyle)(AboutSringPartyPage);
