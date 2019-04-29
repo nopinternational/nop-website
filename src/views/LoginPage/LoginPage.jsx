@@ -1,4 +1,5 @@
 import React from "react";
+import { compose } from 'recompose';
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -26,7 +27,7 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 import ReactGA from 'react-ga'
-
+import { withFirebase } from '../../components/Firebase';
 
 const dashboardRoutes = [];
 
@@ -41,11 +42,24 @@ class LoginPage extends React.Component {
   }
 
 
+  handleChange = (event) => {    
+    this.setState({ [event.target.name]: event.target.value })
+  };
+
   handleLogin = () => {
     ReactGA.event({
       category: 'Login',
       action: 'Login clicked'
     });
+    this.props.firebase.doSignInWithEmailAndPassword(this.state.email, this.state.password)
+    .then((foo) => {
+      console.log(foo)
+    })
+    .catch(error => {
+      this.setState({ error });
+      console.log(error)
+    });
+    
     this.setState({ open: true });
   };
 
@@ -60,6 +74,20 @@ class LoginPage extends React.Component {
       }.bind(this),
       700
     );
+    this.listener = this.props.firebase.auth.onAuthStateChanged(
+      authUser => {
+        console.log('authUser: ', authUser)
+        authUser
+          ? this.setState({ authUser })
+          : this.setState({ authUser: null });
+      },
+    );
+  }
+
+
+
+  componentWillUnmount() {
+    this.listener();
   }
   render() {
     const { classes, ...rest } = this.props;
@@ -152,7 +180,9 @@ class LoginPage extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
+                          onChange: this.handleChange,
                           type: "email",
+                          name: "email",
                           endAdornment: (
                             <InputAdornment position="end">
                               <Email className={classes.inputIconsColor} />
@@ -167,7 +197,9 @@ class LoginPage extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
+                          onChange: this.handleChange,
                           type: "password",
+                          name: "password",
                           endAdornment: (
                             <InputAdornment position="end">
                               <Icon className={classes.inputIconsColor}>
@@ -215,4 +247,7 @@ class LoginPage extends React.Component {
   }
 }
 
-export default withStyles(loginPageStyle)(LoginPage);
+export default compose(
+  withFirebase,
+  withStyles(loginPageStyle)
+)(LoginPage);

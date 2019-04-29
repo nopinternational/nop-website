@@ -8,6 +8,8 @@ import LandingPage from "views/LandingPage/LandingPage.jsx";
 import ProfilePage from "views/ProfilePage/ProfilePage.jsx";
 import LoginPage from "views/LoginPage/LoginPage.jsx";
 import SignupPage from "views/SignupPage/SignupPage.jsx";
+import FirebaseSignupPage from "views/SignupPage/FirebaseSignupPage.jsx";
+
 import PartyPage from "views/PartyPage/PartyPage.jsx";
 import MinglePage from "views/MinglePage/MinglePage.jsx"
 import AboutSringPartyPage from "views/AboutSpringParty/AboutSringPartyPage.jsx"
@@ -35,6 +37,7 @@ export default class AppRoutes extends React.Component {
         <Route path="/om-varfesten" component={AboutSringPartyPage} />
         <Route path="/mingel" component={MinglePage} />
         <Route path="/signup" component={SignupPage} />
+        <Route path="/signup2" component={FirebaseSignupPage} />
         <Route path="/" component={LandingPage} />
       </Switch>
     </Router>)
