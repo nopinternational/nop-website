@@ -26,6 +26,7 @@ import productStyle from "assets/jss/material-kit-react/views/landingPageSection
 import { withFirebase } from '../../../components/Firebase';
 import { compose } from 'recompose';
 import axios from 'axios';
+import ReactGA from 'react-ga'
 
 class AboutNoP extends React.Component {
 
@@ -58,16 +59,30 @@ class AboutNoP extends React.Component {
   };
 
   handleBecomeMember = () => {
+    ReactGA.event({
+      category: 'Signup',
+      action: 'Signup clicked'
+    });
     const email = this.state.email;
     if (!this.validateEmail(email)) {
       this.setState({
         open: true,
       });
+
+      ReactGA.event({
+        category: 'Signup',
+        action: 'Signup email validation fail'
+      });
+
       return
     }
     
     this.writeUserData (this.state.name,this.state.email,this.state.message);
     this.sendWelcomeMail(this.state.email,this.state.name);
+    ReactGA.event({
+      category: 'Signup',
+      action: 'Signup ok'
+    });
   };
 
   validateEmail = (email)  => {
