@@ -17,29 +17,70 @@ import AboutSringPartyPage from "views/AboutSpringParty/AboutSringPartyPage.jsx"
 
 const history = createBrowserHistory();
 history.listen(location => {
-	ReactGA.set({ page: location.pathname })
-	ReactGA.pageview(location.pathname)
+  ReactGA.set({ page: location.pathname })
+  ReactGA.pageview(location.pathname)
 });
 
-export default class AppRoutes extends React.Component {
-	componentDidMount() {
-		ReactGA.pageview(window.location.pathname)
-	}
- 
+
+class AppRoutes extends React.Component {
+  componentDidMount() {
+    ReactGA.pageview(window.location.pathname)
+  }
+
   render() {
-    return(
-    <Router history={history}>
-      <Switch>
-        <Route path="/landing-page" component={LandingPage} />
-        <Route path="/profile-page" component={ProfilePage} />
-        <Route path="/login-page" component={LoginPage} />
-        <Route path="/fest" component={PartyPage} />
-        <Route path="/om-varfesten" component={AboutSringPartyPage} />
-        <Route path="/mingel" component={MinglePage} />
-        <Route path="/signup" component={SignupPage} />
-        <Route path="/signup2" component={FirebaseSignupPage} />
-        <Route path="/" component={LandingPage} />
-      </Switch>
-    </Router>)
+    return (
+      <Router history={history}>
+        <Switch>
+          <Route path="/landing-page" component={LandingPage} />
+          <Route path="/profile-page" component={ProfilePage} />
+          <Route path="/login-page" component={LoginPage} />
+          <Route path="/fest" component={PartyPage} />
+          <Route path="/om-varfesten" component={AboutSringPartyPage} />
+          <Route path="/mingel" component={MinglePage} />
+          <Route path="/signup" component={SignupPage} />
+          <Route path="/signup2" component={FirebaseSignupPage} />
+          <Route path="/" component={LandingPage} />
+        </Switch>
+      </Router>)
   }
 }
+
+
+const AppRoutes2 = ({ authUser }) => (
+  <Router history={history}>
+  <Switch>
+    <Route path="/landing-page" component={LandingPage} />
+    
+    <Route path="/fest" component={PartyPage} />
+    <Route path="/om-varfesten" component={AboutSringPartyPage} />
+    <Route path="/mingel" component={MinglePage} />
+    <Route path="/signup" component={SignupPage} />
+    <Route path="/signup2" component={FirebaseSignupPage} />
+    <Route path="/" component={LandingPage} />
+    <Route path="/login-page" component={LoginPage} />
+    <Route path="/profile-page" component={ProfilePage} />
+    {/*authUser ? <NavigationAuth /> : <NavigationNonAuth /> */}
+  </Switch>
+    
+
+
+  </Router>
+
+);
+const NavigationAuth = () => (
+  <div>
+    
+    <Route path="/profile-page" component={ProfilePage} />
+    
+    <Route path="/pp" component={ProfilePage} />
+    
+  </div>
+);
+
+const NavigationNonAuth = () => (
+  <div>
+    <Route path="/login-page" component={LoginPage} />
+  </div>
+);
+
+export default AppRoutes;

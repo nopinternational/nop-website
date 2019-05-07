@@ -15,10 +15,15 @@ import { Apps, CloudDownload ,AccountCircle} from "@material-ui/icons";
 // core components
 import CustomDropdown from "components/CustomDropdown/CustomDropdown.jsx";
 import Button from "components/CustomButtons/Button.jsx";
+import SignOutButton from "components/SignOut";
+
 
 import headerLinksStyle from "assets/jss/material-kit-react/components/headerLinksStyle.jsx";
+import { compose } from "recompose";
+import { withFirebase } from '../Firebase';
 
-function HeaderLinks({ ...props }) {
+function HeaderLinks({ firebase, ...props }) {
+  console.log('fb: ' , firebase)
   const { classes } = props;
   return (
     <List className={classes.list}>
@@ -26,7 +31,7 @@ function HeaderLinks({ ...props }) {
       <ListItem className={classes.listItem}>
         <CustomDropdown
           noLiPadding
-          buttonText="Components"
+          buttonText="Components" 
           buttonProps={{
             className: classes.navLink,
             color: "transparent"
@@ -107,7 +112,7 @@ function HeaderLinks({ ...props }) {
           </Button>
         </Tooltip>
       </ListItem>
-        */}
+
       <ListItem className={classes.listItem}>
         <Tooltip
           id="account-tooltip"
@@ -125,9 +130,44 @@ function HeaderLinks({ ...props }) {
           </Button>
         </Tooltip>
       </ListItem>
+              */}
+      <ListItem className={classes.listItem}>
+        <CustomDropdown
+          noLiPadding
+          buttonText="Ditt konto "
+          buttonProps={{
+            className: classes.navLink,
+            color: "transparent"
+          }}
+          buttonIcon={AccountCircle}
+          dropdownList={[
+            <Button
+              color="transparent"
+              href="/login-page"
+              className={classes.navLink}
+            >
+              
+              Sign in
+            </Button>,
+            <Button
+              color="transparent"
+              onClick={firebase.doSignOut}
+              className={classes.navLink}
+            >
+
+              Sign out
+            </Button>,
+
+          ]
+          }
+        />
+      </ListItem>
       
     </List>
   );
 }
 
-export default withStyles(headerLinksStyle)(HeaderLinks);
+export default compose(
+  withFirebase,
+  withStyles(headerLinksStyle)
+)(HeaderLinks);
