@@ -13,6 +13,7 @@ import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
+import SnackbarContent from "components/Snackbar/SnackbarContent.jsx";
 
 
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
@@ -35,6 +36,8 @@ class LandingPage extends React.Component {
 
   render() {
     const { classes, ...rest } = this.props;
+    const emailLinkStyle = { color: "#FFFFFF" }
+
     return (
       <div>
         <Header
@@ -64,6 +67,16 @@ class LandingPage extends React.Component {
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
+            <SnackbarContent
+              message={
+                  <span>
+                    Vi har skickat ut mail till alla verifierade ang mingelträffen med bla information om 
+                    vilken bar vi ska vara på. Har ni inte fått mailet, hör av er till oss på <a style={emailLinkStyle} href="mailto:fest@nightofpassion.se">fest@nightofpassion.se</a>
+                  </span>
+              }
+              color="primary"
+              icon="info"
+            />
             <AboutNoP />
             <ThreeBenefitsOfNoP />            
             <SaveTheDate sectionId="mingel"/>
