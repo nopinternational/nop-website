@@ -43,7 +43,7 @@ class LoginPage extends React.Component {
 
   handleLogin = () => {
     ReactGA.event({
-      category: 'Login',
+      category: 'MyAccount',
       action: 'Login clicked'
     });
     this.setState({ open: true });
