@@ -38,6 +38,20 @@ class LandingPage extends React.Component {
     const { classes, ...rest } = this.props;
     const emailLinkStyle = { color: "#FFFFFF" }
 
+    const showMsg = false;
+    const msg = () => showMsg? (
+      <SnackbarContent
+      message={
+          <span>
+            Vi har skickat ut mail till alla verifierade ang mingelträffen med bla information om 
+            vilken bar vi ska vara på. Har ni inte fått mailet, hör av er till oss på <a style={emailLinkStyle} href="mailto:fest@nightofpassion.se">fest@nightofpassion.se</a>
+          </span>
+      }
+      color="primary"
+      icon="info"
+    />
+    ): null;
+
     return (
       <div>
         <Header
@@ -67,16 +81,7 @@ class LandingPage extends React.Component {
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
-            <SnackbarContent
-              message={
-                  <span>
-                    Vi har skickat ut mail till alla verifierade ang mingelträffen med bla information om 
-                    vilken bar vi ska vara på. Har ni inte fått mailet, hör av er till oss på <a style={emailLinkStyle} href="mailto:fest@nightofpassion.se">fest@nightofpassion.se</a>
-                  </span>
-              }
-              color="primary"
-              icon="info"
-            />
+            {msg()}
             <AboutNoP />
             <ThreeBenefitsOfNoP />            
             <SaveTheDate sectionId="mingel"/>

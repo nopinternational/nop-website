@@ -58,8 +58,10 @@ class MingleSection extends React.Component {
             Endast par som har anmält sig till Night of Passion och gjort bild-verifiering kommer att bjudas in till mingelträffen. 
             Vi kommer att tacka nej till par som inte är seriösa eller som vi tror på annat sätt inte delar träffen och nätverkets värderingar.</h5>
 
-          <h5 className={classes.description}>
+            <h5 className={classes.description} style={{textDecorationLine: 'line-through', textDecorationStyle: 'solid'}}>
             Anmäl er till träffen genom att bli medlem i Night of Passion.</h5>
+
+            <h5 className={classes.description}>Mingelträffen har redan varit...</h5> 
         </GridItem>
       </GridContainer>
     </div >
