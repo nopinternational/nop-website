@@ -17,10 +17,16 @@ class SpringParty extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <h2 className={classes.title}>Hösfest 5-6 oktober</h2>
             <h5 className={classes.description}>
-            Hösten är i antågande och då är det dags för en fest igen. Vi har ett beprövat och uppskattat upplägg som påminner om en mini-weekend, där vi tillsammans med en dryg handfull trevliga sköna par träffas på en herrgård, hotell eller dyl en bit utanför stan. Vi drar igång med bubbel och mingel på tidig lördag eftermiddag och avslutar dagen efter. Tiden där i mellan kommer vi fylla med en massa trevliga aktiviteter :)
+            Hösten är i antågande och då är det dags för en fest igen. 
+            Vi har ett beprövat och uppskattat upplägg som påminner om en mini-weekend, där vi tillsammans med en dryg handfull trevliga sköna par träffas på en herrgård, hotell eller dyl en bit utanför stan. 
+            Vi drar igång med bubbel och mingel på lördag kring lunch och avslutar dagen efter. Tiden där i mellan kommer vi fylla med en massa trevliga aktiviteter :)
             </h5>
             <h5 className={classes.description}>
             Till festen så söker vi sköna trevliga etablerade par som vill och kan vara med från tidig lördag em. Festen är på ett hotell som ligger ca 1h från Stockholm.
+            </h5>
+            <h5 className={classes.description}>
+            Festen har begränsat med platser, 6-10par och vi föredrar att ha en trevlig, sexig fest med lite färre par än en stor fest som saknar rätt stämning. 
+            Det gör att vi kommer att försöka matcha ihop par till den här festen för att göra den så lyckad som möjlig.
             </h5>
             <h5 className={classes.description}>
             Allt under festen är såklart frivilligt och ett nej respekteras. Men vi tror för att festen ska bli så lyckad som möjligt så bör alla komma med sinnet att det är okej att ha sex med andra par. Vi vill ha en skön fest där alla är med på lika villkor. Är ni bara intresserade av att titta eller vara för er själva så är inte den här festen något för er.
@@ -46,7 +52,7 @@ class SpringParty extends React.Component {
               </li><li>
               Ni verifierar med bild i samband med anmälan och är beredd på att ta en drink/fika eller telefonsamtal innan festen
               </li><li>
-              Vi kommer att prioritera öppna, trevliga, ärliga par där vi tror att ni kommer passa ihop med övriga på festen. Vi har därför inte möjlighet att kunna erbjuda alla par en plats på festen.
+              Vi kommer att prioritera öppna, trevliga, ärliga par där vi tror att ni kommer passa ihop med övriga på festen. Vi har därför inte möjlighet att kunna erbjuda alla par en plats.
             </li></ul>
             </h5>
             <h2 className={classes.title}>Anmälan till höstfest</h2>
