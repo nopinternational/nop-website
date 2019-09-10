@@ -15,7 +15,7 @@ class SpringParty extends React.Component {
       <div className={classes.section}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={8}>
-            <h2 className={classes.title}>Hösfest 5-6 oktober</h2>
+            <h2 className={classes.title}>Höstfest 5-6 oktober</h2>
             <h5 className={classes.description}>
             Hösten är i antågande och då är det dags för en fest igen. 
             Vi har ett beprövat och uppskattat upplägg som påminner om en mini-weekend, där vi tillsammans med en dryg handfull trevliga sköna par träffas på en herrgård, hotell eller dyl en bit utanför stan. 
