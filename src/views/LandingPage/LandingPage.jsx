@@ -39,13 +39,14 @@ class LandingPage extends React.Component {
     const { classes, ...rest } = this.props;
     const emailLinkStyle = { color: "#FFFFFF" }
 
-    const showMsg = false;
+    const showMsg = true;
     const msg = () => showMsg? (
       <SnackbarContent
       message={
           <span>
-            Vi har skickat ut mail till alla verifierade ang mingelträffen med bla information om 
-            vilken bar vi ska vara på. Har ni inte fått mailet, hör av er till oss på <a style={emailLinkStyle} href="mailto:fest@nightofpassion.se">fest@nightofpassion.se</a>
+            Vi har skickat ut mail till alla medlemmar med info om mingelträffen och höstfesten. 
+            Tyvärr har vi problem med att nå medlemmar med @hotmail.com, @msn.com, @live.se, @outlook.com. 
+            All info om träffarna finner ni på sidorna här, annars maila oss på <a style={emailLinkStyle} href="mailto:fest@nightofpassion.se">fest@nightofpassion.se</a>
           </span>
       }
       color="primary"
