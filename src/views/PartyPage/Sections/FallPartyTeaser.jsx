@@ -57,7 +57,11 @@ class SpringParty extends React.Component {
             </h5>
             <h2 className={classes.title}>Anmälan till höstfest</h2>
 
-            <h5 className={classes.description}>Alla detaljer för festen är inte satta ännu, vi kommer att öppna upp för anmälan snart :)</h5>
+            <h5 className={classes.description}>Hur ni anmäler er till höstfesten finns beskrivet ett mail som har gått ut till alla medlemmar. 
+            </h5>
+            <h5 className={classes.description}>Är ni inte medlemmar i Night of Passion så kan ni bli det nedan, ange 'höstfest' som meddelande så vet vi att ni är intresserade av att komma med. 
+            </h5>
+            
           </GridItem>
         </GridContainer>
         {/*
