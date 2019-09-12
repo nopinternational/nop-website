@@ -72,7 +72,7 @@ class MinglePage extends React.Component {
           <div className={classes.container}>
             {msg()}
             <MingleSection />
-
+            <BecomeAMember />
           </div>
         </div>
         {/*
