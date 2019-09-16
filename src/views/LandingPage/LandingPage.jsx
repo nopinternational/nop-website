@@ -39,7 +39,7 @@ class LandingPage extends React.Component {
     const { classes, ...rest } = this.props;
     const emailLinkStyle = { color: "#FFFFFF" }
 
-    const showMsg = true;
+    const showMsg = false;
     const msg = () => showMsg? (
       <SnackbarContent
       message={
