@@ -17,14 +17,14 @@ class AboutSpringPartyTeaser extends React.Component {
       <div className={classes.section}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={8}>
-            <h2 className={classes.title}>Om vårfesten </h2>
+            <h2 className={classes.title}>Om våra fester </h2>
             <h5 className={classes.description}>
-              Vad händer på våra fester? Läs den här berättelsen så vet ni ;) Vi hoppas att få uppleva något liknade på den kommande höstfesten!
+              Vad händer på våra fester? Läs den här berättelsen så vet ni ;) Vi hoppas att få uppleva något liknade på kommande fester!
       </h5>
             <Link to={"/om-varfesten"} className={classes.link}>
               <Button
                 color="primary">
-                Om Vårfesten
+                Om vår fest
         </Button>
             </Link>
           </GridItem>
