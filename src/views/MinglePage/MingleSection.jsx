@@ -15,7 +15,7 @@ class MingleSection extends React.Component {
       <div id={sectionId} className={classes.section}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={8}>
-            <h2 className={classes.title}>Mingelträff - Fredag 20 september</h2>
+            <h2 className={classes.title}>Mingelträff - Fredag 15 November</h2>
             <h5 className={classes.description}>
               Vi ordnar en mingelträff i form av en After Work i Stockholm city där ni kan mingla tillsammans med andra sociala sexiga par.
               Under kvällen så kommer ni få träffa par som är öppna för fester och träffar tillsammans med andra par.
@@ -36,7 +36,7 @@ class MingleSection extends React.Component {
               <ul><li>
               gärna går på en AW för att det är trevligt och festligt
               </li><li>
-              ni kan komma på After Work 20/9 någon gång mellan 18-20
+              ni kan komma på After Work 15/11 någon gång mellan 18-20
               </li><li>
               är ett par som vill träffa andra par, eller kanske flera ;)
               </li><li>
@@ -53,7 +53,7 @@ class MingleSection extends React.Component {
               Respektera andras önskan att vara diskret i samband med träffen. Det som händer på AWn stannar på AWn som man brukar säga...</h5>
 
             <h5 className={classes.description}>
-            För att vara med på mingelträffen så är första steget att anmäla er till Night of Passion, skriv 'MINGEL-20sep' som meddelande så vi vet att ni vill komma på den här träffen. 
+            För att vara med på mingelträffen så är första steget att anmäla er till Night of Passion, skriv 'MINGEL-15nov' som meddelande så vi vet att ni vill komma på den här träffen. 
             Vi kommer sedan kontakta er så att ni kan göra en bild-verifiering. 
             Endast par som har anmält sig till Night of Passion och gjort bild-verifiering kommer att bjudas in till mingelträffen. 
             Vi kommer att tacka nej till par som inte är seriösa eller som vi tror på annat sätt inte delar träffen eller nätverkets värderingar.</h5>
