@@ -18,7 +18,7 @@ class AboutSringPartySection extends React.Component {
       <div id={sectionId} className={classes.section}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={8}>
-            <h2 className={classes.title}>Om Vårfesten</h2>
+            <h2 className={classes.title}>Om vår fest</h2>
             <h5 className={classes.description}>
               Om ni undrar vad som egentligen händer på våra fester så kan vi härmed presentera hur festen var utifrån ett av de deltagande paren.</h5>
 

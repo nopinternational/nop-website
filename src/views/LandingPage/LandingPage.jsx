@@ -87,7 +87,6 @@ class LandingPage extends React.Component {
             <AboutNoP />
             <ThreeBenefitsOfNoP />            
             <SaveTheDate sectionId="mingel"/>
-            <FallPartyTeaser />
             <AboutSpringPartyTeaser />
             <BecomeAMember />
             <WhosBehind />
