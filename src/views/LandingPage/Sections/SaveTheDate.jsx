@@ -17,7 +17,7 @@ class SaveTheDate extends React.Component {
       <div className={classes.section}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={8}>
-            <h2 className={classes.title}>Mingelträff - Fredag 15 November</h2>
+            <h2 className={classes.title}>After-Work-mingel - Fredag 24 Januari</h2>
             <h5 className={classes.description}>
               Vi ordnar en mingelträff i form av en After Work i Stockholm city där ni kan mingla tillsammans med andra sociala sexiga par.
               Under kvällen så kommer ni få träffa andra par som är öppna för fester eller träffar tillsammans med andra par.
