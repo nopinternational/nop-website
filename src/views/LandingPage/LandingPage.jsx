@@ -25,6 +25,8 @@ import BecomeAMember from "./Sections/BecomeAMember.jsx";
 import ThreeBenefitsOfNoP from "./Sections/ThreeBenefitsOfNoP.jsx";
 import WhosBehind from "./Sections/WhosBehind.jsx";
 import AboutSpringPartyTeaser from "./Sections/AboutSpringPartyTeaser.jsx";
+import CoronaUpdate from "./Sections/CoronaUpdate.jsx";
+
 import FallPartyTeaser from "./Sections/FallPartyTeaser.jsx";
 
 
@@ -86,7 +88,7 @@ class LandingPage extends React.Component {
             {msg()}
             <AboutNoP />
             <ThreeBenefitsOfNoP />            
-            <SaveTheDate sectionId="mingel"/>
+            <CoronaUpdate />
             <AboutSpringPartyTeaser />
             <BecomeAMember />
             <WhosBehind />
