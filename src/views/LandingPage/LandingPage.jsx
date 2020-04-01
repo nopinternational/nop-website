@@ -20,6 +20,7 @@ import landingPageStyle from 'assets/jss/material-kit-react/views/landingPage.js
 // Sections for this page
 import AboutNoP from './Sections/AboutNoP.jsx';
 import SaveTheDate from './Sections/SaveTheDate.jsx';
+import CtfArticle from './Sections/CtfArticle.jsx';
 import BecomeAMember from './Sections/BecomeAMember.jsx';
 import ThreeBenefitsOfNoP from './Sections/ThreeBenefitsOfNoP.jsx';
 import WhosBehind from './Sections/WhosBehind.jsx';
@@ -84,6 +85,7 @@ class LandingPage extends React.Component {
             <AboutNoP />
             <ThreeBenefitsOfNoP />
             <CoronaUpdate />
+            <CtfArticle document="9MQtRpSOMjaZqxpW0SRXD" />
             <AboutSpringPartyTeaser />
             <BecomeAMember />
             <WhosBehind />
