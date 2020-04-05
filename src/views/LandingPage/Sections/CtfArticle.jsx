@@ -15,16 +15,17 @@ import { createClient } from 'contentful';
 import PropTypes from 'prop-types';
 import { BLOCKS, MARKS } from '@contentful/rich-text-types';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 class Article extends React.Component {
   constructor(props) {
     super(props);
-    const jsonArticle = JSON.parse(
-      '{"sys":{"space":{"sys":{"type":"Link","linkType":"Space","id":"oy80fdwttoot"}},"id":"9MQtRpSOMjaZqxpW0SRXD","type":"Entry","createdAt":"2020-03-27T13:16:27.056Z","updatedAt":"2020-04-01T18:19:23.398Z","environment":{"sys":{"id":"master","type":"Link","linkType":"Environment"}},"revision":2,"contentType":{"sys":{"type":"Link","linkType":"ContentType","id":"article"}},"locale":"en-US"},"fields":{"title":"Hello world","body":{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"lorem ipsum...","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"document"},"background":{"sys":{"space":{"sys":{"type":"Link","linkType":"Space","id":"oy80fdwttoot"}},"id":"2fM3ckL9IkeWwQmmwI2iEU","type":"Asset","createdAt":"2018-12-30T15:59:28.250Z","updatedAt":"2018-12-30T15:59:28.250Z","environment":{"sys":{"id":"master","type":"Link","linkType":"Environment"}},"revision":1,"locale":"en-US"},"fields":{"title":"spotlight03","file":{"url":"//images.ctfassets.net/oy80fdwttoot/2fM3ckL9IkeWwQmmwI2iEU/4d2c65a943fb882463ca59dfdc7b6387/spotlight03.jpg","details":{"size":517572,"image":{"width":1440,"height":900}},"fileName":"spotlight03.jpg","contentType":"image/jpeg"}}},"cta":[{"sys":{"space":{"sys":{"type":"Link","linkType":"Space","id":"oy80fdwttoot"}},"id":"45r5ewSNf3A1BVHf6Bcx6h","type":"Entry","createdAt":"2020-04-01T18:19:10.396Z","updatedAt":"2020-04-01T18:19:10.396Z","environment":{"sys":{"id":"master","type":"Link","linkType":"Environment"}},"revision":1,"contentType":{"sys":{"type":"Link","linkType":"ContentType","id":"cta"}},"locale":"en-US"},"fields":{"text":"Bli medlemXXX","link":"/signupXXX"}}]}}'
-    );
+    // const jsonArticle = JSON.parse(
+    //   '{"sys":{"space":{"sys":{"type":"Link","linkType":"Space","id":"oy80fdwttoot"}},"id":"9MQtRpSOMjaZqxpW0SRXD","type":"Entry","createdAt":"2020-03-27T13:16:27.056Z","updatedAt":"2020-04-01T18:19:23.398Z","environment":{"sys":{"id":"master","type":"Link","linkType":"Environment"}},"revision":2,"contentType":{"sys":{"type":"Link","linkType":"ContentType","id":"article"}},"locale":"en-US"},"fields":{"title":"Hello world","body":{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"lorem ipsum...","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"document"},"background":{"sys":{"space":{"sys":{"type":"Link","linkType":"Space","id":"oy80fdwttoot"}},"id":"2fM3ckL9IkeWwQmmwI2iEU","type":"Asset","createdAt":"2018-12-30T15:59:28.250Z","updatedAt":"2018-12-30T15:59:28.250Z","environment":{"sys":{"id":"master","type":"Link","linkType":"Environment"}},"revision":1,"locale":"en-US"},"fields":{"title":"spotlight03","file":{"url":"//images.ctfassets.net/oy80fdwttoot/2fM3ckL9IkeWwQmmwI2iEU/4d2c65a943fb882463ca59dfdc7b6387/spotlight03.jpg","details":{"size":517572,"image":{"width":1440,"height":900}},"fileName":"spotlight03.jpg","contentType":"image/jpeg"}}},"cta":[{"sys":{"space":{"sys":{"type":"Link","linkType":"Space","id":"oy80fdwttoot"}},"id":"45r5ewSNf3A1BVHf6Bcx6h","type":"Entry","createdAt":"2020-04-01T18:19:10.396Z","updatedAt":"2020-04-01T18:19:10.396Z","environment":{"sys":{"id":"master","type":"Link","linkType":"Environment"}},"revision":1,"contentType":{"sys":{"type":"Link","linkType":"ContentType","id":"cta"}},"locale":"en-US"},"fields":{"text":"Bli medlemXXX","link":"/signupXXX"}}]}}'
+    // );
     this.state = {
-      document: jsonArticle,
-      isLoading: false,
+      document: null,
+      isLoading: true,
       error: null,
     };
   }
@@ -32,20 +33,22 @@ class Article extends React.Component {
   componentDidMount() {
     this.setState({ isLoading: true });
 
-    this.getEntry('9MQtRpSOMjaZqxpW0SRXD')
-      .then((result) => {
-        this.setState({
-          document: result,
-          isLoading: false,
+    setTimeout(() => {
+      this.getEntry('9MQtRpSOMjaZqxpW0SRXD')
+        .then((result) => {
+          this.setState({
+            document: result,
+            isLoading: false,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          this.setState({
+            error,
+            isLoading: false,
+          });
         });
-      })
-      .catch((error) => {
-        console.log(error);
-        this.setState({
-          error,
-          isLoading: false,
-        });
-      });
+    }, 5000);
   }
 
   getClient = async () => {
@@ -66,7 +69,7 @@ class Article extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { document } = this.state;
+    const { document, isLoading } = this.state;
     const options = {
       renderNode: {
         [BLOCKS.PARAGRAPH]: (node, children) => children,
@@ -74,10 +77,6 @@ class Article extends React.Component {
         //[MARKS.BOLD]: (node, children) => <span className="bold-title">{children}</span>,
       },
     };
-
-    const body = document.fields.body;
-    const title = document.fields.title;
-    const cta = document.fields.cta;
 
     const renderCTA = (ctaArray) => {
       return ctaArray ? (
@@ -87,10 +86,16 @@ class Article extends React.Component {
       ) : null;
     };
 
-    const article = documentToReactComponents(body, options);
-    //<div className="article-wrapper" style={{ backgroundImage: `url(${background && background.fields.file.url})` }}>
-    return (
-      <div className={classes.section}>
+    const renderArticle = (document, classes) => {
+      console.log('document: ', document);
+      console.log('classes: ', classes);
+
+      const body = document.fields.body;
+      const title = document.fields.title;
+      const cta = document.fields.cta;
+      const article = documentToReactComponents(body, options);
+
+      return (
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={8}>
             <h2 className={classes.title}>{title}</h2>
@@ -100,8 +105,23 @@ class Article extends React.Component {
             {renderCTA(cta)}
           </GridItem>
         </GridContainer>
-      </div>
-    );
+      );
+    };
+
+    const renderSkeleton = () => {
+      return (
+        <GridContainer justify="center">
+          <GridItem xs={12} sm={12} md={8}>
+            <Skeleton animation="wave" variant="text" width="60%" height="50%" />
+            <Skeleton animation="wave" variant="text" width="100%" />
+            <Skeleton animation="wave" variant="text" width="85%" />
+            <Skeleton animation="wave" variant="text" width="90%" />
+            <Skeleton animation="wave" variant="text" width="60%" />
+          </GridItem>
+        </GridContainer>
+      );
+    };
+    return <div className={classes.section}>{document ? renderArticle(document, classes) : renderSkeleton()}</div>;
   }
 }
 export default withStyles(productStyle)(Article);
