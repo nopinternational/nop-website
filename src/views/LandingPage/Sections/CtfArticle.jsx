@@ -12,8 +12,7 @@ import productStyle from 'assets/jss/material-kit-react/views/landingPageSection
 // Contentful Client example
 import { createClient } from 'contentful';
 
-import PropTypes from 'prop-types';
-import { BLOCKS, MARKS } from '@contentful/rich-text-types';
+import { BLOCKS } from '@contentful/rich-text-types';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import Skeleton from '@material-ui/lab/Skeleton';
 
@@ -32,23 +31,22 @@ class Article extends React.Component {
 
   componentDidMount() {
     this.setState({ isLoading: true });
+    const { documentId } = this.props;
 
-    setTimeout(() => {
-      this.getEntry('9MQtRpSOMjaZqxpW0SRXD')
-        .then((result) => {
-          this.setState({
-            document: result,
-            isLoading: false,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          this.setState({
-            error,
-            isLoading: false,
-          });
+    this.getEntry(documentId)
+      .then((result) => {
+        this.setState({
+          document: result,
+          isLoading: false,
         });
-    }, 5000);
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          error,
+          isLoading: false,
+        });
+      });
   }
 
   getClient = async () => {
@@ -69,10 +67,10 @@ class Article extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { document, isLoading } = this.state;
+    const { document } = this.state;
     const options = {
       renderNode: {
-        [BLOCKS.PARAGRAPH]: (node, children) => children,
+        [BLOCKS.PARAGRAPH]: (node, children) => <h5 className={classes.description}>{children}</h5>,
         //[BLOCKS.QUOTE]: (node, children) => <div className="quotation">{children}</div>,
         //[MARKS.BOLD]: (node, children) => <span className="bold-title">{children}</span>,
       },
@@ -87,9 +85,6 @@ class Article extends React.Component {
     };
 
     const renderArticle = (document, classes) => {
-      console.log('document: ', document);
-      console.log('classes: ', classes);
-
       const body = document.fields.body;
       const title = document.fields.title;
       const cta = document.fields.cta;

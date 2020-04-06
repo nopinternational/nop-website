@@ -84,14 +84,15 @@ class LandingPage extends React.Component {
             {msg()}
             <AboutNoP />
             <ThreeBenefitsOfNoP />
-            <CoronaUpdate />
-            <CtfArticle document="9MQtRpSOMjaZqxpW0SRXD" />
-            <AboutSpringPartyTeaser />
-            <BecomeAMember />
-            <WhosBehind />
+            <CtfArticle documentId="52kGIb5WrLButqjc6sVilG" />
+            <CtfArticle documentId="5Xqbz4zOsOv2fiRMZndJF8" />
+            <CtfArticle documentId="24T3pf2BsShb8GVqjGXqJG" />
+            <CtfArticle documentId="2eqOqaQXuo04WhfI6EVuRg" />
 
             {/*
-            
+            <AboutSpringPartyTeaser />
+            <BecomeAMember />
+            <WhosBehind />            
             <TeamSection />
             <WorkSection />
             */}
