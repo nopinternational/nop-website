@@ -9,8 +9,7 @@ import GridItem from 'components/Grid/GridItem.jsx';
 import Button from 'components/CustomButtons/Button.jsx';
 
 import productStyle from 'assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx';
-// Contentful Client example
-import { createClient } from 'contentful';
+import withContentfulClient from 'components/Contentful/withContentfulClient.jsx';
 
 import { BLOCKS } from '@contentful/rich-text-types';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -19,9 +18,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 class Article extends React.Component {
   constructor(props) {
     super(props);
-    // const jsonArticle = JSON.parse(
-    //   '{"sys":{"space":{"sys":{"type":"Link","linkType":"Space","id":"oy80fdwttoot"}},"id":"9MQtRpSOMjaZqxpW0SRXD","type":"Entry","createdAt":"2020-03-27T13:16:27.056Z","updatedAt":"2020-04-01T18:19:23.398Z","environment":{"sys":{"id":"master","type":"Link","linkType":"Environment"}},"revision":2,"contentType":{"sys":{"type":"Link","linkType":"ContentType","id":"article"}},"locale":"en-US"},"fields":{"title":"Hello world","body":{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"lorem ipsum...","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"document"},"background":{"sys":{"space":{"sys":{"type":"Link","linkType":"Space","id":"oy80fdwttoot"}},"id":"2fM3ckL9IkeWwQmmwI2iEU","type":"Asset","createdAt":"2018-12-30T15:59:28.250Z","updatedAt":"2018-12-30T15:59:28.250Z","environment":{"sys":{"id":"master","type":"Link","linkType":"Environment"}},"revision":1,"locale":"en-US"},"fields":{"title":"spotlight03","file":{"url":"//images.ctfassets.net/oy80fdwttoot/2fM3ckL9IkeWwQmmwI2iEU/4d2c65a943fb882463ca59dfdc7b6387/spotlight03.jpg","details":{"size":517572,"image":{"width":1440,"height":900}},"fileName":"spotlight03.jpg","contentType":"image/jpeg"}}},"cta":[{"sys":{"space":{"sys":{"type":"Link","linkType":"Space","id":"oy80fdwttoot"}},"id":"45r5ewSNf3A1BVHf6Bcx6h","type":"Entry","createdAt":"2020-04-01T18:19:10.396Z","updatedAt":"2020-04-01T18:19:10.396Z","environment":{"sys":{"id":"master","type":"Link","linkType":"Environment"}},"revision":1,"contentType":{"sys":{"type":"Link","linkType":"ContentType","id":"cta"}},"locale":"en-US"},"fields":{"text":"Bli medlemXXX","link":"/signupXXX"}}]}}'
-    // );
+
     this.state = {
       document: null,
       isLoading: true,
@@ -31,9 +28,9 @@ class Article extends React.Component {
 
   componentDidMount() {
     this.setState({ isLoading: true });
-    const { documentId } = this.props;
+    const { documentId, getEntry } = this.props;
 
-    this.getEntry(documentId)
+    getEntry(documentId)
       .then((result) => {
         this.setState({
           document: result,
@@ -41,29 +38,9 @@ class Article extends React.Component {
         });
       })
       .catch((error) => {
-        console.log(error);
-        this.setState({
-          error,
-          isLoading: false,
-        });
+        console.log('error from withCtf: ', error);
       });
   }
-
-  getClient = async () => {
-    const createClientParam = {
-      space: process.env.REACT_APP_CTF_SPACEID,
-      accessToken: process.env.REACT_APP_CTF_CDN,
-    };
-
-    const client = await createClient(createClientParam);
-    return client;
-  };
-
-  getEntry = async (id) => {
-    const client = await this.getClient();
-    const entry = await client.getEntry(id, { include: 10 });
-    return entry;
-  };
 
   render() {
     const { classes } = this.props;
@@ -106,6 +83,7 @@ class Article extends React.Component {
     const renderSkeleton = () => {
       return (
         <GridContainer justify="center">
+          x
           <GridItem xs={12} sm={12} md={8}>
             <Skeleton animation="wave" variant="text" width="60%" height="50%" />
             <Skeleton animation="wave" variant="text" width="100%" />
@@ -119,4 +97,4 @@ class Article extends React.Component {
     return <div className={classes.section}>{document ? renderArticle(document, classes) : renderSkeleton()}</div>;
   }
 }
-export default withStyles(productStyle)(Article);
+export default withContentfulClient(withStyles(productStyle)(Article));
