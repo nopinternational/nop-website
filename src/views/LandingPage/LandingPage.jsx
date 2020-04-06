@@ -16,6 +16,7 @@ import Parallax from 'components/Parallax/Parallax.jsx';
 import SnackbarContent from 'components/Snackbar/SnackbarContent.jsx';
 
 import landingPageStyle from 'assets/jss/material-kit-react/views/landingPage.jsx';
+import withContentfulClient from 'components/Contentful/withContentfulClient.jsx';
 
 // Sections for this page
 import AboutNoP from './Sections/AboutNoP.jsx';
@@ -27,9 +28,34 @@ import ThreeBenefitsOfNoP from './Sections/ThreeBenefitsOfNoP.jsx';
 const dashboardRoutes = [];
 
 class LandingPage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      articles: null,
+      isLoading: true,
+      error: null,
+    };
+  }
+
+  componentDidMount() {
+    this.setState({ isLoading: true });
+    const { getEntry } = this.props;
+    const documentId = '3Hi1pysamhmWUhrkUtqWPG';
+
+    getEntry(documentId)
+      .then((result) => {
+        this.setState({ articles: result.fields.articles });
+      })
+      .catch((error) => {
+        console.log('error from withCtf: ', error);
+      });
+  }
+
   render() {
     const { classes, ...rest } = this.props;
     const emailLinkStyle = { color: '#FFFFFF' };
+    const articles = this.state.articles;
 
     const showMsg = false;
     const msg = () =>
@@ -49,6 +75,10 @@ class LandingPage extends React.Component {
           icon="info"
         />
       ) : null;
+
+    const renderArticles = () => {
+      return articles ? articles.map((article, index) => <CtfArticle key={index} documentId={article.sys.id} />) : null;
+    };
 
     return (
       <div>
@@ -79,10 +109,7 @@ class LandingPage extends React.Component {
             {msg()}
             <AboutNoP />
             <ThreeBenefitsOfNoP />
-            <CtfArticle documentId="52kGIb5WrLButqjc6sVilG" />
-            <CtfArticle documentId="5Xqbz4zOsOv2fiRMZndJF8" />
-            <CtfArticle documentId="24T3pf2BsShb8GVqjGXqJG" />
-            <CtfArticle documentId="2eqOqaQXuo04WhfI6EVuRg" />
+            {renderArticles()}
           </div>
         </div>
         {/*
@@ -92,4 +119,4 @@ class LandingPage extends React.Component {
     );
   }
 }
-export default withStyles(landingPageStyle)(LandingPage);
+export default withContentfulClient(withStyles(landingPageStyle)(LandingPage));
