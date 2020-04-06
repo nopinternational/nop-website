@@ -21,13 +21,8 @@ import landingPageStyle from 'assets/jss/material-kit-react/views/landingPage.js
 import AboutNoP from './Sections/AboutNoP.jsx';
 import SaveTheDate from './Sections/SaveTheDate.jsx';
 import CtfArticle from './Sections/CtfArticle.jsx';
-import BecomeAMember from './Sections/BecomeAMember.jsx';
-import ThreeBenefitsOfNoP from './Sections/ThreeBenefitsOfNoP.jsx';
-import WhosBehind from './Sections/WhosBehind.jsx';
-import AboutSpringPartyTeaser from './Sections/AboutSpringPartyTeaser.jsx';
-import CoronaUpdate from './Sections/CoronaUpdate.jsx';
 
-import FallPartyTeaser from './Sections/FallPartyTeaser.jsx';
+import ThreeBenefitsOfNoP from './Sections/ThreeBenefitsOfNoP.jsx';
 
 const dashboardRoutes = [];
 
@@ -88,14 +83,6 @@ class LandingPage extends React.Component {
             <CtfArticle documentId="5Xqbz4zOsOv2fiRMZndJF8" />
             <CtfArticle documentId="24T3pf2BsShb8GVqjGXqJG" />
             <CtfArticle documentId="2eqOqaQXuo04WhfI6EVuRg" />
-
-            {/*
-            <AboutSpringPartyTeaser />
-            <BecomeAMember />
-            <WhosBehind />            
-            <TeamSection />
-            <WorkSection />
-            */}
           </div>
         </div>
         {/*
