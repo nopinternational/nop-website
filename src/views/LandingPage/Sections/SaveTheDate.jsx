@@ -40,3 +40,4 @@ class SaveTheDate extends React.Component {
 }
 
 export default withStyles(productStyle)(SaveTheDate);
+
