@@ -72,8 +72,6 @@ class Article extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <h2 className={classes.title}>{title}</h2>
             <div className={classes.description}>{article}</div>
-
-            <h5>För mer info om träffen klicka nedan.</h5>
             {renderCTA(cta)}
           </GridItem>
         </GridContainer>
