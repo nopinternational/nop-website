@@ -20,8 +20,7 @@ import withContentfulClient from 'components/Contentful/withContentfulClient.jsx
 
 // Sections for this page
 import AboutNoP from './Sections/AboutNoP.jsx';
-import SaveTheDate from './Sections/SaveTheDate.jsx';
-import CtfArticle from './Sections/CtfArticle.jsx';
+import CtfArticle from '../Components/CtfArticle.jsx';
 
 import ThreeBenefitsOfNoP from './Sections/ThreeBenefitsOfNoP.jsx';
 
