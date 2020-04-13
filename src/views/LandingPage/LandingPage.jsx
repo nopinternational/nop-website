@@ -16,12 +16,13 @@ import Parallax from 'components/Parallax/Parallax.jsx';
 import SnackbarContent from 'components/Snackbar/SnackbarContent.jsx';
 
 import landingPageStyle from 'assets/jss/material-kit-react/views/landingPage.jsx';
+
+//Contentful
 import withContentfulClient from 'components/Contentful/withContentfulClient.jsx';
+import CtfArticle from '../Components/CtfArticle.jsx';
 
 // Sections for this page
 import AboutNoP from './Sections/AboutNoP.jsx';
-import CtfArticle from '../Components/CtfArticle.jsx';
-
 import ThreeBenefitsOfNoP from './Sections/ThreeBenefitsOfNoP.jsx';
 
 const dashboardRoutes = [];
