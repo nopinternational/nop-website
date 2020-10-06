@@ -33,3 +33,5 @@ yarn-error.log*
 *.iml
 .vscode
 **/*.http
+# Local Netlify folder
+.netlify
