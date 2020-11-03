@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // nodejs library to set properties for components
@@ -36,7 +35,7 @@ class Header extends React.Component {
   }
   headerColorChange() {
     const { classes, color, changeColorOnScroll } = this.props;
-    const windowsScrollTop = window.pageYOffset;
+    const windowsScrollTop = typeof window !== 'undefined' && window.pageYOffset;
     if (windowsScrollTop > changeColorOnScroll.height) {
       document.body
         .getElementsByTagName("header")[0]
@@ -55,7 +54,7 @@ class Header extends React.Component {
   }
   componentWillUnmount() {
     if (this.props.changeColorOnScroll) {
-      window.removeEventListener("scroll", this.headerColorChange);
+      typeof window !== 'undefined' && window.removeEventListener("scroll", this.headerColorChange);
     }
   }
   render() {
@@ -74,7 +73,7 @@ class Header extends React.Component {
       [classes.absolute]: absolute,
       [classes.fixed]: fixed
     });
-    const brandComponent = <Link to={"/"} ><Button className={classes.title} styles={'text-color: white'}>{brand}</Button></Link>;
+    const brandComponent = <Button className={classes.title}>{brand}</Button>;
     return (
       <AppBar className={appBarClasses}>
         <Toolbar className={classes.container}>
