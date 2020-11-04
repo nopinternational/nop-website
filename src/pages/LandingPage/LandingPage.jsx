@@ -25,11 +25,28 @@ import ProductSection from "./Sections/ProductSection.jsx";
 import TeamSection from "./Sections/TeamSection.jsx";
 import WorkSection from "./Sections/WorkSection.jsx";
 
+import { useStaticQuery, graphql } from "gatsby"
+
 const dashboardRoutes = [];
 
-class LandingPage extends React.Component {
-  render() {
-    const { classes, ...rest } = this.props;
+const LandingPage = (props) => {
+//class LandingPage extends React.Component {
+
+
+  
+
+    const data = useStaticQuery(
+      graphql`
+        query {
+          contentfulPage(slug: {eq: "/"}) {
+            name
+            slug
+          }
+        }
+      `
+    )
+
+    const { classes, ...rest } = props;
     return (
       <div>
         <Header
@@ -48,7 +65,7 @@ class LandingPage extends React.Component {
           <div className={classes.container}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={6}>
-                <h1 className={classes.title}>Your Story Starts With Us.</h1>
+                <h1 className={classes.title}>--{data.contentfulPage.name}-- Your Story Starts With Us.</h1>
                 <h4>
                   Every landing page needs a small description after the big
                   bold title, that's why we added this text here. Add here all
@@ -81,6 +98,6 @@ class LandingPage extends React.Component {
       </div>
     );
   }
-}
+
 
 export default withStyles(landingPageStyle)(LandingPage);
