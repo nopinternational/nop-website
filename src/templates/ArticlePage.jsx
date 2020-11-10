@@ -23,7 +23,7 @@ import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.js
 // Sections for this page
 
 
-import { useStaticQuery, graphql } from "gatsby"
+import { graphql } from "gatsby"
 
 const dashboardRoutes = [];
 

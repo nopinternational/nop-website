@@ -19,7 +19,7 @@ exports.createPages = async ({ graphql, actions }) => {
     console.log(`creating page for ${pagepath}`)
     createPage({
       path: pagepath,
-      component: path.resolve("./src/templates/article.jsx"),
+      component: path.resolve("./src/templates/ArticlePage.jsx"),
       context: {
         slug: edge.node.slug,
       },
