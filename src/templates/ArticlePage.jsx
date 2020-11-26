@@ -10,6 +10,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { FaPlay } from 'react-icons/fa';
 
 // core components
+import Article from "components/Article/Article.jsx";
 import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -20,6 +21,7 @@ import Parallax from "components/Parallax/Parallax.jsx";
 
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
 
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 // Sections for this page
 
 
@@ -32,6 +34,9 @@ export const query = graphql`
         contentfulArticle(slug: {eq: $slug}) {
             title
             slug
+            body {
+              json
+            }
         }
     }
 `
@@ -40,6 +45,7 @@ const ArticlePage = props => {
 //class LandingPage extends React.Component {
 
     const { classes, ...rest } = props;
+    console.log(props.data.contentfulArticle)
     return (
       <div>
         <Header
@@ -82,6 +88,9 @@ const ArticlePage = props => {
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
+            <Article title={props.data.contentfulArticle.title} >
+              {documentToReactComponents(props.data.contentfulArticle.body.json)}
+            </Article>
           </div>
         </div>
         <Footer />

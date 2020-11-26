@@ -10,6 +10,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { FaPlay } from 'react-icons/fa';
 
 // core components
+import Article from "components/Article/Article.jsx";
+
 import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -92,6 +94,7 @@ const LandingPage = (props) => {
             <ProductSection />
             <TeamSection />
             <WorkSection />
+            <Article/>
           </div>
         </div>
         <Footer />
