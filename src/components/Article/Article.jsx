@@ -16,7 +16,7 @@ const Article = (props) => {
         <GridContainer justify="center">
         <GridItem xs={12} sm={12} md={8}>
           <h2 className={classes.title}>{title}</h2>
-          <div className={classes.description}>//article// {children}</div>
+          <div className={classes.description}>{children}</div>
          
         </GridItem>
       </GridContainer>

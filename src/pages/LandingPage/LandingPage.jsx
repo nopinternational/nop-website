@@ -28,27 +28,58 @@ import TeamSection from "./Sections/TeamSection.jsx";
 import WorkSection from "./Sections/WorkSection.jsx";
 
 import { useStaticQuery, graphql } from "gatsby"
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 const dashboardRoutes = [];
+
+
+
 
 const LandingPage = (props) => {
 //class LandingPage extends React.Component {
 
 
-  
-
-    const data = useStaticQuery(
-      graphql`
-        query {
-          contentfulPage(slug: {eq: "/"}) {
-            name
-            slug
+  const data = useStaticQuery(
+    graphql`
+    query {
+      contentfulPage(slug: {eq: "/"}) {
+        name
+        slug
+        articles {
+          title
+          body {
+            json
           }
         }
-      `
-    )
+      }
+    }
+  `
+  )
+
+
 
     const { classes, ...rest } = props;
+    console.log(props)
+    console.log("data", data)
+
+
+    const renderArticles = (contentfulArticles) => {
+      console.log(contentfulArticles)
+      return (
+        <div>
+          {contentfulArticles.map((article => {
+            return (
+                    <Article title={article.title}>
+                    {documentToReactComponents(article.body.json)}
+                  </Article>
+          )
+          })) }
+        </div>
+        
+        )
+    }
+
+
     return (
       <div>
         <Header
@@ -67,7 +98,7 @@ const LandingPage = (props) => {
           <div className={classes.container}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={6}>
-                <h1 className={classes.title}>--{data.contentfulPage.name}-- Your Story Starts With Us.</h1>
+                <h1 className={classes.title}>--data.contentfulPage.name-- Your Story Starts With Us.</h1>
                 <h4>
                   Every landing page needs a small description after the big
                   bold title, that's why we added this text here. Add here all
@@ -94,7 +125,10 @@ const LandingPage = (props) => {
             <ProductSection />
             <TeamSection />
             <WorkSection />
-            <Article/>
+            {renderArticles(data.contentfulPage.articles)}
+            <Article title="hello"> 
+              <p>world</p>
+              </Article>
           </div>
         </div>
         <Footer />
