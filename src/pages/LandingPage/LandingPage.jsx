@@ -115,13 +115,10 @@ const LandingPage = (props) => {
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
-          <ProductSection />
+          {renderArticles(data.contentfulPage.articles.slice(0, 1))}
           <TeamSection />
-          <WorkSection />
-          {renderArticles(data.contentfulPage.articles)}
-          <Article title="hello">
-            <p>world</p>
-          </Article>
+
+          {renderArticles(data.contentfulPage.articles.slice(1))}
         </div>
       </div>
       <Footer />
