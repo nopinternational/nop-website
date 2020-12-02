@@ -37,6 +37,11 @@ export const query = graphql`
             body {
               json
             }
+            cta {
+              id
+              link
+              text
+            }
         }
     }
 `
@@ -71,7 +76,7 @@ const ArticlePage = props => {
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
-            <Article title={props.data.contentfulArticle.title} >
+            <Article title={props.data.contentfulArticle.title} cta={props.data.contentfulArticle.cta}>
               {documentToReactComponents(props.data.contentfulArticle.body.json)}
             </Article>
           </div>
