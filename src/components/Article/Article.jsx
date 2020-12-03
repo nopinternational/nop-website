@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "gatsby";
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import productStyle from 'assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx';
@@ -15,9 +15,9 @@ const Article = (props) => {
     
     const renderCTA = (ctaArray) => {
       return ctaArray ? (
-        //<Link to={ctaArray[0].link} className={classes.link}>
+        <Link to={ctaArray[0].link} className={classes.link}>
           <Button color="primary">{ctaArray[0].text}-{ctaArray[0].link}</Button>
-        //</Link>
+        </Link>
       ) : null;
     };
 

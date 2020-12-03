@@ -46,6 +46,11 @@ const LandingPage = (props) => {
             body {
               json
             }
+            cta {
+              id
+              link
+              text
+            }
           }
         }
       }
@@ -62,7 +67,7 @@ const LandingPage = (props) => {
       <div>
         {contentfulArticles.map((article) => {
           return (
-            <Article title={article.title}>
+            <Article title={article.title} cta={article.cta}>
               {documentToReactComponents(article.body.json)}
             </Article>
           )
