@@ -22,23 +22,18 @@ import Parallax from "components/Parallax/Parallax.jsx"
 
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx"
 
-// Sections for this page
-import ProductSection from "./Sections/ProductSection.jsx"
-import TeamSection from "./Sections/TeamSection.jsx"
-import WorkSection from "./Sections/WorkSection.jsx"
+
 
 import { useStaticQuery, graphql } from "gatsby"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 const dashboardRoutes = []
 
-const LandingPage = (props) => {
-
-  const data = useStaticQuery(
-    graphql`
-      query {
-        contentfulPage(slug: { eq: "/" }) {
+export const query = graphql`
+    query($slug: String!) {
+      contentfulPage(slug: {eq: $slug}) {
           name
+          pagetitle
           slug
           articles {
             title
@@ -54,11 +49,17 @@ const LandingPage = (props) => {
         }
       }
     `
-  )
+  
+
+const Page = (props) => {
+  
+
+  
 
   const { classes, ...rest } = props
+  const pageData = props.data.contentfulPage
   console.log(props)
-  console.log("data", data)
+  console.log("data", pageData)
 
   const renderArticles = (contentfulArticles) => {
     console.log(contentfulArticles)
@@ -94,13 +95,10 @@ const LandingPage = (props) => {
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}>
               <h1 className={classes.title}>
-                {data.contentfulPage.name}
+                {pageData.pagetitle}
               </h1>
               <h4>
-                Every LANDING PAGE needs a small description after the big bold
-                title, that's why we added this text here. Add here all the
-                information that can make you or your product create the first
-                impression.
+                This is the templae PAGE
               </h4>
               <br />
               <Button
@@ -119,10 +117,7 @@ const LandingPage = (props) => {
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
-          {renderArticles(data.contentfulPage.articles.slice(0, 1))}
-          <TeamSection />
-
-          {renderArticles(data.contentfulPage.articles.slice(1))}
+          {renderArticles(pageData.articles)}
         </div>
       </div>
       <Footer />
@@ -130,4 +125,4 @@ const LandingPage = (props) => {
   )
 }
 
-export default withStyles(landingPageStyle)(LandingPage)
+export default withStyles(landingPageStyle)(Page)
