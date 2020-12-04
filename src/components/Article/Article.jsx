@@ -11,12 +11,11 @@ import Button from 'components/CustomButtons/Button.jsx';
 
 const Article = (props) => {
     const { classes, title, children, cta } = props;
-    console.log("Article.props: ", props)
     
     const renderCTA = (ctaArray) => {
       return ctaArray ? (
         <Link to={ctaArray[0].link} className={classes.link}>
-          <Button color="primary">{ctaArray[0].text}-{ctaArray[0].link}</Button>
+          <Button color="primary">{ctaArray[0].text}</Button>
         </Link>
       ) : null;
     };

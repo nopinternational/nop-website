@@ -24,7 +24,7 @@ import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.js
 
 
 
-import { useStaticQuery, graphql } from "gatsby"
+import { graphql } from "gatsby"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 const dashboardRoutes = []
@@ -53,16 +53,11 @@ export const query = graphql`
 
 const Page = (props) => {
   
-
-  
-
   const { classes, ...rest } = props
   const pageData = props.data.contentfulPage
-  console.log(props)
-  console.log("data", pageData)
 
   const renderArticles = (contentfulArticles) => {
-    console.log(contentfulArticles)
+
     return (
       <div>
         {contentfulArticles.map((article, index) => {

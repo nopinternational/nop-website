@@ -22,13 +22,10 @@ import Parallax from "components/Parallax/Parallax.jsx"
 
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx"
 
-// Sections for this page
-import ProductSection from "./Sections/ProductSection.jsx"
-import TeamSection from "./Sections/TeamSection.jsx"
-import WorkSection from "./Sections/WorkSection.jsx"
 
 import { useStaticQuery, graphql } from "gatsby"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
+import ThreeBenefitsOfNoP from "./Sections/ThreeBenefitsOfNoP.jsx"
 
 const dashboardRoutes = []
 
@@ -39,6 +36,7 @@ const LandingPage = (props) => {
       query {
         contentfulPage(slug: { eq: "/" }) {
           name
+          pagetitle
           slug
           articles {
             title
@@ -94,7 +92,7 @@ const LandingPage = (props) => {
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}>
               <h1 className={classes.title}>
-                {data.contentfulPage.name}
+                {data.contentfulPage.pagetitle}
               </h1>
               <h4>
                 Every LANDING PAGE needs a small description after the big bold
@@ -120,7 +118,7 @@ const LandingPage = (props) => {
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
           {renderArticles(data.contentfulPage.articles.slice(0, 1))}
-          <TeamSection />
+          <ThreeBenefitsOfNoP />
 
           {renderArticles(data.contentfulPage.articles.slice(1))}
         </div>
