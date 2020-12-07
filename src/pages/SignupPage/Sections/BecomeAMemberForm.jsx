@@ -63,22 +63,22 @@ class BecomeAMemberForm extends React.Component {
     //   category: 'Signup',
     //   action: 'Signup clicked'
     // });
-    // const email = this.state.email;
-    // if (!this.validateEmail(email)) {
-    //   this.setState({
-    //     open: true,
-    //   });
+    const email = this.state.email;
+    if (!this.validateEmail(email)) {
+      this.setState({
+        open: true,
+      });
 
-    //   ReactGA.event({
-    //     category: 'Signup',
-    //     action: 'Signup email validation fail'
-    //   });
+      // ReactGA.event({
+      //   category: 'Signup',
+      //   action: 'Signup email validation fail'
+      // });
 
-    //   return
-    // }
+      return
+    }
     
-    // this.writeUserData (this.state.name,this.state.email,this.state.message);
-    // this.sendWelcomeMail(this.state.email,this.state.name);
+    this.writeUserData (this.state.name,this.state.email,this.state.message);
+    this.sendWelcomeMail(this.state.email,this.state.name);
     // ReactGA.event({
     //   category: 'Signup',
     //   action: 'Signup ok'
@@ -130,7 +130,7 @@ class BecomeAMemberForm extends React.Component {
 
     const dataSent = this.state.dataSent;
     const { classes } = this.props;
-    console.log(classes)
+
 
     if (dataSent) {
       

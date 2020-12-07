@@ -17,57 +17,19 @@ import Parallax from "components/Parallax/Parallax.jsx"
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx"
 
 
-import { useStaticQuery, graphql } from "gatsby"
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-
 // Sections for this page
 import BecomeAMemberForm from './Sections/BecomeAMemberForm.jsx'
-import ThreeBenefitsOfNoP from "./Sections/ThreeBenefitsOfNoP.jsx"
+
 
 const dashboardRoutes = []
 
 const SignupPage = (props) => {
 
-  const data = useStaticQuery(
-    graphql`
-      query {
-        contentfulPage(slug: { eq: "/" }) {
-          name
-          pagetitle
-          slug
-          articles {
-            title
-            body {
-              json
-            }
-            cta {
-              id
-              link
-              text
-            }
-          }
-        }
-      }
-    `
-  )
 
   const { classes, ...rest } = props
 
 
-  const renderArticles = (contentfulArticles) => {
 
-    return (
-      <div>
-        {contentfulArticles.map((article, index) => {
-          return (
-            <Article title={article.title} cta={article.cta} key={index}>
-              {documentToReactComponents(article.body.json)}
-            </Article>
-          )
-        })}
-      </div>
-    )
-  }
 
   return (
     <div>
@@ -88,7 +50,7 @@ const SignupPage = (props) => {
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}>
               <h1 className={classes.title}>
-                {data.contentfulPage.pagetitle}
+                Night of Passion
               </h1>
               <h4>
                 Socialt. Passion. Sex.
