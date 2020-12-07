@@ -13,7 +13,6 @@ import { FaPlay } from "react-icons/fa"
 import Article from "components/Article/Article.jsx"
 
 import Header from "components/Header/Header.jsx"
-import Footer from "components/Footer/Footer.jsx"
 import GridContainer from "components/Grid/GridContainer.jsx"
 import GridItem from "components/Grid/GridItem.jsx"
 import Button from "components/CustomButtons/Button.jsx"
@@ -115,7 +114,6 @@ const Page = (props) => {
           {renderArticles(pageData.articles)}
         </div>
       </div>
-      <Footer />
     </div>
   )
 }

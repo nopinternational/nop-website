@@ -7,7 +7,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import Article from "components/Article/Article.jsx";
 import Header from "components/Header/Header.jsx";
-import Footer from "components/Footer/Footer.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
@@ -74,7 +73,6 @@ const ArticlePage = props => {
             </Article>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }

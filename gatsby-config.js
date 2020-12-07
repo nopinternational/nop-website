@@ -5,7 +5,7 @@ require("dotenv").config({
 module.exports = {
   pathPrefix: `/mini-gatsbyv2-material-kit-react`,
   siteMetadata: {
-    title: "Gatsby Default Starter",
+    title: "Nigth of Passion",
   },
   plugins: [
     "gatsby-plugin-resolve-src",
