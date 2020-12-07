@@ -19,11 +19,14 @@ import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.js
 
 import { useStaticQuery, graphql } from "gatsby"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
+
+// Sections for this page
+import BecomeAMemberForm from './Sections/BecomeAMemberForm.jsx'
 import ThreeBenefitsOfNoP from "./Sections/ThreeBenefitsOfNoP.jsx"
 
 const dashboardRoutes = []
 
-const LandingPage = (props) => {
+const SignupPage = (props) => {
 
   const data = useStaticQuery(
     graphql`
@@ -96,16 +99,19 @@ const LandingPage = (props) => {
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
-          <Article title="Vad är Night of Passion?" >
-            <p>Vi är det nya nätverket där passion, sensualitet och sex står i centrum. Hos oss träffar du likasinnade män, kvinnor och par. Genom att införa modern teknik kan vi skapa tillfällen för alla där vi nästan kan garantera succé. Det vi kan erbjuda är en mötesplats och bra funktioner som gör att du kan arrangera träffar eller träffa andra där fokus kommer att vara på hög tillfredställelse. Vi vill ge er möjlighet att njuta mer tillsammans med varandra och mindre trassel med festfixandet och krånglet med att få med rätt personer.</p>
+          <Article title="Bli medlem" >
+            <p>
+            Nätverket Night of Passion är en exklusiv medlemsklubb. Vi tar emot par som medlemmar som är seriösa och som delar nätverkets värderingar.
+            </p>
+            <p className={classes.description}>
+              Nedan kan ni ansöka om att bli medlemmar. Efter att ni har ansökt om medlemskap kommer vi att kontakta er.
+            </p>
           </Article>
-          <ThreeBenefitsOfNoP />
-          {renderArticles(data.contentfulPage.articles.slice(0, 1))}
-          {renderArticles(data.contentfulPage.articles.slice(1))}
+          <BecomeAMemberForm />
         </div>
       </div>
     </div>
   )
 }
 
-export default withStyles(landingPageStyle)(LandingPage)
+export default withStyles(landingPageStyle)(SignupPage)

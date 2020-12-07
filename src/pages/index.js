@@ -1,6 +1,7 @@
 import React from "react"
 import { createMemoryHistory } from "history"
 import { Route, Router, Switch } from "react-router-dom"
+import Firebase, { FirebaseContext } from "../components/Firebase"
 
 import "assets/scss/material-kit-react.scss?v=1.4.0"
 import "typeface-roboto"
@@ -14,12 +15,14 @@ import LoginPage from "./LoginPage/LoginPage.jsx"
 let hist = createMemoryHistory()
 
 export default () => (
-  <Router history={hist}>
-    <Switch>
-      <Route path="/components" component={Components} />
-      <Route path="/profile-page" component={ProfilePage} />
-      <Route path="/login-page" component={LoginPage} />
-      <Route path="/" component={LandingPage} />
-    </Switch>
-  </Router>
+  <FirebaseContext.Provider value={new Firebase()}>
+    <Router history={hist}>
+      <Switch>
+        <Route path="/components" component={Components} />
+        <Route path="/profile-page" component={ProfilePage} />
+        <Route path="/login-page" component={LoginPage} />
+        <Route path="/" component={LandingPage} />
+      </Switch>
+    </Router>
+  </FirebaseContext.Provider>
 )

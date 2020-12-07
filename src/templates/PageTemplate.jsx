@@ -6,8 +6,6 @@ import withStyles from "@material-ui/core/styles/withStyles"
 
 // @material-ui/icons
 
-// React icons
-import { FaPlay } from "react-icons/fa"
 
 // core components
 import Article from "components/Article/Article.jsx"
@@ -15,8 +13,6 @@ import Article from "components/Article/Article.jsx"
 import Header from "components/Header/Header.jsx"
 import GridContainer from "components/Grid/GridContainer.jsx"
 import GridItem from "components/Grid/GridItem.jsx"
-import Button from "components/CustomButtons/Button.jsx"
-import HeaderLinks from "components/Header/HeaderLinks.jsx"
 import Parallax from "components/Parallax/Parallax.jsx"
 
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx"
@@ -75,16 +71,16 @@ const Page = (props) => {
       <Header
         color="transparent"
         routes={dashboardRoutes}
-        brand="Material Kit React"
-        rightLinks={<HeaderLinks />}
+        brand="Night of Passion"
+        //rightLinks={<HeaderLinks />}
         fixed
         changeColorOnScroll={{
-          height: 400,
+          height: 80,
           color: "white",
         }}
         {...rest}
       />
-      <Parallax filter image={require("assets/img/landing-bg.jpg")}>
+      <Parallax filter image={require("assets/img/zero.jpg")}>
         <div className={classes.container}>
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}>
@@ -92,19 +88,8 @@ const Page = (props) => {
                 {pageData.pagetitle}
               </h1>
               <h4>
-                This is the templae PAGE
+                Socialt. Passion. Sex.
               </h4>
-              <br />
-              <Button
-                color="danger"
-                size="lg"
-                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaPlay />
-                Watch video
-              </Button>
             </GridItem>
           </GridContainer>
         </div>
