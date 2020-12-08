@@ -23,7 +23,8 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 
 import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx";
 
-import { withFirebase } from '../../../components/Firebase';
+//import { withFirebase } from '../../../components/Firebase';
+import firebase from "gatsby-plugin-firebase"
 import { compose } from 'recompose';
 import axios from 'axios';
 //import ReactGA from 'react-ga'
@@ -243,6 +244,5 @@ class BecomeAMemberForm extends React.Component {
 }
 
 export default compose(
-  withFirebase,
   withStyles(productStyle),
   )(BecomeAMemberForm);

@@ -33,5 +33,19 @@ module.exports = {
         icon: "src/assets/img/favicon.png", // This path is relative to the root of the site.
       },
     },
+    {
+      resolve: "gatsby-plugin-firebase",
+      options: {
+        credentials: {
+          apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+          authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
+          databaseURL: process.env.REACT_APP_FIREBASE_DATABASEURL,
+          projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+          storageBucket: process.env.REACT_APP_FIREBASESTORAGEBUCKET,
+          messagingSenderId: process.env.REACT_APP_FIREBASE_MESSSAGING_SENDERID,
+          appId: process.env.REACT_APP_FIREBASE_APID,
+        },
+      },
+    },
   ],
 }
