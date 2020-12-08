@@ -16,20 +16,13 @@ import Parallax from "components/Parallax/Parallax.jsx"
 
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx"
 
-
 // Sections for this page
-import BecomeAMemberForm from './Sections/BecomeAMemberForm.jsx'
-
+import BecomeAMemberForm from "./Sections/BecomeAMemberForm.jsx"
 
 const dashboardRoutes = []
 
-const SignupPage = (props) => {
-
-
+const SignupPage = props => {
   const { classes, ...rest } = props
-
-
-
 
   return (
     <div>
@@ -49,27 +42,26 @@ const SignupPage = (props) => {
         <div className={classes.container}>
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}>
-              <h1 className={classes.title}>
-                Night of Passion
-              </h1>
-              <h4>
-                Socialt. Passion. Sex.
-              </h4>
+              <h1 className={classes.title}>Night of Passion</h1>
+              <h4>Socialt. Passion. Sex.</h4>
             </GridItem>
           </GridContainer>
         </div>
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
-          <Article title="Bli medlem" >
+          <Article title="Bli medlem">
             <p>
-            Nätverket Night of Passion är en exklusiv medlemsklubb. Vi tar emot par som medlemmar som är seriösa och som delar nätverkets värderingar.
+              Nätverket Night of Passion är en exklusiv medlemsklubb. Vi tar
+              emot par som medlemmar som är seriösa och som delar nätverkets
+              värderingar.
             </p>
             <p className={classes.description}>
-              Nedan kan ni ansöka om att bli medlemmar. Efter att ni har ansökt om medlemskap kommer vi att kontakta er.
+              Nedan kan ni ansöka om att bli medlemmar. Efter att ni har ansökt
+              om medlemskap kommer vi att kontakta er.
             </p>
+            <BecomeAMemberForm />
           </Article>
-          <BecomeAMemberForm />
         </div>
       </div>
     </div>
