@@ -36,6 +36,9 @@ module.exports = {
     {
       resolve: "gatsby-plugin-firebase",
       options: {
+        features: {
+          database: true,
+        },
         credentials: {
           apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
           authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,

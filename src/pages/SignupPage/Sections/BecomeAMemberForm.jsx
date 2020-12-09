@@ -23,7 +23,6 @@ import CustomInput from "components/CustomInput/CustomInput.jsx"
 
 import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx"
 
-//import { withFirebase } from '../../../components/Firebase';
 import firebase from "gatsby-plugin-firebase"
 import { compose } from "recompose"
 import axios from "axios"
@@ -35,22 +34,35 @@ const BecomeAMemberForm = props => {
   const [message, setMessage] = useState({ name: "", email: "", message: "" })
 
   const handleChange = event => {
-    console.log("event: ", event)
-    console.log("event.target: ", event.target)
-    console.log("message: ", message)
     const name = event.target.getAttribute("name")
     setMessage({ ...message, [name]: event.target.value })
-    console.log("message after: ", message)
   }
 
   useEffect(() => {
     console.log("useEffect - message: ", message)
   })
+  useEffect(() => {
+    console.log("useEffect - [message]: ", message)
+  }, [message])
+
+  function writeMessageToFirebase(message) {
+    firebase
+      .database()
+      .ref("users")
+      .push()
+      .set({
+        username: message.name,
+        email: message.email,
+        message: message.message,
+        created: new Date().toISOString(),
+      })
+  }
 
   const handleSubmit = event => {
-    console.log("handleSubmit - message: ", message)
     if (event) {
       event.preventDefault()
+      console.log("this is what should be pushed to firebase: ", message)
+      //writeMessageToFirebase(message)
     }
   }
 
