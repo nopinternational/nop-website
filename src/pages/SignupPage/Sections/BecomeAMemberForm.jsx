@@ -23,7 +23,8 @@ import productStyle from "assets/jss/material-kit-react/views/landingPageSection
 import firebase from "gatsby-plugin-firebase"
 import { compose } from "recompose"
 import axios from "axios"
-//import ReactGA from 'react-ga'
+
+import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 const BecomeAMemberForm = props => {
   const { classes } = props
@@ -66,21 +67,25 @@ const BecomeAMemberForm = props => {
   const handleSubmit = event => {
     if (event) {
       event.preventDefault()
+      trackCustomEvent({
+        category: "Signup",
+        action: "Signup Clicked",
+      })
 
       if (!validateEmail(signupData.email)) {
         setShowDialog(true)
         return
       }
 
-      // ReactGA.event({
-      //   category: 'Signup',
-      //   action: 'Signup email validation fail'
-      // });
-
       console.log("this is what should be pushed to firebase: ", signupData)
       writesignupDataToFirebase(signupData)
       sendWelcomeMail(signupData.email, signupData.name)
       setDataSent(true)
+
+      trackCustomEvent({
+        category: "Signup",
+        action: "Signup Ok",
+      })
     }
   }
 
