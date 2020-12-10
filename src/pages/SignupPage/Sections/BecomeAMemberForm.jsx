@@ -77,7 +77,6 @@ const BecomeAMemberForm = props => {
         return
       }
 
-      console.log("this is what should be pushed to firebase: ", signupData)
       writesignupDataToFirebase(signupData)
       sendWelcomeMail(signupData.email, signupData.name)
       setDataSent(true)
@@ -90,10 +89,10 @@ const BecomeAMemberForm = props => {
   }
 
   const sendWelcomeMail = (mailTo, name) => {
-    const templateId = process.env.REACT_APP_SENDGRID_WELCOME_TEMPLATEID
-    const mailSenderUrl = process.env.REACT_APP_MAILSENDER_URL
-    const mailSenderUser = process.env.REACT_APP_MAILSENDER_USER
-    const mailSenderPass = process.env.REACT_APP_MAILSENDER_PASS
+    const templateId = process.env.GATSBY_SENDGRID_WELCOME_TEMPLATEID
+    const mailSenderUrl = process.env.GATSBY_MAILSENDER_URL
+    const mailSenderUser = process.env.GATSBY_MAILSENDER_USER
+    const mailSenderPass = process.env.GATSBY_MAILSENDER_PASS
 
     const mailConfig = {
       to: mailTo,
