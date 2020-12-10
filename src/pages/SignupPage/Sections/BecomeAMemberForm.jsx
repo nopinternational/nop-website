@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import React, { useState } from "react"
+import { Link } from "gatsby"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles"
 import InputAdornment from "@material-ui/core/InputAdornment"
@@ -15,9 +15,6 @@ import People from "@material-ui/icons/People"
 import Message from "@material-ui/icons/Message"
 
 // core components
-
-import GridContainer from "components/Grid/GridContainer.jsx"
-import GridItem from "components/Grid/GridItem.jsx"
 import Button from "components/CustomButtons/Button.jsx"
 import CustomInput from "components/CustomInput/CustomInput.jsx"
 
@@ -31,159 +28,21 @@ import axios from "axios"
 const BecomeAMemberForm = props => {
   const { classes } = props
 
-  const [message, setMessage] = useState({ name: "", email: "", message: "" })
-
-  const handleChange = event => {
-    const name = event.target.getAttribute("name")
-    setMessage({ ...message, [name]: event.target.value })
-  }
-
-  useEffect(() => {
-    console.log("useEffect - message: ", message)
-  })
-  useEffect(() => {
-    console.log("useEffect - [message]: ", message)
-  }, [message])
-
-  function writeMessageToFirebase(message) {
-    firebase
-      .database()
-      .ref("users")
-      .push()
-      .set({
-        username: message.name,
-        email: message.email,
-        message: message.message,
-        created: new Date().toISOString(),
-      })
-  }
-
-  const handleSubmit = event => {
-    if (event) {
-      event.preventDefault()
-      console.log("this is what should be pushed to firebase: ", message)
-      //writeMessageToFirebase(message)
-    }
-  }
-
-  return (
-    <div>
-      <form id="signup-form">
-        <CustomInput
-          labelText="Namn"
-          id="name"
-          formControlProps={{
-            fullWidth: true,
-          }}
-          inputProps={{
-            name: "name",
-            onChange: handleChange,
-            type: "text",
-            endAdornment: (
-              <InputAdornment position="end">
-                <People className={classes.inputIconsColor} />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <CustomInput
-          labelText="Epost adress"
-          id="email"
-          formControlProps={{
-            fullWidth: true,
-          }}
-          inputProps={{
-            onChange: handleChange,
-            name: "email",
-            type: "email",
-            autoComplete: "email",
-            endAdornment: (
-              <InputAdornment position="end">
-                <Email className={classes.inputIconsColor} />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <CustomInput
-          labelText="Ev meddelande till oss, kod, kik etc"
-          id="message"
-          formControlProps={{
-            fullWidth: true,
-          }}
-          inputProps={{
-            onChange: handleChange,
-            name: "message",
-            type: "text",
-            endAdornment: (
-              <InputAdornment position="end">
-                <Message className={classes.inputIconsColor} />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <Button type="button" color="primary" size="lg" onClick={handleSubmit}>
-          Bli medlem!
-        </Button>
-      </form>
-    </div>
-  )
-
-  const state = {
-    dataSent: false,
-    open: false,
+  const [signupData, setSignupData] = useState({
     name: "",
     email: "",
     message: "",
+  })
+  const [showDialog, setShowDialog] = useState(false)
+  const [dataSent, setDataSent] = useState(false)
+
+  const handleChange = event => {
+    const name = event.target.getAttribute("name")
+    setSignupData({ ...signupData, [name]: event.target.value })
   }
 
-  const componentDidMount = () => {
-    this.templateId = process.env.REACT_APP_SENDGRID_WELCOME_TEMPLATEID
-  }
-
-  const handleClose = () => {
-    this.setState({ open: false })
-  }
-
-  const handleNameChange = event => {
-    this.setState({ name: event.target.value })
-  }
-
-  const handleEmailChange = event => {
-    this.setState({ email: event.target.value })
-  }
-
-  const handleMessageChange = event => {
-    this.setState({ message: event.target.value })
-  }
-
-  const handleBecomeMember = () => {
-    console.log("handleBecomeMember")
-    // ReactGA.event({
-    //   category: 'Signup',
-    //   action: 'Signup clicked'
-    // });
-    const email = this.state.email
-    if (!this.validateEmail(email)) {
-      this.setState({
-        open: true,
-      })
-
-      // ReactGA.event({
-      //   category: 'Signup',
-      //   action: 'Signup email validation fail'
-      // });
-
-      return
-    }
-
-    console.log("state: ", this.state)
-    // this.writeUserData(this.state.name, this.state.email, this.state.message)
-    // his.sendWelcomeMail(this.state.email, this.state.name)
-
-    // ReactGA.event({
-    //   category: 'Signup',
-    //   action: 'Signup ok'
-    // });
+  const handleCloseDialog = () => {
+    setShowDialog(false)
   }
 
   const validateEmail = email => {
@@ -191,7 +50,46 @@ const BecomeAMemberForm = props => {
     return re.test(String(email).toLowerCase())
   }
 
+  function writesignupDataToFirebase(signupData) {
+    firebase
+      .database()
+      .ref("users")
+      .push()
+      .set({
+        username: signupData.name,
+        email: signupData.email,
+        message: signupData.message,
+        created: new Date().toISOString(),
+      })
+  }
+
+  const handleSubmit = event => {
+    if (event) {
+      event.preventDefault()
+
+      if (!validateEmail(signupData.email)) {
+        setShowDialog(true)
+        return
+      }
+
+      // ReactGA.event({
+      //   category: 'Signup',
+      //   action: 'Signup email validation fail'
+      // });
+
+      console.log("this is what should be pushed to firebase: ", signupData)
+      writesignupDataToFirebase(signupData)
+      sendWelcomeMail(signupData.email, signupData.name)
+      setDataSent(true)
+    }
+  }
+
   const sendWelcomeMail = (mailTo, name) => {
+    const templateId = process.env.REACT_APP_SENDGRID_WELCOME_TEMPLATEID
+    const mailSenderUrl = process.env.REACT_APP_MAILSENDER_URL
+    const mailSenderUser = process.env.REACT_APP_MAILSENDER_USER
+    const mailSenderPass = process.env.REACT_APP_MAILSENDER_PASS
+
     const mailConfig = {
       to: mailTo,
       from: {
@@ -201,11 +99,8 @@ const BecomeAMemberForm = props => {
       subject: "Night of Passion - Välkommen",
       text: "Night of Passion - Välkommen",
       html: "<strong>Night of Passion - Välkommen</strong>",
-      templateId: this.templateId,
+      templateId: templateId,
     }
-    const mailSenderUrl = process.env.REACT_APP_MAILSENDER_URL
-    const mailSenderUser = process.env.REACT_APP_MAILSENDER_USER
-    const mailSenderPass = process.env.REACT_APP_MAILSENDER_PASS
 
     axios
       .post(mailSenderUrl, mailConfig, {
@@ -220,122 +115,109 @@ const BecomeAMemberForm = props => {
       })
   }
 
-  const writeUserData = (name, email, message) => {
-    this.props.firebase.doAddNewUserData(name, email, message)
-    this.setState({ dataSent: true })
+  const dataSentView = () => {
+    return (
+      <div>
+        <hr></hr>
+        <p className={classes.highlight}>
+          Tack så mycket, vi kommer strax att skicka ett mail till er. (Får ni
+          inget mail så kolla en extra gång i spam-foldern)
+        </p>
+        <Link to={"/"} className={classes.link}>
+          <Button color="primary">OK</Button>
+        </Link>
+      </div>
+    )
   }
 
-  const render = () => {
-    const dataSent = this.state.dataSent
-    const { classes } = this.props
-
-    if (dataSent) {
-      return (
-        <div className={classes.section}>
-          <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={8}>
-              <h2 className={classes.title}>Bli medlem</h2>
-              <h5 className={classes.description}>
-                Tack så mycket, vi kommer strax att skicka ett mail till er.
-                (Får ni inget mail så kolla en extra gång i spam-foldern)
-              </h5>
-              <Link to={"/"} className={classes.link}>
-                <Button color="primary">OK</Button>
-              </Link>
-            </GridItem>
-          </GridContainer>
-        </div>
-      )
-    } else {
-      return (
-        <div className={classes.section}>
-          <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={8}>
-              <form id="signup-form">
-                <CustomInput
-                  labelText="Namn"
-                  id="name"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    onChange: this.handleNameChange,
-                    type: "text",
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <People className={classes.inputIconsColor} />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <CustomInput
-                  labelText="Epost adress"
-                  id="email"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    onChange: this.handleEmailChange,
-                    type: "email",
-                    autoComplete: "email",
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Email className={classes.inputIconsColor} />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <CustomInput
-                  labelText="Ev meddelande till oss, kod, kik etc"
-                  id="message"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    onChange: this.handleMessageChange,
-                    type: "text",
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Message className={classes.inputIconsColor} />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <Button
-                  type="button"
-                  color="primary"
-                  size="lg"
-                  onClick={this.handleBecomeMember}
-                >
-                  Bli medlem!
-                </Button>
-              </form>
-            </GridItem>
-          </GridContainer>
-          <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
+  const formView = () => {
+    return (
+      <div>
+        <form id="signup-form">
+          <CustomInput
+            labelText="Namn"
+            id="name"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            inputProps={{
+              name: "name",
+              onChange: handleChange,
+              type: "text",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <People className={classes.inputIconsColor} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <CustomInput
+            labelText="Epost adress"
+            id="email"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            inputProps={{
+              onChange: handleChange,
+              name: "email",
+              type: "email",
+              autoComplete: "email",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Email className={classes.inputIconsColor} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <CustomInput
+            labelText="Ev meddelande till oss, kod, kik etc"
+            id="message"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            inputProps={{
+              onChange: handleChange,
+              name: "message",
+              type: "text",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Message className={classes.inputIconsColor} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Button
+            type="button"
+            color="primary"
+            size="lg"
+            onClick={handleSubmit}
           >
-            <DialogTitle id="alert-dialog-title">
-              {"Felaktig epost"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Eposten är på ett ogiltigt format.
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleClose} color="primary" autoFocus>
-                OK
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </div>
-      )
-    }
+            Bli medlem!
+          </Button>
+        </form>
+        <Dialog
+          open={showDialog}
+          onClose={handleCloseDialog}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Felaktig epost"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Eposten är på ett ogiltigt format.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    )
   }
+
+  return dataSent ? dataSentView() : formView()
 }
 
 export default compose(withStyles(productStyle))(BecomeAMemberForm)
