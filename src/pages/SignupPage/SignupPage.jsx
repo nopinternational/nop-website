@@ -7,9 +7,9 @@ import withStyles from "@material-ui/core/styles/withStyles"
 // @material-ui/icons
 
 // core components
+import Layout from "components/Layout/Layout.jsx"
 import Article from "components/Article/Article.jsx"
 
-import Header from "components/Header/Header.jsx"
 import GridContainer from "components/Grid/GridContainer.jsx"
 import GridItem from "components/Grid/GridItem.jsx"
 import Parallax from "components/Parallax/Parallax.jsx"
@@ -25,19 +25,7 @@ const SignupPage = props => {
   const { classes, ...rest } = props
 
   return (
-    <div>
-      <Header
-        color="transparent"
-        routes={dashboardRoutes}
-        //rightLinks={<HeaderLinks />}
-        brand="Night of Passion"
-        fixed
-        changeColorOnScroll={{
-          height: 80,
-          color: "white",
-        }}
-        {...rest}
-      />
+    <Layout>
       <Parallax filter image={require("assets/img/zero.jpg")}>
         <div className={classes.container}>
           <GridContainer>
@@ -64,7 +52,7 @@ const SignupPage = props => {
           </Article>
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 
