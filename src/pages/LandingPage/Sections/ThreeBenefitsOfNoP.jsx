@@ -17,6 +17,8 @@ import productStyle from "assets/jss/material-kit-react/views/landingPageSection
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 const ThreeBenefitsOfNoP = ({ articles, classes }) => {
+  articles = articles || []
+
   //this depends on the articles, should be bundled with each article
   const meta = [
     { icon: VerifiedUser, iconColor: "success" },
