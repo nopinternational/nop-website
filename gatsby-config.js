@@ -3,7 +3,6 @@ require("dotenv").config({
 })
 
 const contentful_host = process.env.CTF_HOST || "cdn.contentful.com"
-console.log(`contentful_host: ${contentful_host}`)
 
 module.exports = {
   pathPrefix: `/mini-gatsbyv2-material-kit-react`,
