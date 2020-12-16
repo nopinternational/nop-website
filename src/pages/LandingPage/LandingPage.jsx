@@ -74,21 +74,12 @@ const LandingPage = props => {
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
-          <Article title="Vad är Night of Passion?">
-            <p>
-              Vi är det nya nätverket där passion, sensualitet och sex står i
-              centrum. Hos oss träffar du likasinnade män, kvinnor och par.
-              Genom att införa modern teknik kan vi skapa tillfällen för alla
-              där vi nästan kan garantera succé. Det vi kan erbjuda är en
-              mötesplats och bra funktioner som gör att du kan arrangera träffar
-              eller träffa andra där fokus kommer att vara på hög
-              tillfredställelse. Vi vill ge er möjlighet att njuta mer
-              tillsammans med varandra och mindre trassel med festfixandet och
-              krånglet med att få med rätt personer.
-            </p>
-          </Article>
-          <ThreeBenefitsOfNoP />
           {renderArticles(data.contentfulPage.articles.slice(0, 1))}
+
+          <ThreeBenefitsOfNoP
+            articles={data.contentfulPage.articles.slice(1, 4)}
+          />
+
           {renderArticles(data.contentfulPage.articles.slice(1))}
         </div>
       </div>

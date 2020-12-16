@@ -2,6 +2,9 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
+const contentful_host = process.env.CTF_HOST || "cdn.contentful.com"
+console.log(`contentful_host: ${contentful_host}`)
+
 module.exports = {
   pathPrefix: `/mini-gatsbyv2-material-kit-react`,
   siteMetadata: {
@@ -18,6 +21,7 @@ module.exports = {
       options: {
         spaceId: process.env.REACT_APP_CTF_SPACEID,
         accessToken: process.env.REACT_APP_CTF_CDN,
+        host: contentful_host,
       },
     },
     "gatsby-plugin-material-ui",

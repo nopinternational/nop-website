@@ -1,25 +1,27 @@
-import React from "react";
+import React from "react"
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from "@material-ui/core/styles/withStyles"
 
 // @material-ui/icons
-import Chat from "@material-ui/icons/Chat";
-import VerifiedUser from "@material-ui/icons/VerifiedUser";
-import Wc from "@material-ui/icons/Wc";
+import Chat from "@material-ui/icons/Chat"
+import VerifiedUser from "@material-ui/icons/VerifiedUser"
+import Wc from "@material-ui/icons/Wc"
 
 // core components
-import GridContainer from "components/Grid/GridContainer.jsx";
-import GridItem from "components/Grid/GridItem.jsx";
-import InfoArea from "components/InfoArea/InfoArea.jsx";
+import GridContainer from "components/Grid/GridContainer.jsx"
+import GridItem from "components/Grid/GridItem.jsx"
+import InfoArea from "components/InfoArea/InfoArea.jsx"
 
-import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx";
+import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx"
 
 class ThreeBenefitsOfNoP extends React.Component {
   render() {
-    const { classes } = this.props;
+    const { classes, articles } = this.props
+    console.log(articles)
+    console.log("this.props", this.props)
     return (
       <div className={classes.section}>
-      {/*
+        {/*
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={8}>
             <h2 className={classes.title}>Let's talk product</h2>
@@ -65,8 +67,8 @@ class ThreeBenefitsOfNoP extends React.Component {
           </GridContainer>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default withStyles(productStyle)(ThreeBenefitsOfNoP);
+export default withStyles(productStyle)(ThreeBenefitsOfNoP)
