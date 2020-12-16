@@ -80,7 +80,7 @@ const LandingPage = props => {
             articles={data.contentfulPage.articles.slice(1, 4)}
           />
 
-          {renderArticles(data.contentfulPage.articles.slice(1))}
+          {renderArticles(data.contentfulPage.articles.slice(4))}
         </div>
       </div>
     </Layout>
