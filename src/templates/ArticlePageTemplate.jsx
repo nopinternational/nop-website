@@ -7,7 +7,6 @@ import withStyles from "@material-ui/core/styles/withStyles"
 // core components
 import Layout from "components/Layout/Layout.jsx"
 import Article from "components/Article/Article.jsx"
-import Header from "components/Header/Header.jsx"
 import GridContainer from "components/Grid/GridContainer.jsx"
 import GridItem from "components/Grid/GridItem.jsx"
 import Parallax from "components/Parallax/Parallax.jsx"
@@ -18,8 +17,6 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 // Sections for this page
 
 import { graphql } from "gatsby"
-
-const dashboardRoutes = []
 
 export const query = graphql`
   query($slug: String!) {
@@ -39,7 +36,7 @@ export const query = graphql`
 `
 
 const ArticlePage = props => {
-  const { classes, ...rest } = props
+  const { classes } = props
 
   return (
     <Layout>

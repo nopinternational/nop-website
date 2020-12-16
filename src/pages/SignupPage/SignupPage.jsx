@@ -19,10 +19,8 @@ import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.js
 // Sections for this page
 import BecomeAMemberForm from "./Sections/BecomeAMemberForm.jsx"
 
-const dashboardRoutes = []
-
 const SignupPage = props => {
-  const { classes, ...rest } = props
+  const { classes } = props
 
   return (
     <Layout>

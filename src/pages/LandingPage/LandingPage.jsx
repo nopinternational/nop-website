@@ -20,8 +20,6 @@ import { useStaticQuery, graphql } from "gatsby"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import ThreeBenefitsOfNoP from "./Sections/ThreeBenefitsOfNoP.jsx"
 
-const dashboardRoutes = []
-
 const LandingPage = props => {
   const data = useStaticQuery(
     graphql`
@@ -46,7 +44,7 @@ const LandingPage = props => {
     `
   )
 
-  const { classes, ...rest } = props
+  const { classes } = props
 
   const renderArticles = contentfulArticles => {
     return (

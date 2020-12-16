@@ -41,7 +41,7 @@ export const query = graphql`
 `
 
 const Page = props => {
-  const { classes, ...rest } = props
+  const { classes } = props
   const pageData = props.data.contentfulPage
 
   const renderArticles = contentfulArticles => {
