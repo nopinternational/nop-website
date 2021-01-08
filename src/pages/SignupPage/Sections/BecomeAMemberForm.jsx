@@ -22,7 +22,6 @@ import productStyle from "assets/jss/material-kit-react/views/landingPageSection
 
 import firebase from "gatsby-plugin-firebase"
 import { compose } from "recompose"
-import axios from "axios"
 
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
@@ -78,7 +77,6 @@ const BecomeAMemberForm = props => {
       }
 
       writesignupDataToFirebase(signupData)
-      sendWelcomeMail(signupData.email, signupData.name)
       setDataSent(true)
 
       trackCustomEvent({
@@ -86,37 +84,6 @@ const BecomeAMemberForm = props => {
         action: "Signup Ok",
       })
     }
-  }
-
-  const sendWelcomeMail = (mailTo, name) => {
-    const templateId = process.env.GATSBY_SENDGRID_WELCOME_TEMPLATEID
-    const mailSenderUrl = process.env.GATSBY_MAILSENDER_URL
-    const mailSenderUser = process.env.GATSBY_MAILSENDER_USER
-    const mailSenderPass = process.env.GATSBY_MAILSENDER_PASS
-
-    const mailConfig = {
-      to: mailTo,
-      from: {
-        name: "Night of Passion",
-        email: "fest@nightofpassion.se",
-      },
-      subject: "Night of Passion - Välkommen",
-      text: "Night of Passion - Välkommen",
-      html: "<strong>Night of Passion - Välkommen</strong>",
-      templateId: templateId,
-    }
-
-    axios
-      .post(mailSenderUrl, mailConfig, {
-        auth: {
-          username: mailSenderUser,
-          password: mailSenderPass,
-        },
-      })
-      .then(function(response) {})
-      .catch(function(error) {
-        console.log(error)
-      })
   }
 
   const dataSentView = () => {
