@@ -13,6 +13,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import Email from "@material-ui/icons/Email"
 import People from "@material-ui/icons/People"
 import Message from "@material-ui/icons/Message"
+import Lock from "@material-ui/icons/Lock"
 
 // core components
 import Button from "components/CustomButtons/Button.jsx"
@@ -32,6 +33,7 @@ const BecomeAMemberForm = props => {
     name: "",
     email: "",
     message: "",
+    password: "",
   })
   const [showDialog, setShowDialog] = useState(false)
   const [dataSent, setDataSent] = useState(false)
@@ -50,15 +52,51 @@ const BecomeAMemberForm = props => {
     return re.test(String(email).toLowerCase())
   }
 
-  function writesignupDataToFirebase(signupData) {
+  function signupUser(signupData) {
+    console.log(firebase)
+    console.log(firebase.database)
+    console.log(firebase.auth)
+
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(signupData.email, signupData.password)
+      .then(createdUser => {
+        console.log("createdUser", createdUser)
+        writesignupDataToFirebase(createdUser.user.uid, signupData)
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code
+        var errorMessage = error.message
+        if (errorCode == "auth/weak-password") {
+          alert("The password is too weak.")
+        } else {
+          alert(errorMessage)
+        }
+        console.log(error)
+      })
+
+    //console.log("created user: ", user)
+
+    // firebase
+    //   .database()
+    //   .ref("users")
+    //   .push()
+    //   .set({
+    //     ...signupData,
+    //     created: new Date().toISOString(),
+    //   })
+  }
+
+  const writesignupDataToFirebase = (userid, signupData) => {
+    console.log("userid:", userid)
+    delete signupData["password"]
     firebase
       .database()
-      .ref("users")
-      .push()
+      .ref("users/" + userid)
+      //.push(userid + "-hello")
       .set({
-        username: signupData.name,
-        email: signupData.email,
-        message: signupData.message,
+        ...signupData,
         created: new Date().toISOString(),
       })
   }
@@ -76,7 +114,7 @@ const BecomeAMemberForm = props => {
         return
       }
 
-      writesignupDataToFirebase(signupData)
+      signupUser(signupData)
       setDataSent(true)
 
       trackCustomEvent({
@@ -136,6 +174,23 @@ const BecomeAMemberForm = props => {
               endAdornment: (
                 <InputAdornment position="end">
                   <Email className={classes.inputIconsColor} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <CustomInput
+            labelText="Önskat lösenord"
+            id="password"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            inputProps={{
+              onChange: handleChange,
+              name: "password",
+              type: "password",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Lock className={classes.inputIconsColor} />
                 </InputAdornment>
               ),
             }}

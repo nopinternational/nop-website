@@ -41,6 +41,7 @@ module.exports = {
       options: {
         features: {
           database: true,
+          auth: true,
         },
         credentials: {
           apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
