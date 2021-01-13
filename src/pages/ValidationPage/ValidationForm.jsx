@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Link, navigate } from "gatsby"
+import { Link } from "gatsby"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles"
 import InputAdornment from "@material-ui/core/InputAdornment"
@@ -8,6 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
+import TextField from "@material-ui/core/TextField"
 
 // @material-ui/icons
 import Email from "@material-ui/icons/Email"
@@ -22,7 +23,7 @@ import CustomInput from "components/CustomInput/CustomInput.jsx"
 import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx"
 
 import firebase from "gatsby-plugin-firebase"
-import { setUser, isLoggedIn } from "components/Auth/auth"
+import { getUser, isLoggedIn } from "components/Auth/auth"
 import { compose } from "recompose"
 
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
@@ -36,12 +37,42 @@ const BecomeAMemberForm = props => {
     message: "",
     password: "",
   })
+
+  React.useEffect(() => {
+    const user = getUser()
+    console.log("user:", user)
+    console.log("user.uid:", user.uid)
+
+    const userFromFirebase = firebase.auth().currentUser
+    console.log("userFromFirebase: ", userFromFirebase)
+    //console.log("userFromFirebase.uid: ", userFromFirebase?.uid)
+    const uid = user.uid
+    const validationDataRef = firebase.database().ref("/validation/" + uid)
+
+    validationDataRef.on(
+      "value",
+      snapshot => {
+        console.log("snapshot: ", snapshot)
+        const data = snapshot.val()
+        console.log("data: ", data)
+        console.log("useEffect1.signupData", signupData)
+        setSignupData({ ...data })
+        console.log("useEffect2.signupData", signupData)
+      },
+      cancelCallback => {
+        console.log("cancelCallback: ", cancelCallback)
+      }
+    )
+  }, [])
+
   const [showDialog, setShowDialog] = useState(false)
   const [dataSent, setDataSent] = useState(false)
 
   const handleChange = event => {
+    console.log("handleChange1.signupData", signupData)
     const name = event.target.getAttribute("name")
     setSignupData({ ...signupData, [name]: event.target.value })
+    console.log("handleChange2.signupData", signupData)
   }
 
   const handleCloseDialog = () => {
@@ -61,17 +92,9 @@ const BecomeAMemberForm = props => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(signupData.email, signupData.password)
-      .then(result => {
-        console.log("result", result)
-        // signInSuccessUrl: '/app/profile',
-        setUser(result.user)
-        writesignupDataToFirebase(result.user.uid, signupData)
-        trackCustomEvent({
-          category: "Signup",
-          action: "Signup Ok",
-        })
-
-        navigate("/validation")
+      .then(createdUser => {
+        console.log("createdUser", createdUser)
+        writesignupDataToFirebase(createdUser.user.uid, signupData)
       })
       .catch(function(error) {
         // Handle Errors here.
@@ -118,13 +141,12 @@ const BecomeAMemberForm = props => {
         action: "Signup Clicked",
       })
 
-      if (!validateEmail(signupData.email)) {
-        setShowDialog(true)
-        return
-      }
+      console.log("handleSubmit.signupData", signupData)
 
-      setDataSent(true)
-      signupUser(signupData)
+      trackCustomEvent({
+        category: "Signup",
+        action: "Signup Ok",
+      })
     }
   }
 
@@ -157,6 +179,7 @@ const BecomeAMemberForm = props => {
               name: "name",
               onChange: handleChange,
               type: "text",
+              value: signupData.name,
               endAdornment: (
                 <InputAdornment position="end">
                   <People className={classes.inputIconsColor} />
@@ -175,6 +198,7 @@ const BecomeAMemberForm = props => {
               name: "email",
               type: "email",
               autoComplete: "email",
+              value: signupData.email,
               endAdornment: (
                 <InputAdornment position="end">
                   <Email className={classes.inputIconsColor} />
@@ -209,6 +233,31 @@ const BecomeAMemberForm = props => {
               onChange: handleChange,
               name: "message",
               type: "text",
+              value: signupData.message,
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Message className={classes.inputIconsColor} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <CustomInput
+            id="standard-multiline-static"
+            label="Multiline"
+            multiline
+            rows={4}
+            defaultValue="Default Value"
+            labelText="Ev meddelande till oss, kod, kik etc"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            inputProps={{
+              multiline: true,
+              rows: 4,
+              onChange: handleChange,
+              name: "message2",
+              type: "text",
+              value: signupData.message,
               endAdornment: (
                 <InputAdornment position="end">
                   <Message className={classes.inputIconsColor} />
