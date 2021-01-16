@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { Link, navigate } from "gatsby"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles"
 import InputAdornment from "@material-ui/core/InputAdornment"
@@ -23,12 +24,28 @@ import CustomInput from "components/CustomInput/CustomInput.jsx"
 
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx"
 
+import firebase from "gatsby-plugin-firebase"
+import { setUser } from "components/Auth/auth"
+
 import image from "assets/img/bg7.jpg"
+import { set } from "core-js/fn/dict"
 
 //class LoginPage extends React.Component {
 const LoginPage = props => {
   const { classes, ...rest } = props
   const [cardAnimaton, setCardAnimaton] = useState("cardHidden")
+  const [loginData, setLoginData] = useState({
+    email: "aaa",
+    password: "aaa",
+  })
+
+  const handleChange = event => {
+    const name = event.target.getAttribute("name")
+    console.log("handleChange.event: ", event)
+    setLoginData({ ...loginData, [name]: event.target.value })
+
+    console.log("handleChange.loginData: ", loginData)
+  }
 
   useEffect(() => {
     setTimeout(
@@ -38,6 +55,31 @@ const LoginPage = props => {
       700
     )
   })
+
+  const handleSubmit = event => {
+    console.log("handleSubmit: event ", event)
+    console.log("handleSubmit: loginData ", loginData)
+
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(loginData.email, loginData.password)
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code
+        var errorMessage = error.message
+        if (errorCode === "auth/wrong-password") {
+          alert("Wrong password.")
+        } else {
+          alert(errorMessage)
+        }
+        console.log(error)
+      })
+      .then(result => {
+        console.log("signin.result: ", result)
+        setUser(result.user)
+        navigate("/app/validation")
+      })
+  }
   // constructor(props) {
   //   super(props);
   //   // we use this to make the card to appear after the page has been rendered
@@ -127,6 +169,9 @@ const LoginPage = props => {
                       }}
                       inputProps={{
                         type: "email",
+                        name: "email",
+                        onChange: handleChange,
+                        //value: loginData.email,
                         endAdornment: (
                           <InputAdornment position="end">
                             <Email className={classes.inputIconsColor} />
@@ -142,6 +187,9 @@ const LoginPage = props => {
                       }}
                       inputProps={{
                         type: "password",
+                        name: "password",
+                        onChange: handleChange,
+                        value: loginData.password,
                         endAdornment: (
                           <InputAdornment position="end">
                             <LockOutlined />
@@ -151,8 +199,13 @@ const LoginPage = props => {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg">
-                      Get started
+                    <Button
+                      simple
+                      color="primary"
+                      size="lg"
+                      onClick={handleSubmit}
+                    >
+                      Login & Get started
                     </Button>
                   </CardFooter>
                 </form>
