@@ -14,6 +14,7 @@ import PrivateRoute from "../components/PrivateRoute"
 import LandingPage from "./LandingPage/LandingPage.jsx"
 import ValidationPage from "../components/AppPages/ValidationPage/ValidationPage.jsx"
 import ProfilePage from "./ProfilePage/ProfilePage.jsx"
+import LoginPage from "./LoginPage/LoginPage.jsx"
 
 let hist = createMemoryHistory()
 const Index = () => {
@@ -30,7 +31,7 @@ const Index = () => {
     <Router history={hist}>
       <PrivateRoute path="/app/validation" component={ValidationPage} />
       <PrivateRoute path="/app/profile" component={ProfilePage} />
-      {/*  <Route path="/app/login-page2" component={LandingPage} /> */}
+      <Route path="/login" component={LoginPage} />
     </Router>
   )
 }
