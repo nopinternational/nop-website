@@ -15,10 +15,12 @@ import Email from "@material-ui/icons/Email"
 import People from "@material-ui/icons/People"
 import Message from "@material-ui/icons/Message"
 import Lock from "@material-ui/icons/Lock"
+import VerifiedUser from "@material-ui/icons/VerifiedUser"
 
 // core components
 import Button from "../../CustomButtons/Button.jsx"
 import CustomInput from "../../CustomInput/CustomInput.jsx"
+import InfoArea from "../../InfoArea/InfoArea.jsx"
 
 import productStyle from "../../../assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx"
 
@@ -37,6 +39,8 @@ const BecomeAMemberForm = props => {
     message: "",
     password: "",
   })
+
+  const [isValidated, setValidated] = useState(false)
 
   React.useEffect(() => {
     const user = getUser()
@@ -57,6 +61,7 @@ const BecomeAMemberForm = props => {
         console.log("data: ", data)
         console.log("useEffect1.signupData", signupData)
         setSignupData({ ...data })
+        setValidated(data.validation)
         console.log("useEffect2.signupData", signupData)
       },
       cancelCallback => {
@@ -150,14 +155,17 @@ const BecomeAMemberForm = props => {
     }
   }
 
-  const dataSentView = () => {
+  const validatedView = () => {
     return (
       <div>
         <hr></hr>
-        <p className={classes.highlight}>
-          Tack så mycket, vi kommer strax att skicka ett mail till er. (Får ni
-          inget mail så kolla en extra gång i spam-foldern)
-        </p>
+        <InfoArea
+          title="Verified"
+          description="You have been verified"
+          icon={VerifiedUser}
+          iconColor="success"
+          vertical
+        />
         <Link to={"/"} className={classes.link}>
           <Button color="primary">OK</Button>
         </Link>
@@ -296,7 +304,7 @@ const BecomeAMemberForm = props => {
     )
   }
 
-  return dataSent ? dataSentView() : formView()
+  return isValidated ? validatedView() : formView()
 }
 
 export default compose(withStyles(productStyle))(BecomeAMemberForm)

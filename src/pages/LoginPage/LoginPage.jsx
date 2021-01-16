@@ -35,8 +35,8 @@ const LoginPage = props => {
   const { classes, ...rest } = props
   const [cardAnimaton, setCardAnimaton] = useState("cardHidden")
   const [loginData, setLoginData] = useState({
-    email: "aaa",
-    password: "aaa",
+    email: "",
+    password: "",
   })
 
   const handleChange = event => {
@@ -63,6 +63,11 @@ const LoginPage = props => {
     firebase
       .auth()
       .signInWithEmailAndPassword(loginData.email, loginData.password)
+      .then(result => {
+        console.log("signin.result: ", result)
+        setUser(result.user)
+        navigate("/app/validation")
+      })
       .catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code
@@ -74,29 +79,8 @@ const LoginPage = props => {
         }
         console.log(error)
       })
-      .then(result => {
-        console.log("signin.result: ", result)
-        setUser(result.user)
-        navigate("/app/validation")
-      })
   }
-  // constructor(props) {
-  //   super(props);
-  //   // we use this to make the card to appear after the page has been rendered
-  //   this.state = {
-  //     cardAnimaton: "cardHidden"
-  //   };
-  // }
-  // componentDidMount() {
-  //   // we add a hidden class to the card and after 700 ms we delete it and the transition appears
-  //   setTimeout(
-  //     function() {
-  //       this.setState({ cardAnimaton: "" });
-  //     }.bind(this),
-  //     700
-  //   );
 
-  //render() {
   return (
     <div>
       <div
@@ -171,7 +155,7 @@ const LoginPage = props => {
                         type: "email",
                         name: "email",
                         onChange: handleChange,
-                        //value: loginData.email,
+                        value: loginData.email,
                         endAdornment: (
                           <InputAdornment position="end">
                             <Email className={classes.inputIconsColor} />
@@ -179,6 +163,7 @@ const LoginPage = props => {
                         ),
                       }}
                     />
+
                     <CustomInput
                       labelText="Password"
                       id="pass"
