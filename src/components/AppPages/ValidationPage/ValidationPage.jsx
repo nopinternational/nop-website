@@ -7,20 +7,21 @@ import withStyles from "@material-ui/core/styles/withStyles"
 // @material-ui/icons
 
 // core components
-import Layout from "components/Layout/Layout.jsx"
-import Article from "components/Article/Article.jsx"
+import Layout from "../../Layout/Layout.jsx"
+import Article from "../../Article/Article.jsx"
 
-import GridContainer from "components/Grid/GridContainer.jsx"
-import GridItem from "components/Grid/GridItem.jsx"
-import Parallax from "components/Parallax/Parallax.jsx"
+import GridContainer from "../../Grid/GridContainer.jsx"
+import GridItem from "../../Grid/GridItem.jsx"
+import Parallax from "../../Parallax/Parallax.jsx"
 
-import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx"
+import landingPageStyle from "../../../assets/jss/material-kit-react/views/landingPage.jsx"
 
 // Sections for this page
 import ValidationForm from "./ValidationForm.jsx"
 import Logout from "./Logout.jsx"
 
-const SignupPage = props => {
+const ValidationPage = props => {
+  console.log("ValidationPage: ", props)
   const { classes } = props
 
   return (
@@ -56,4 +57,4 @@ const SignupPage = props => {
   )
 }
 
-export default withStyles(landingPageStyle)(SignupPage)
+export default withStyles(landingPageStyle)(ValidationPage)

@@ -23,6 +23,10 @@ module.exports = {
         host: contentful_host,
       },
     },
+    {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/app/*`] },
+    },
     "gatsby-plugin-material-ui",
     {
       resolve: `gatsby-plugin-manifest`,

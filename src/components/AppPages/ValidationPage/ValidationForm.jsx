@@ -17,13 +17,13 @@ import Message from "@material-ui/icons/Message"
 import Lock from "@material-ui/icons/Lock"
 
 // core components
-import Button from "components/CustomButtons/Button.jsx"
-import CustomInput from "components/CustomInput/CustomInput.jsx"
+import Button from "../../CustomButtons/Button.jsx"
+import CustomInput from "../../CustomInput/CustomInput.jsx"
 
-import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx"
+import productStyle from "../../../assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx"
 
 import firebase from "gatsby-plugin-firebase"
-import { getUser, isLoggedIn } from "components/Auth/auth"
+import { getUser, isLoggedIn } from "../../Auth/auth"
 import { compose } from "recompose"
 
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
