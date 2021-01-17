@@ -49,7 +49,6 @@ const ValidationPage = props => {
               om medlemskap kommer vi att kontakta er.
             </p>
             <ValidationForm />
-            <Logout></Logout>
           </Article>
         </div>
       </div>

@@ -44,7 +44,7 @@ class HeaderLinks extends React.Component {
             }}
             buttonIcon={AccountCircle}
             dropdownList={[
-              <Link to={"/login"} className={classes.link}>
+              <Link to={"/signup"} className={classes.link}>
                 <Button color="transparent" className={classes.navLink}>
                   Bli medlem
                 </Button>

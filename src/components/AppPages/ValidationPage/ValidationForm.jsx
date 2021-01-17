@@ -37,7 +37,6 @@ const BecomeAMemberForm = props => {
     name: "",
     email: "",
     message: "",
-    password: "",
   })
 
   const [isValidated, setValidated] = useState(false)
@@ -128,13 +127,27 @@ const BecomeAMemberForm = props => {
   const writesignupDataToFirebase = (userid, signupData) => {
     console.log("userid:", userid)
     delete signupData["password"]
-    firebase
-      .database()
-      .ref("validation/" + userid)
-      //.push(userid + "-hello")
+    const dataRef = firebase.database().ref("validation/" + userid)
+
+    const now = new Date().toISOString()
+    //.push(userid + "-hello")
+    dataRef
+      .update({
+        message: signupData.message,
+        created: now,
+      })
+      .catch(error => {
+        console.error(error)
+      })
+
+    dataRef
+      .push()
       .set({
         ...signupData,
         created: new Date().toISOString(),
+      })
+      .catch(error => {
+        console.error(error)
       })
   }
 
@@ -142,15 +155,15 @@ const BecomeAMemberForm = props => {
     if (event) {
       event.preventDefault()
       trackCustomEvent({
-        category: "Signup",
-        action: "Signup Clicked",
+        category: "Profile",
+        action: "Validate Clicked",
       })
 
-      console.log("handleSubmit.signupData", signupData)
-
+      console.log("handleSubmit.signupData", signupData, getUser())
+      writesignupDataToFirebase(getUser().uid, signupData)
       trackCustomEvent({
         category: "Signup",
-        action: "Signup Ok",
+        action: "Validate Ok",
       })
     }
   }
@@ -215,41 +228,6 @@ const BecomeAMemberForm = props => {
             }}
           />
           <CustomInput
-            labelText="Önskat lösenord"
-            id="password"
-            formControlProps={{
-              fullWidth: true,
-            }}
-            inputProps={{
-              onChange: handleChange,
-              name: "password",
-              type: "password",
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Lock className={classes.inputIconsColor} />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <CustomInput
-            labelText="Ev meddelande till oss, kod, kik etc"
-            id="message"
-            formControlProps={{
-              fullWidth: true,
-            }}
-            inputProps={{
-              onChange: handleChange,
-              name: "message",
-              type: "text",
-              value: signupData.message,
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Message className={classes.inputIconsColor} />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <CustomInput
             id="standard-multiline-static"
             label="Multiline"
             multiline
@@ -263,7 +241,7 @@ const BecomeAMemberForm = props => {
               multiline: true,
               rows: 4,
               onChange: handleChange,
-              name: "message2",
+              name: "message",
               type: "text",
               value: signupData.message,
               endAdornment: (
@@ -279,7 +257,7 @@ const BecomeAMemberForm = props => {
             size="lg"
             onClick={handleSubmit}
           >
-            Bli medlem!
+            Validera
           </Button>
         </form>
         <Dialog
