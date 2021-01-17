@@ -14,6 +14,8 @@ import TextField from "@material-ui/core/TextField"
 import Email from "@material-ui/icons/Email"
 import People from "@material-ui/icons/People"
 import Message from "@material-ui/icons/Message"
+import Image from "@material-ui/icons/Image"
+import AddAPhoto from "@material-ui/icons/AddAPhoto"
 import Lock from "@material-ui/icons/Lock"
 import VerifiedUser from "@material-ui/icons/VerifiedUser"
 
@@ -21,6 +23,8 @@ import VerifiedUser from "@material-ui/icons/VerifiedUser"
 import Button from "../../CustomButtons/Button.jsx"
 import CustomInput from "../../CustomInput/CustomInput.jsx"
 import InfoArea from "../../InfoArea/InfoArea.jsx"
+import GridContainer from "../../Grid/GridContainer.jsx"
+import GridItem from "../../Grid/GridItem.jsx"
 
 import productStyle from "../../../assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx"
 
@@ -30,6 +34,9 @@ import { compose } from "recompose"
 
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
+import ValidationImage from "./ValidationImage.jsx"
+import { get } from "core-js/fn/reflect"
+
 const BecomeAMemberForm = props => {
   const { classes } = props
 
@@ -37,9 +44,12 @@ const BecomeAMemberForm = props => {
     name: "",
     email: "",
     message: "",
+    validationPicture: "",
   })
 
   const [isValidated, setValidated] = useState(false)
+  const [fileuploaded, setFileuploaded] = useState()
+  const [images, setImages] = useState([])
 
   React.useEffect(() => {
     const user = getUser()
@@ -61,6 +71,7 @@ const BecomeAMemberForm = props => {
         console.log("useEffect1.signupData", signupData)
         setSignupData({ ...data })
         setValidated(data.validation)
+        setImages(data.images || [])
         console.log("useEffect2.signupData", signupData)
       },
       cancelCallback => {
@@ -75,53 +86,15 @@ const BecomeAMemberForm = props => {
   const handleChange = event => {
     console.log("handleChange1.signupData", signupData)
     const name = event.target.getAttribute("name")
+    if (name == "validationPicture") {
+      setFileuploaded(event.target.files[0])
+    }
     setSignupData({ ...signupData, [name]: event.target.value })
     console.log("handleChange2.signupData", signupData)
   }
 
   const handleCloseDialog = () => {
     setShowDialog(false)
-  }
-
-  const validateEmail = email => {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    return re.test(String(email).toLowerCase())
-  }
-
-  function signupUser(signupData) {
-    console.log(firebase)
-    console.log(firebase.database)
-    console.log(firebase.auth)
-
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(signupData.email, signupData.password)
-      .then(createdUser => {
-        console.log("createdUser", createdUser)
-        writesignupDataToFirebase(createdUser.user.uid, signupData)
-      })
-      .catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code
-        var errorMessage = error.message
-        if (errorCode == "auth/weak-password") {
-          alert("The password is too weak.")
-        } else {
-          alert(errorMessage)
-        }
-        console.log(error)
-      })
-
-    //console.log("created user: ", user)
-
-    // firebase
-    //   .database()
-    //   .ref("users")
-    //   .push()
-    //   .set({
-    //     ...signupData,
-    //     created: new Date().toISOString(),
-    //   })
   }
 
   const writesignupDataToFirebase = (userid, signupData) => {
@@ -133,22 +106,65 @@ const BecomeAMemberForm = props => {
     //.push(userid + "-hello")
     dataRef
       .update({
+        validationPicture: signupData.validationPicture,
         message: signupData.message,
         created: now,
+        images,
       })
       .catch(error => {
         console.error(error)
       })
 
-    dataRef
-      .push()
-      .set({
-        ...signupData,
-        created: new Date().toISOString(),
+    // dataRef
+    //   .push()
+    //   .set({
+    //     ...signupData,
+    //     created: new Date().toISOString(),
+    //   })
+    //   .catch(error => {
+    //     console.error(error)
+    //   })
+  }
+
+  const uploadPhoto = event => {
+    console.log("uploadPhoto.event: ", event)
+    console.log("uploadPhoto.event.target: ", event.target)
+    event.stopPropagation()
+    event.preventDefault()
+    const file = fileuploaded
+    console.log("uploadPhoto.file: ", file)
+
+    var metadata = {
+      contentType: file.type,
+    }
+
+    var storage = firebase.storage()
+    console.log("storage.app: ", storage.app)
+    const storageRef = storage.ref()
+    // Push to child path.
+    // [START oncomplete]
+    const uid = getUser().uid
+    storageRef
+      .child(`validation/${uid}/` + file.name)
+      .put(file, metadata)
+      .then(function(snapshot) {
+        console.log("Uploaded", snapshot.totalBytes, "bytes.")
+        console.log("File metadata:", snapshot.metadata)
+        // Let's get a download URL for the file.
+        snapshot.ref.getDownloadURL().then(function(url) {
+          console.log("File available at", url)
+          setImages(images.concat(url))
+          // [START_EXCLUDE]
+
+          // [END_EXCLUDE]
+        })
       })
-      .catch(error => {
-        console.error(error)
+      .catch(function(error) {
+        // [START onfailure]
+        console.error("Upload failed:", error)
+        // [END onfailure]
       })
+    // [END oncomplete]
   }
 
   const handleSubmit = event => {
@@ -186,6 +202,47 @@ const BecomeAMemberForm = props => {
     )
   }
 
+  const handleOnDeleteImage = src => {
+    console.log("handleOnDeleteImage: ", src)
+
+    //console.log("handleOnDeleteImage: ", foo.target)
+
+    setImages(images.filter(imageSrc => imageSrc != src))
+
+    var storage = firebase.storage()
+    const storageRef = storage.refFromURL(src)
+    // Push to child path.
+    // [START oncomplete]
+    const uid = getUser().uid
+    storageRef
+      .delete()
+      .then(function(snapshot) {
+        console.log(`file: ${src} deleted`)
+      })
+      .catch(function(error) {
+        // [START onfailure]
+        console.error("delete failed:", error)
+        // [END onfailure]
+      })
+    // [END oncomplete]
+  }
+  const imageView = () => {
+    if (!images || images.length == 0) return null
+    return (
+      <div>
+        <GridContainer>
+          {images.map((image, index) => {
+            console.log("image: ", image)
+            return (
+              <GridItem xs={12} sm={6} md={4} key={index}>
+                <ValidationImage src={image} onDelete={handleOnDeleteImage} />
+              </GridItem>
+            )
+          })}
+        </GridContainer>
+      </div>
+    )
+  }
   const formView = () => {
     return (
       <div>
@@ -251,6 +308,30 @@ const BecomeAMemberForm = props => {
               ),
             }}
           />
+          <CustomInput
+            id="standard-multiline-static"
+            label="Multiline"
+            defaultValue="Default Value"
+            labelText="Nytagen bild på er själva"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            inputProps={{
+              onChange: handleChange,
+              name: "validationPicture",
+              type: "file",
+              //value: "value",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <AddAPhoto className={classes.inputIconsColor} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          {imageView()}
+          <Button color="primary" round onClick={uploadPhoto}>
+            <AddAPhoto className={classes.icons} />
+          </Button>
           <Button
             type="button"
             color="primary"

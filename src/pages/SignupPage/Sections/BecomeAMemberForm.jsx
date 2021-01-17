@@ -71,7 +71,7 @@ const BecomeAMemberForm = props => {
           action: "Signup Ok",
         })
 
-        navigate("/validation")
+        navigate("/app/validation")
       })
       .catch(function(error) {
         // Handle Errors here.
