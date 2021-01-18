@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { createRef, useState } from "react"
 import { Link } from "gatsby"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles"
@@ -40,6 +40,7 @@ import { get } from "core-js/fn/reflect"
 const BecomeAMemberForm = props => {
   const { classes } = props
 
+  const fileInputRef = createRef()
   const [signupData, setSignupData] = useState({
     name: "",
     email: "",
@@ -86,9 +87,6 @@ const BecomeAMemberForm = props => {
   const handleChange = event => {
     console.log("handleChange1.signupData", signupData)
     const name = event.target.getAttribute("name")
-    if (name == "validationPicture") {
-      setFileuploaded(event.target.files[0])
-    }
     setSignupData({ ...signupData, [name]: event.target.value })
     console.log("handleChange2.signupData", signupData)
   }
@@ -106,32 +104,44 @@ const BecomeAMemberForm = props => {
     //.push(userid + "-hello")
     dataRef
       .update({
-        validationPicture: signupData.validationPicture,
         message: signupData.message,
         created: now,
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }
+  const writesImagesRefsToFirebase = (userid, images) => {
+    console.log("writesImagesRefsToFirebase.userid:", userid)
+    console.log("writesImagesRefsToFirebase.images:", images)
+    delete signupData["password"]
+    const dataRef = firebase.database().ref("validation/" + userid)
+    dataRef
+      .update({
         images,
       })
       .catch(error => {
         console.error(error)
       })
-
-    // dataRef
-    //   .push()
-    //   .set({
-    //     ...signupData,
-    //     created: new Date().toISOString(),
-    //   })
-    //   .catch(error => {
-    //     console.error(error)
-    //   })
   }
 
   const uploadPhoto = event => {
+    fileInputRef.current.click()
     console.log("uploadPhoto.event: ", event)
     console.log("uploadPhoto.event.target: ", event.target)
     event.stopPropagation()
     event.preventDefault()
     const file = fileuploaded
+  }
+
+  const fileSelectorChange = event => {
+    console.log("fileSelectorChange.event:", event)
+    console.log("fileSelectorChange.event.target:", event.target)
+    const file = event.target.files[0]
+    console.log("fileSelectorChange.file: ", file)
+    storePhoto(file)
+  }
+  const storePhoto = file => {
     console.log("uploadPhoto.file: ", file)
 
     var metadata = {
@@ -153,7 +163,9 @@ const BecomeAMemberForm = props => {
         // Let's get a download URL for the file.
         snapshot.ref.getDownloadURL().then(function(url) {
           console.log("File available at", url)
-          setImages(images.concat(url))
+          const newImages = images.concat(url)
+          setImages(newImages)
+          writesImagesRefsToFirebase(uid, newImages)
           // [START_EXCLUDE]
 
           // [END_EXCLUDE]
@@ -204,16 +216,18 @@ const BecomeAMemberForm = props => {
 
   const handleOnDeleteImage = src => {
     console.log("handleOnDeleteImage: ", src)
+    const uid = getUser().uid
 
     //console.log("handleOnDeleteImage: ", foo.target)
 
-    setImages(images.filter(imageSrc => imageSrc != src))
+    const newImages = images.filter(imageSrc => imageSrc != src)
+    setImages(newImages)
+    writesImagesRefsToFirebase(uid, newImages)
 
     var storage = firebase.storage()
     const storageRef = storage.refFromURL(src)
     // Push to child path.
     // [START oncomplete]
-    const uid = getUser().uid
     storageRef
       .delete()
       .then(function(snapshot) {
@@ -308,30 +322,17 @@ const BecomeAMemberForm = props => {
               ),
             }}
           />
-          <CustomInput
-            id="standard-multiline-static"
-            label="Multiline"
-            defaultValue="Default Value"
-            labelText="Nytagen bild på er själva"
-            formControlProps={{
-              fullWidth: true,
-            }}
-            inputProps={{
-              onChange: handleChange,
-              name: "validationPicture",
-              type: "file",
-              //value: "value",
-              endAdornment: (
-                <InputAdornment position="end">
-                  <AddAPhoto className={classes.inputIconsColor} />
-                </InputAdornment>
-              ),
-            }}
-          />
-          {imageView()}
           <Button color="primary" round onClick={uploadPhoto}>
             <AddAPhoto className={classes.icons} />
           </Button>
+          <input
+            style={{ display: "none" }}
+            type="file"
+            id="fileupload"
+            ref={fileInputRef}
+            onChange={fileSelectorChange}
+          />
+          {imageView()}
           <Button
             type="button"
             color="primary"
