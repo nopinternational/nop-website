@@ -10,7 +10,7 @@ export const setUser = user =>
 
 export const isLoggedIn = () => {
   const user = getUser()
-  console.log("auth.isLoggedIn.user: ", user)
+  console.log("isLoggedIn: ", !!user.email)
   return !!user.email
 }
 

@@ -19,10 +19,10 @@ import Button from "components/CustomButtons/Button.jsx"
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import headerLinksStyle from "assets/jss/material-kit-react/components/headerLinksStyle.jsx"
 import firebase from "gatsby-plugin-firebase"
-import { logout } from "components/Auth/auth"
+import { logout, isLoggedIn } from "components/Auth/auth"
 
-class HeaderLinks extends React.Component {
-  handleSignout = () => {
+const HeaderLinks = props => {
+  const handleSignout = () => {
     logout(firebase)
     trackCustomEvent({
       category: "MyAccount",
@@ -30,45 +30,66 @@ class HeaderLinks extends React.Component {
     })
   }
 
-  render() {
-    const { classes } = this.props
-    return (
-      <List className={classes.list}>
-        <ListItem className={classes.listItem}>
-          <CustomDropdown
-            noLiPadding
-            buttonText="Mitt konto "
-            buttonProps={{
-              className: classes.navLink,
-              color: "transparent",
-            }}
-            buttonIcon={AccountCircle}
-            dropdownList={[
-              <Link to={"/signup"} className={classes.link}>
-                <Button color="transparent" className={classes.navLink}>
-                  Bli medlem
-                </Button>
-              </Link>,
-              <Link to={"/login"} className={classes.link}>
-                <Button color="transparent" className={classes.navLink}>
-                  Logga in
-                </Button>
-              </Link>,
-              <Link to={"/"} className={classes.link}>
-                <Button
-                  color="transparent"
-                  onClick={this.handleSignout}
-                  className={classes.navLink}
-                >
-                  Logga out
-                </Button>
-              </Link>,
-            ]}
-          />
-        </ListItem>
-      </List>
-    )
+  const getLoggedInItems = () => {
+    return [
+      <Link to={"/app/profile"} className={classes.link}>
+        <Button
+          color="transparent"
+          onClick={handleSignout}
+          className={classes.navLink}
+        >
+          Min sida
+        </Button>
+      </Link>,
+      <Link to={"/"} className={classes.link}>
+        <Button
+          color="transparent"
+          onClick={handleSignout}
+          className={classes.navLink}
+        >
+          Logga out
+        </Button>
+      </Link>,
+    ]
   }
+  const getNotLoggedInItems = () => {
+    return [
+      <Link to={"/signup"} className={classes.link}>
+        <Button color="transparent" className={classes.navLink}>
+          Bli medlem
+        </Button>
+      </Link>,
+      <Link to={"/login"} className={classes.link}>
+        <Button color="transparent" className={classes.navLink}>
+          Logga in
+        </Button>
+      </Link>,
+    ]
+  }
+  const getMenuItems = () => {
+    console.log("getMenuItems")
+    if (isLoggedIn()) {
+      return getLoggedInItems()
+    }
+    return getNotLoggedInItems()
+  }
+  const { classes } = props
+  return (
+    <List className={classes.list}>
+      <ListItem className={classes.listItem}>
+        <CustomDropdown
+          noLiPadding
+          buttonText="Mitt konto "
+          buttonProps={{
+            className: classes.navLink,
+            color: "transparent",
+          }}
+          buttonIcon={AccountCircle}
+          dropdownList={getMenuItems()}
+        />
+      </ListItem>
+    </List>
+  )
 }
 
 export default withStyles(headerLinksStyle)(HeaderLinks)
