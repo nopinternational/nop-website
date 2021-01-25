@@ -8,15 +8,13 @@ import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
-import TextField from "@material-ui/core/TextField"
 
 // @material-ui/icons
 import Email from "@material-ui/icons/Email"
 import People from "@material-ui/icons/People"
 import Message from "@material-ui/icons/Message"
-import Image from "@material-ui/icons/Image"
+
 import AddAPhoto from "@material-ui/icons/AddAPhoto"
-import Lock from "@material-ui/icons/Lock"
 import VerifiedUser from "@material-ui/icons/VerifiedUser"
 
 // core components
@@ -29,13 +27,12 @@ import GridItem from "../../Grid/GridItem.jsx"
 import productStyle from "../../../assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx"
 
 import firebase from "gatsby-plugin-firebase"
-import { getUser, isLoggedIn } from "../../Auth/auth"
+import { getUser } from "../../Auth/auth"
 import { compose } from "recompose"
 
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 import ValidationImage from "./ValidationImage.jsx"
-import { get } from "core-js/fn/reflect"
 
 const BecomeAMemberForm = props => {
   const { classes } = props
@@ -45,19 +42,21 @@ const BecomeAMemberForm = props => {
     name: "",
     email: "",
     message: "",
-    validationPicture: "",
   })
 
   const [isValidated, setValidated] = useState(false)
   const [fileuploaded, setFileuploaded] = useState()
   const [images, setImages] = useState([])
+  const [showDialog, setShowDialog] = useState(false)
+  const [dataSent, setDataSent] = useState(false)
 
   React.useEffect(() => {
     const user = getUser()
 
-    const userFromFirebase = firebase.auth().currentUser
     const uid = user.uid
-    const validationDataRef = firebase.database().ref("/validation/" + uid)
+    const validationDataRef = firebase
+      .database()
+      .ref(`/validation/${uid}/current/`)
 
     validationDataRef.on(
       "value",
@@ -73,9 +72,6 @@ const BecomeAMemberForm = props => {
     )
   }, [])
 
-  const [showDialog, setShowDialog] = useState(false)
-  const [dataSent, setDataSent] = useState(false)
-
   const handleChange = event => {
     const name = event.target.getAttribute("name")
     setSignupData({ ...signupData, [name]: event.target.value })
@@ -87,11 +83,22 @@ const BecomeAMemberForm = props => {
 
   const writesignupDataToFirebase = (userid, signupData) => {
     delete signupData["password"]
-    const dataRef = firebase.database().ref("validation/" + userid)
+    const dataRef = firebase.database().ref(`validation/${userid}`)
 
     const now = new Date().toISOString()
     //.push(userid + "-hello")
     dataRef
+      .push()
+      .set({
+        message: signupData.message,
+        created: now,
+      })
+      .catch(error => {
+        console.error(error)
+      })
+
+    dataRef
+      .child("current")
       .update({
         message: signupData.message,
         created: now,
@@ -186,7 +193,7 @@ const BecomeAMemberForm = props => {
   const handleOnDeleteImage = src => {
     const uid = getUser().uid
 
-    const newImages = images.filter(imageSrc => imageSrc != src)
+    const newImages = images.filter(imageSrc => imageSrc !== src)
     setImages(newImages)
     writesImagesRefsToFirebase(uid, newImages)
 
@@ -202,7 +209,7 @@ const BecomeAMemberForm = props => {
       })
   }
   const imageView = () => {
-    if (!images || images.length == 0) return null
+    if (!images || images.length === 0) return null
     return (
       <div>
         <GridContainer>
