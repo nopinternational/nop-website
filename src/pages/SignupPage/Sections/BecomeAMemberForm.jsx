@@ -85,7 +85,7 @@ const BecomeAMemberForm = props => {
     delete signupData["password"]
     firebase
       .database()
-      .ref("validation/" + userid)
+      .ref(`validation/${userid}/current`)
       //.push(userid + "-hello")
       .set({
         ...signupData,

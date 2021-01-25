@@ -34,7 +34,7 @@ import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 
 import ValidationImage from "./ValidationImage.jsx"
 
-const BecomeAMemberForm = props => {
+const ValidationForm = props => {
   const { classes } = props
 
   const fileInputRef = createRef()
@@ -47,6 +47,7 @@ const BecomeAMemberForm = props => {
   const [isValidated, setValidated] = useState(false)
   const [fileuploaded, setFileuploaded] = useState()
   const [images, setImages] = useState([])
+  const [firebaseImages, setFirebaseImages] = useState([])
   const [showDialog, setShowDialog] = useState(false)
   const [dataSent, setDataSent] = useState(false)
 
@@ -92,6 +93,7 @@ const BecomeAMemberForm = props => {
       .set({
         message: signupData.message,
         created: now,
+        firebaseImages,
       })
       .catch(error => {
         console.error(error)
@@ -107,16 +109,6 @@ const BecomeAMemberForm = props => {
         console.error(error)
       })
   }
-  const writesImagesRefsToFirebase = (userid, images) => {
-    const dataRef = firebase.database().ref("validation/" + userid)
-    dataRef
-      .update({
-        images,
-      })
-      .catch(error => {
-        console.error(error)
-      })
-  }
 
   const uploadPhoto = event => {
     fileInputRef.current.click()
@@ -127,9 +119,11 @@ const BecomeAMemberForm = props => {
 
   const fileSelectorChange = event => {
     const file = event.target.files[0]
-    storePhoto(file)
+    storeInMemory(file)
+    uploadToFirebase(file)
   }
-  const storePhoto = file => {
+
+  const storeInMemory = file => {
     var reader = new FileReader()
     reader.onload = function(event) {
       const url = event.target.result
@@ -137,7 +131,9 @@ const BecomeAMemberForm = props => {
       setImages(newImages)
     }
     reader.readAsDataURL(file)
+  }
 
+  const uploadToFirebase = file => {
     var metadata = {
       contentType: file.type,
     }
@@ -150,6 +146,9 @@ const BecomeAMemberForm = props => {
       .put(file, metadata)
       .then(function(snapshot) {
         //image uploaded
+        console.log(snapshot.ref.fullPath)
+
+        setFirebaseImages(firebaseImages.concat(snapshot.ref.fullPath))
       })
       .catch(function(error) {
         console.error("Upload failed:", error)
@@ -195,7 +194,6 @@ const BecomeAMemberForm = props => {
 
     const newImages = images.filter(imageSrc => imageSrc !== src)
     setImages(newImages)
-    writesImagesRefsToFirebase(uid, newImages)
 
     var storage = firebase.storage()
     const storageRef = storage.refFromURL(src)
@@ -334,4 +332,4 @@ const BecomeAMemberForm = props => {
   return isValidated ? validatedView() : formView()
 }
 
-export default compose(withStyles(productStyle))(BecomeAMemberForm)
+export default compose(withStyles(productStyle))(ValidationForm)
