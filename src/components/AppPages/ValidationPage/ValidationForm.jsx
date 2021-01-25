@@ -54,26 +54,18 @@ const BecomeAMemberForm = props => {
 
   React.useEffect(() => {
     const user = getUser()
-    console.log("user:", user)
-    console.log("user.uid:", user.uid)
 
     const userFromFirebase = firebase.auth().currentUser
-    console.log("userFromFirebase: ", userFromFirebase)
-    //console.log("userFromFirebase.uid: ", userFromFirebase?.uid)
     const uid = user.uid
     const validationDataRef = firebase.database().ref("/validation/" + uid)
 
     validationDataRef.on(
       "value",
       snapshot => {
-        console.log("snapshot: ", snapshot)
         const data = snapshot.val()
-        console.log("data: ", data)
-        console.log("useEffect1.signupData", signupData)
         setSignupData({ ...data })
         setValidated(data.validation)
         setImages(data.images || [])
-        console.log("useEffect2.signupData", signupData)
       },
       cancelCallback => {
         console.log("cancelCallback: ", cancelCallback)
@@ -85,10 +77,8 @@ const BecomeAMemberForm = props => {
   const [dataSent, setDataSent] = useState(false)
 
   const handleChange = event => {
-    console.log("handleChange1.signupData", signupData)
     const name = event.target.getAttribute("name")
     setSignupData({ ...signupData, [name]: event.target.value })
-    console.log("handleChange2.signupData", signupData)
   }
 
   const handleCloseDialog = () => {
@@ -96,7 +86,6 @@ const BecomeAMemberForm = props => {
   }
 
   const writesignupDataToFirebase = (userid, signupData) => {
-    console.log("userid:", userid)
     delete signupData["password"]
     const dataRef = firebase.database().ref("validation/" + userid)
 
@@ -112,9 +101,6 @@ const BecomeAMemberForm = props => {
       })
   }
   const writesImagesRefsToFirebase = (userid, images) => {
-    console.log("writesImagesRefsToFirebase.userid:", userid)
-    console.log("writesImagesRefsToFirebase.images:", images)
-    delete signupData["password"]
     const dataRef = firebase.database().ref("validation/" + userid)
     dataRef
       .update({
@@ -127,28 +113,19 @@ const BecomeAMemberForm = props => {
 
   const uploadPhoto = event => {
     fileInputRef.current.click()
-    console.log("uploadPhoto.event: ", event)
-    console.log("uploadPhoto.event.target: ", event.target)
     event.stopPropagation()
     event.preventDefault()
     const file = fileuploaded
   }
 
   const fileSelectorChange = event => {
-    console.log("fileSelectorChange.event:", event)
-    console.log("fileSelectorChange.event.target:", event.target)
     const file = event.target.files[0]
-    console.log("fileSelectorChange.file: ", file)
     storePhoto(file)
   }
   const storePhoto = file => {
-    console.log("uploadPhoto.file: ", file)
-
     var reader = new FileReader()
     reader.onload = function(event) {
       const url = event.target.result
-      console.log("the_url: ", url)
-      //$("#some_container_div").html("<img src='" + the_url + "' />")
       const newImages = images.concat(url)
       setImages(newImages)
     }
@@ -159,33 +136,17 @@ const BecomeAMemberForm = props => {
     }
 
     var storage = firebase.storage()
-    console.log("storage.app: ", storage.app)
     const storageRef = storage.ref()
-    // Push to child path.
-    // [START oncomplete]
     const uid = getUser().uid
     storageRef
       .child(`validation/${uid}/` + file.name)
       .put(file, metadata)
       .then(function(snapshot) {
-        console.log("Uploaded", snapshot.totalBytes, "bytes.")
-        console.log("File metadata:", snapshot.metadata)
-        // Let's get a download URL for the file.
-        snapshot.ref.getDownloadURL().then(function(url) {
-          console.log("File available at", url)
-
-          //writesImagesRefsToFirebase(uid, newImages)
-          // [START_EXCLUDE]
-
-          // [END_EXCLUDE]
-        })
+        //image uploaded
       })
       .catch(function(error) {
-        // [START onfailure]
         console.error("Upload failed:", error)
-        // [END onfailure]
       })
-    // [END oncomplete]
   }
 
   const handleSubmit = event => {
@@ -196,7 +157,6 @@ const BecomeAMemberForm = props => {
         action: "Validate Clicked",
       })
 
-      console.log("handleSubmit.signupData", signupData, getUser())
       writesignupDataToFirebase(getUser().uid, signupData)
       trackCustomEvent({
         category: "Signup",
@@ -224,10 +184,7 @@ const BecomeAMemberForm = props => {
   }
 
   const handleOnDeleteImage = src => {
-    console.log("handleOnDeleteImage: ", src)
     const uid = getUser().uid
-
-    //console.log("handleOnDeleteImage: ", foo.target)
 
     const newImages = images.filter(imageSrc => imageSrc != src)
     setImages(newImages)
@@ -235,19 +192,14 @@ const BecomeAMemberForm = props => {
 
     var storage = firebase.storage()
     const storageRef = storage.refFromURL(src)
-    // Push to child path.
-    // [START oncomplete]
     storageRef
       .delete()
       .then(function(snapshot) {
-        console.log(`file: ${src} deleted`)
+        // file deleted
       })
       .catch(function(error) {
-        // [START onfailure]
         console.error("delete failed:", error)
-        // [END onfailure]
       })
-    // [END oncomplete]
   }
   const imageView = () => {
     if (!images || images.length == 0) return null
@@ -255,7 +207,6 @@ const BecomeAMemberForm = props => {
       <div>
         <GridContainer>
           {images.map((image, index) => {
-            console.log("image: ", image)
             return (
               <GridItem xs={12} sm={6} md={4} key={index}>
                 <ValidationImage src={image} onDelete={handleOnDeleteImage} />

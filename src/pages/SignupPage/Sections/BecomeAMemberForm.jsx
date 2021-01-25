@@ -54,15 +54,10 @@ const BecomeAMemberForm = props => {
   }
 
   function signupUser(signupData) {
-    console.log(firebase)
-    console.log(firebase.database)
-    console.log(firebase.auth)
-
     firebase
       .auth()
       .createUserWithEmailAndPassword(signupData.email, signupData.password)
       .then(result => {
-        console.log("result", result)
         // signInSuccessUrl: '/app/profile',
         setUser(result.user)
         writesignupDataToFirebase(result.user.uid, signupData)
@@ -84,21 +79,9 @@ const BecomeAMemberForm = props => {
         }
         console.log(error)
       })
-
-    //console.log("created user: ", user)
-
-    // firebase
-    //   .database()
-    //   .ref("users")
-    //   .push()
-    //   .set({
-    //     ...signupData,
-    //     created: new Date().toISOString(),
-    //   })
   }
 
   const writesignupDataToFirebase = (userid, signupData) => {
-    console.log("userid:", userid)
     delete signupData["password"]
     firebase
       .database()
