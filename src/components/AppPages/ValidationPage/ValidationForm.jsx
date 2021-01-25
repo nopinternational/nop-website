@@ -144,6 +144,16 @@ const BecomeAMemberForm = props => {
   const storePhoto = file => {
     console.log("uploadPhoto.file: ", file)
 
+    var reader = new FileReader()
+    reader.onload = function(event) {
+      const url = event.target.result
+      console.log("the_url: ", url)
+      //$("#some_container_div").html("<img src='" + the_url + "' />")
+      const newImages = images.concat(url)
+      setImages(newImages)
+    }
+    reader.readAsDataURL(file)
+
     var metadata = {
       contentType: file.type,
     }
@@ -163,9 +173,8 @@ const BecomeAMemberForm = props => {
         // Let's get a download URL for the file.
         snapshot.ref.getDownloadURL().then(function(url) {
           console.log("File available at", url)
-          const newImages = images.concat(url)
-          setImages(newImages)
-          writesImagesRefsToFirebase(uid, newImages)
+
+          //writesImagesRefsToFirebase(uid, newImages)
           // [START_EXCLUDE]
 
           // [END_EXCLUDE]
