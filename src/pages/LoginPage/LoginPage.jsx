@@ -34,10 +34,8 @@ const LoginPage = props => {
 
   const handleChange = event => {
     const name = event.target.getAttribute("name")
-    console.log("handleChange.event: ", event)
-    setLoginData({ ...loginData, [name]: event.target.value })
 
-    console.log("handleChange.loginData: ", loginData)
+    setLoginData({ ...loginData, [name]: event.target.value })
   }
 
   useEffect(() => {
@@ -47,9 +45,6 @@ const LoginPage = props => {
   })
 
   const handleSubmit = event => {
-    console.log("handleSubmit: event ", event)
-    console.log("handleSubmit: loginData ", loginData)
-
     firebase
       .auth()
       .signInWithEmailAndPassword(loginData.email, loginData.password)
