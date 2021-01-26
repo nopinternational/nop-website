@@ -18,7 +18,6 @@ import landingPageStyle from "../../../assets/jss/material-kit-react/views/landi
 
 // Sections for this page
 import ValidationForm from "./ValidationForm.jsx"
-import Logout from "./Logout.jsx"
 
 const ValidationPage = props => {
   console.log("ValidationPage: ", props)

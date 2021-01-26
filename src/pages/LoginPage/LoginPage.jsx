@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react"
-import { Link, navigate } from "gatsby"
+import { navigate } from "gatsby"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles"
 import InputAdornment from "@material-ui/core/InputAdornment"
 // @material-ui/icons
 import Email from "@material-ui/icons/Email"
-import People from "@material-ui/icons/People"
 import LockOutlined from "@material-ui/icons/LockOutlined"
-// React icons
-import { FaFacebook, FaTwitter, FaGooglePlusG } from "react-icons/fa"
 // core components
-import Header from "components/Header/Header.jsx"
-import HeaderLinks from "components/Header/HeaderLinks.jsx"
-import Footer from "components/Footer/Footer.jsx"
 import GridContainer from "components/Grid/GridContainer.jsx"
 import GridItem from "components/Grid/GridItem.jsx"
 import Button from "components/CustomButtons/Button.jsx"
@@ -28,11 +22,10 @@ import firebase from "gatsby-plugin-firebase"
 import { setUser } from "components/Auth/auth"
 
 import image from "assets/img/bg7.jpg"
-import { set } from "core-js/fn/dict"
 
 //class LoginPage extends React.Component {
 const LoginPage = props => {
-  const { classes, ...rest } = props
+  const { classes } = props
   const [cardAnimaton, setCardAnimaton] = useState("cardHidden")
   const [loginData, setLoginData] = useState({
     email: "",
@@ -48,12 +41,9 @@ const LoginPage = props => {
   }
 
   useEffect(() => {
-    setTimeout(
-      function() {
-        setCardAnimaton("")
-      }.bind(this),
-      700
-    )
+    setTimeout(function() {
+      setCardAnimaton("")
+    }, 700)
   })
 
   const handleSubmit = event => {

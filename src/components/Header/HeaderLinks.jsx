@@ -33,12 +33,13 @@ const HeaderLinks = props => {
   const getLoggedInItems = () => {
     return [
       <Link to={"/app/profile"} className={classes.link}>
-        <Button
-          color="transparent"
-          onClick={handleSignout}
-          className={classes.navLink}
-        >
+        <Button color="transparent" className={classes.navLink}>
           Min sida
+        </Button>
+      </Link>,
+      <Link to={"/app/validation"} className={classes.link}>
+        <Button color="transparent" className={classes.navLink}>
+          Validering
         </Button>
       </Link>,
       <Link to={"/"} className={classes.link}>

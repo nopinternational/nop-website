@@ -1,7 +1,7 @@
 import React from "react"
 import { Router } from "@reach/router"
 import { createMemoryHistory } from "history"
-import { Route, Switch } from "react-router-dom"
+import { Route } from "react-router-dom"
 
 import "assets/scss/material-kit-react.scss?v=1.4.0"
 import "typeface-roboto"
@@ -11,7 +11,6 @@ import firebase from "gatsby-plugin-firebase"
 
 import PrivateRoute from "../components/PrivateRoute"
 // pages for this product
-import LandingPage from "./LandingPage/LandingPage.jsx"
 import ValidationPage from "../components/AppPages/ValidationPage/ValidationPage.jsx"
 import ProfilePage from "./ProfilePage/ProfilePage.jsx"
 import LoginPage from "./LoginPage/LoginPage.jsx"

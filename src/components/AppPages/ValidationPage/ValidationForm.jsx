@@ -114,7 +114,6 @@ const ValidationForm = props => {
     fileInputRef.current.click()
     event.stopPropagation()
     event.preventDefault()
-    const file = fileuploaded
   }
 
   const fileSelectorChange = event => {
@@ -190,8 +189,6 @@ const ValidationForm = props => {
   }
 
   const handleOnDeleteImage = src => {
-    const uid = getUser().uid
-
     const newImages = images.filter(imageSrc => imageSrc !== src)
     setImages(newImages)
 

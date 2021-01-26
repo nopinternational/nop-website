@@ -22,7 +22,7 @@ import CustomInput from "components/CustomInput/CustomInput.jsx"
 import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx"
 
 import firebase from "gatsby-plugin-firebase"
-import { setUser, isLoggedIn } from "components/Auth/auth"
+import { setUser } from "components/Auth/auth"
 import { compose } from "recompose"
 
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
@@ -72,7 +72,7 @@ const BecomeAMemberForm = props => {
         // Handle Errors here.
         var errorCode = error.code
         var errorMessage = error.message
-        if (errorCode == "auth/weak-password") {
+        if (errorCode === "auth/weak-password") {
           alert("The password is too weak.")
         } else {
           alert(errorMessage)
