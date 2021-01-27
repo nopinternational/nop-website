@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 // nodejs library that concatenates classes
 import classNames from "classnames"
 // @material-ui/core components
@@ -18,10 +18,104 @@ import landingPageStyle from "../../../assets/jss/material-kit-react/views/landi
 
 // Sections for this page
 import ValidationForm from "./ValidationForm.jsx"
+import firebase from "gatsby-plugin-firebase"
+import { getUser } from "../../Auth/auth"
 
 const ValidationPage = props => {
   console.log("ValidationPage: ", props)
   const { classes } = props
+
+  const [validationStatus, setValidationStatus] = useState({
+    status: "none",
+    message: "no message",
+  })
+
+  useEffect(() => {
+    const user = getUser()
+
+    const uid = user.uid
+    const validationDataRef = firebase
+      .database()
+      .ref(`/validation/${uid}/status/`)
+
+    validationDataRef.on(
+      "value",
+      snapshot => {
+        const data = snapshot.val()
+        //setSignupData({ ...data })
+        //setValidated(data.validation)
+        //setImages(data.images || [])
+        console.log("validationstatus: ", data)
+        setValidationStatus({ ...data })
+      },
+      cancelCallback => {
+        console.log("cancelCallback: ", cancelCallback)
+      }
+    )
+  }, [])
+
+  const setStatus = status => {
+    console.log("setStatus: ", status)
+    const newState = { ...validationStatus, status }
+    console.log("newState: ", newState)
+    setValidationStatus(newState)
+  }
+  const renderValidationForm = () => {
+    return (
+      <Article title="Validering">
+        <p>
+          Nätverket Night of Passion är en exklusiv medlemsklubb. Vi tar emot
+          par som medlemmar som är seriösa och som delar nätverkets värderingar.
+        </p>
+        <p className={classes.description}>
+          Nedan kan ni ansöka om att bli medlemmar. Efter att ni har ansökt om
+          medlemskap kommer vi att kontakta er.
+        </p>
+        <ValidationForm setValidationStatus={setStatus} />
+      </Article>
+    )
+  }
+
+  const renderValidationPending = () => {
+    return (
+      <Article title="Validering pågår...">
+        <p className={classes.description}>Validering pågår...</p>
+      </Article>
+    )
+  }
+  const renderValidationConfirmed = () => {
+    return (
+      <Article title="Validering godkänd">
+        <p className={classes.description}>Validering godkänd :)</p>
+      </Article>
+    )
+  }
+  const renderValidationRejected = () => {
+    return (
+      <Article title="Validering underkänd">
+        <p className={classes.description}>
+          Validering har blivit underkänd med följande motivering:
+        </p>
+        <p>{validationStatus.message}</p>
+      </Article>
+    )
+  }
+
+  const renderContent = () => {
+    switch (validationStatus.status) {
+      case "PENDING": {
+        return renderValidationPending()
+      }
+
+      case "CONFIRMED": {
+        return renderValidationConfirmed()
+      }
+      case "REJECTED": {
+        return renderValidationRejected()
+      }
+    }
+    return renderValidationForm()
+  }
 
   return (
     <Layout>
@@ -36,20 +130,8 @@ const ValidationPage = props => {
         </div>
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
-        <div className={classes.container}>
-          <Article title="Validering">
-            <p>
-              Nätverket Night of Passion är en exklusiv medlemsklubb. Vi tar
-              emot par som medlemmar som är seriösa och som delar nätverkets
-              värderingar.
-            </p>
-            <p className={classes.description}>
-              Nedan kan ni ansöka om att bli medlemmar. Efter att ni har ansökt
-              om medlemskap kommer vi att kontakta er.
-            </p>
-            <ValidationForm />
-          </Article>
-        </div>
+        <div className={classes.container}></div>
+        {renderContent()}
       </div>
     </Layout>
   )

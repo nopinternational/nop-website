@@ -35,7 +35,7 @@ import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 import ValidationImage from "./ValidationImage.jsx"
 
 const ValidationForm = props => {
-  const { classes } = props
+  const { classes, setValidationStatus } = props
 
   const fileInputRef = createRef()
   const [signupData, setSignupData] = useState({
@@ -161,7 +161,7 @@ const ValidationForm = props => {
         category: "Profile",
         action: "Validate Clicked",
       })
-
+      setValidationStatus("PENDING")
       writesignupDataToFirebase(getUser().uid, signupData)
       trackCustomEvent({
         category: "Signup",
