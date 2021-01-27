@@ -38,6 +38,10 @@ const BecomeAMemberForm = props => {
   })
   const [showDialog, setShowDialog] = useState(false)
   const [dataSent, setDataSent] = useState(false)
+  const [pass2ErrorState, setPass2ErrorState] = useState({
+    error: false,
+    helperText: "",
+  })
 
   const handleChange = event => {
     const name = event.target.getAttribute("name")
@@ -51,6 +55,18 @@ const BecomeAMemberForm = props => {
   const validateEmail = email => {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(String(email).toLowerCase())
+  }
+
+  const secondPasswordChange = event => {
+    const pass2 = event.target.value
+    console.log(
+      `secondPasswordChange: pass1: ${
+        signupData.password
+      }, pass2: ${pass2} => ${pass2 != signupData.password}`
+    )
+    if (pass2 != signupData.password) {
+      setPass2ErrorState({ error: true, helperText: "Lösenorden stämmer inte" })
+    } else setPass2ErrorState({ error: false, helperText: "" })
   }
 
   function signupUser(signupData) {
@@ -138,6 +154,7 @@ const BecomeAMemberForm = props => {
             }}
             inputProps={{
               name: "name",
+              helperText: pass2ErrorState.message,
               onChange: handleChange,
               type: "text",
               endAdornment: (
@@ -174,6 +191,27 @@ const BecomeAMemberForm = props => {
             inputProps={{
               onChange: handleChange,
               name: "password",
+              type: "password",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Lock className={classes.inputIconsColor} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <CustomInput
+            labelText="Upprepa lösenord"
+            id="password2"
+            helperText={pass2ErrorState.helperText}
+            formControlProps={{
+              fullWidth: true,
+              error: pass2ErrorState.error,
+            }}
+            inputProps={{
+              error: pass2ErrorState.error,
+
+              onChange: secondPasswordChange,
+              name: "password2",
               type: "password",
               endAdornment: (
                 <InputAdornment position="end">

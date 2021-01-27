@@ -13,6 +13,7 @@ import Article from "../../Article/Article.jsx"
 import GridContainer from "../../Grid/GridContainer.jsx"
 import GridItem from "../../Grid/GridItem.jsx"
 import Parallax from "../../Parallax/Parallax.jsx"
+import Quote from "../../Typography/Quote.jsx"
 
 import landingPageStyle from "../../../assets/jss/material-kit-react/views/landingPage.jsx"
 
@@ -96,7 +97,7 @@ const ValidationPage = props => {
         <p className={classes.description}>
           Validering har blivit underkänd med följande motivering:
         </p>
-        <p>{validationStatus.message}</p>
+        <Quote text={validationStatus.message} />
       </Article>
     )
   }
