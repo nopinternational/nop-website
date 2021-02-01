@@ -56,11 +56,20 @@ const ValidationPage = props => {
   }, [])
 
   const setStatus = status => {
+    const user = getUser()
+
+    const uid = user.uid
+    const validationDataRef = firebase
+      .database()
+      .ref(`/validation/${uid}/status/`)
+
     console.log("setStatus: ", status)
     const newState = { ...validationStatus, status }
     console.log("newState: ", newState)
+    validationDataRef.set(newState)
     setValidationStatus(newState)
   }
+
   const renderValidationForm = () => {
     return (
       <Article title="Validering">

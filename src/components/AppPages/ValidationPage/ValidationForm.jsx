@@ -251,7 +251,7 @@ const ValidationForm = props => {
               onChange: handleChange,
               name: "email",
               type: "email",
-              disabled: "true",
+              disabled: true,
               autoComplete: "email",
               value: signupData.email,
               endAdornment: (
