@@ -38,35 +38,42 @@ const BecomeAMemberForm = props => {
   })
   const [showDialog, setShowDialog] = useState(false)
   const [dataSent, setDataSent] = useState(false)
+  const [nameErrorState, setNameErrorState] = useState({
+    error: false,
+    helperText: "",
+  })
+  const [emailErrorState, setEmailErrorState] = useState({
+    error: false,
+    helperText: "",
+  })
+  const [passwordErrorState, setPasswordErrorState] = useState({
+    error: false,
+    helperText: "",
+  })
   const [pass2ErrorState, setPass2ErrorState] = useState({
     error: false,
     helperText: "",
   })
 
+  const [submitEnabled, setSubmitEnabled] = useState(true)
+
   const handleChange = event => {
     const name = event.target.getAttribute("name")
-    setSignupData({ ...signupData, [name]: event.target.value })
+    const newSignupData = { ...signupData, [name]: event.target.value }
+    setSignupData(newSignupData)
+    let validated = validateName(newSignupData.name)
+    validated &= validateEmail(newSignupData.email)
+    validated &= validatePassword(newSignupData.password)
+    setSubmitEnabled(validated)
   }
 
   const handleCloseDialog = () => {
     setShowDialog(false)
   }
 
-  const validateEmail = email => {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    return re.test(String(email).toLowerCase())
-  }
-
   const secondPasswordChange = event => {
     const pass2 = event.target.value
-    console.log(
-      `secondPasswordChange: pass1: ${
-        signupData.password
-      }, pass2: ${pass2} => ${pass2 != signupData.password}`
-    )
-    if (pass2 != signupData.password) {
-      setPass2ErrorState({ error: true, helperText: "Lösenorden stämmer inte" })
-    } else setPass2ErrorState({ error: false, helperText: "" })
+    validatePassword2(pass2)
   }
 
   function signupUser(signupData) {
@@ -116,14 +123,88 @@ const BecomeAMemberForm = props => {
         category: "Signup",
         action: "Signup Clicked",
       })
+    }
+    let validated = validateName(signupData.name)
+    validated &= validateEmail(signupData.email)
+    validated &= validatePassword(signupData.password)
+    validated &= !pass2ErrorState.error || validatePassword2("")
+    if (!validated) {
+      //setShowDialog(true)
 
-      if (!validateEmail(signupData.email)) {
-        setShowDialog(true)
-        return
-      }
+      return
+    }
+    setDataSent(true)
+    signupUser(signupData)
+  }
 
-      setDataSent(true)
-      signupUser(signupData)
+  const validateName = name => {
+    console.log(`validateName('${name}')`)
+    let validated = true
+    console.log(`!name: ${!name}`)
+    console.log(`name.length == 0: ${name.length == 0}`)
+    if (!name || name.length == 0) {
+      console.log("set name error")
+      validated = false
+      setNameErrorState({
+        error: true,
+        helperText: "Ni måste ange ert namn",
+      })
+    } else {
+      setNameErrorState({
+        error: false,
+        helperText: "",
+      })
+    }
+
+    return validated
+  }
+
+  const validateEmail = email => {
+    let validated = true
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+    if (!email || email.length == 0 || !re.test(String(email).toLowerCase())) {
+      validated = false
+      setEmailErrorState({
+        error: true,
+        helperText: "Ni måste ange er epost",
+      })
+    } else {
+      setEmailErrorState({
+        error: false,
+        helperText: "",
+      })
+    }
+
+    return validated
+  }
+
+  const validatePassword = password => {
+    let validated = true
+
+    if (!password || password.length < 6) {
+      validated = false
+      setPasswordErrorState({
+        error: true,
+        helperText: "lösenordet måste vara minst 6 tecken",
+      })
+    } else {
+      setPasswordErrorState({
+        error: false,
+        helperText: "",
+      })
+    }
+
+    return validated
+  }
+
+  const validatePassword2 = password2 => {
+    if (password2 != signupData.password) {
+      setPass2ErrorState({ error: true, helperText: "Lösenorden stämmer inte" })
+      return false
+    } else {
+      setPass2ErrorState({ error: false, helperText: "" })
+      return true
     }
   }
 
@@ -149,12 +230,13 @@ const BecomeAMemberForm = props => {
           <CustomInput
             labelText="Namn"
             id="name"
+            helperText={nameErrorState.helperText}
             formControlProps={{
               fullWidth: true,
+              error: nameErrorState.error,
             }}
             inputProps={{
               name: "name",
-              helperText: pass2ErrorState.message,
               onChange: handleChange,
               type: "text",
               endAdornment: (
@@ -167,8 +249,10 @@ const BecomeAMemberForm = props => {
           <CustomInput
             labelText="Epost adress"
             id="email"
+            helperText={emailErrorState.helperText}
             formControlProps={{
               fullWidth: true,
+              error: emailErrorState.error,
             }}
             inputProps={{
               onChange: handleChange,
@@ -185,8 +269,10 @@ const BecomeAMemberForm = props => {
           <CustomInput
             labelText="Önskat lösenord"
             id="password"
+            helperText={passwordErrorState.helperText}
             formControlProps={{
               fullWidth: true,
+              error: passwordErrorState.error,
             }}
             inputProps={{
               onChange: handleChange,
@@ -208,8 +294,6 @@ const BecomeAMemberForm = props => {
               error: pass2ErrorState.error,
             }}
             inputProps={{
-              error: pass2ErrorState.error,
-
               onChange: secondPasswordChange,
               name: "password2",
               type: "password",
@@ -241,6 +325,7 @@ const BecomeAMemberForm = props => {
             type="button"
             color="primary"
             size="lg"
+            disabled={!submitEnabled}
             onClick={handleSubmit}
           >
             Bli medlem!
