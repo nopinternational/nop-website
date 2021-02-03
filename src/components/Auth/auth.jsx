@@ -15,12 +15,12 @@ export const isLoggedIn = () => {
 }
 
 export const logout = firebase => {
+  setUser({})
   return new Promise(resolve => {
     firebase
       .auth()
       .signOut()
       .then(function() {
-        setUser({})
         resolve()
       })
   })

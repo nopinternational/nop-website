@@ -29,7 +29,7 @@ const Index = () => {
   return (
     <Router history={hist}>
       <PrivateRoute path="/app/validation" component={ValidationPage} />
-      <PrivateRoute path="/app/profile" component={ProfilePage} />
+      <PrivateRoute path="/app/profile" component={ValidationPage} />
       <Route path="/login" component={LoginPage} />
     </Router>
   )

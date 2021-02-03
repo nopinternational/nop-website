@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react"
 import classNames from "classnames"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles"
+import CircularProgress from "@material-ui/core/CircularProgress"
 
 // @material-ui/icons
 
 // core components
 import Layout from "../../Layout/Layout.jsx"
 import Article from "../../Article/Article.jsx"
-
+import Button from "../../CustomButtons/Button.jsx"
 import GridContainer from "../../Grid/GridContainer.jsx"
 import GridItem from "../../Grid/GridItem.jsx"
 import Parallax from "../../Parallax/Parallax.jsx"
@@ -89,7 +90,12 @@ const ValidationPage = props => {
   const renderValidationPending = () => {
     return (
       <Article title="Validering pågår...">
-        <p className={classes.description}>Validering pågår...</p>
+        <p className={classes.description}>
+          Tack för er valideringsansökan!
+          <br />
+          Vi kommer nu att granska den och återkommer så snart som möjligt.
+          Detta sker normalt inom någon dag.
+        </p>
       </Article>
     )
   }
@@ -104,9 +110,28 @@ const ValidationPage = props => {
     return (
       <Article title="Validering underkänd">
         <p className={classes.description}>
-          Validering har blivit underkänd med följande motivering:
+          Validering har blivit underkänd av följande orsak:
         </p>
-        <Quote text={validationStatus.message} />
+        <Quote text={validationStatus.message || "(okänd anledning)"} />
+        <p className={classes.description}>
+          Ni kan göra en ny validering genom att klicka nedan.
+        </p>
+        <Button>Validera</Button>
+      </Article>
+    )
+  }
+
+  const renderDenied = () => {
+    return (
+      <Article title="Validering underkänd">
+        <p className={classes.description}>
+          Validering har blivit underkänd av följande orsak:
+        </p>
+        <Quote text={validationStatus.message || "(okänd anledning)"} />
+        <p className={classes.description}>
+          Vi anser att detta är mot nätverkets värderingar och vi kommer därför
+          inte att kunna erbjuda er en plats i Night of Passion.
+        </p>
       </Article>
     )
   }
@@ -122,6 +147,9 @@ const ValidationPage = props => {
       }
       case "REJECTED": {
         return renderValidationRejected()
+      }
+      case "DENIED": {
+        return renderDenied()
       }
     }
     return renderValidationForm()
