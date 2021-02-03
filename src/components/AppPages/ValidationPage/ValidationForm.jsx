@@ -28,6 +28,7 @@ import productStyle from "../../../assets/jss/material-kit-react/views/landingPa
 
 import firebase from "gatsby-plugin-firebase"
 import { getUser } from "../../Auth/auth"
+import { setValidationPending } from "../../Firebase/FirebaseService"
 import { compose } from "recompose"
 
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
@@ -161,7 +162,7 @@ const ValidationForm = props => {
         category: "Profile",
         action: "Validate Clicked",
       })
-      setValidationStatus("PENDING")
+      setValidationPending(firebase)
       writesignupDataToFirebase(getUser().uid, signupData)
       trackCustomEvent({
         category: "Signup",

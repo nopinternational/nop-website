@@ -22,6 +22,7 @@ import landingPageStyle from "../../../assets/jss/material-kit-react/views/landi
 import ValidationForm from "./ValidationForm.jsx"
 import firebase from "gatsby-plugin-firebase"
 import { getUser } from "../../Auth/auth"
+import { setValidationRetry } from "../../Firebase/FirebaseService"
 
 const ValidationPage = props => {
   console.log("ValidationPage: ", props)
@@ -31,6 +32,8 @@ const ValidationPage = props => {
     status: "none",
     message: "no message",
   })
+
+  const [contentLoaded, setContentLoaded] = useState(false)
 
   useEffect(() => {
     const user = getUser()
@@ -49,6 +52,7 @@ const ValidationPage = props => {
         //setImages(data.images || [])
         console.log("validationstatus: ", data)
         setValidationStatus({ ...data })
+        setContentLoaded(true)
       },
       cancelCallback => {
         console.log("cancelCallback: ", cancelCallback)
@@ -56,6 +60,9 @@ const ValidationPage = props => {
     )
   }, [])
 
+  const revalidate = () => {
+    setValidationRetry(firebase)
+  }
   const setStatus = status => {
     const user = getUser()
 
@@ -82,9 +89,23 @@ const ValidationPage = props => {
           Nedan kan ni ansöka om att bli medlemmar. Efter att ni har ansökt om
           medlemskap kommer vi att kontakta er.
         </p>
+        {renderValidationMessage()}
         <ValidationForm setValidationStatus={setStatus} />
       </Article>
     )
+  }
+
+  const renderValidationMessage = () => {
+    if (validationStatus.message)
+      return (
+        <>
+          <p className={classes.description}>
+            Från er förra validering så fick ni meddelandet:
+          </p>
+          <Quote text={validationStatus.message || "(okänd anledning)"} />
+        </>
+      )
+    return null
   }
 
   const renderValidationPending = () => {
@@ -116,22 +137,29 @@ const ValidationPage = props => {
         <p className={classes.description}>
           Ni kan göra en ny validering genom att klicka nedan.
         </p>
-        <Button>Validera</Button>
+        <Button onClick={revalidate} color="primary">
+          Validera
+        </Button>
       </Article>
     )
   }
 
   const renderDenied = () => {
     return (
-      <Article title="Validering underkänd">
+      <Article title="Profil underkänd">
         <p className={classes.description}>
-          Validering har blivit underkänd av följande orsak:
+          Vi har underkänt er ansökan och vi kommer därför inte att kunna
+          erbjuda er en plats i Night of Passion.
         </p>
         <Quote text={validationStatus.message || "(okänd anledning)"} />
-        <p className={classes.description}>
-          Vi anser att detta är mot nätverkets värderingar och vi kommer därför
-          inte att kunna erbjuda er en plats i Night of Passion.
-        </p>
+      </Article>
+    )
+  }
+
+  const renderSpinner = () => {
+    return (
+      <Article>
+        <CircularProgress />
       </Article>
     )
   }
@@ -152,7 +180,7 @@ const ValidationPage = props => {
         return renderDenied()
       }
     }
-    return renderValidationForm()
+    return contentLoaded ? renderValidationForm() : renderSpinner()
   }
 
   return (
