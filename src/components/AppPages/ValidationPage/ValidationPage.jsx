@@ -80,15 +80,35 @@ const ValidationPage = props => {
 
   const renderValidationForm = () => {
     return (
-      <Article title="Validering">
+      <Article title="Verifiering">
         <p>
           Nätverket Night of Passion är en exklusiv medlemsklubb. Vi tar emot
           par som medlemmar som är seriösa och som delar nätverkets värderingar.
         </p>
         <p className={classes.description}>
-          Nedan kan ni ansöka om att bli medlemmar. Efter att ni har ansökt om
-          medlemskap kommer vi att kontakta er.
+          För att bli medlemmar så krävs det att ni verifierar er som ett par.
+          Det gör ni så här:
+          <ul>
+            <li>
+              Skriv någon rad om er själva, ex var ni bor, ålder, hur länge ni
+              varit tillsammans, ev erfarenheter och förväntningar etc. Valfritt
+              är att skicka med andra kontaktuppgifter såsom mobilnummer,
+              facebook, kik, BC etc. Det hindrar er inte från att gå med, men
+              allt sådant bidrar till att stärka er trovärdighet som ett seriöst
+              par
+            </li>
+            <li>
+              Ladda upp en eller flera bilder på er. En av bilderna ska vara en
+              nytagen bild på er tillsammans där ni håller upp en lapp med
+              texten Night of Passion, eller NoP kort och gott.
+            </li>
+          </ul>
         </p>
+        <p className={classes.description}>
+          Text och bilder som ni anger här kommer endast att användas för
+          verifering. Den sköts av utvalda medlemspar i Night of Passion.
+        </p>
+
         {renderValidationMessage()}
         <ValidationForm setValidationStatus={setStatus} />
       </Article>
@@ -100,7 +120,7 @@ const ValidationPage = props => {
       return (
         <>
           <p className={classes.description}>
-            Från er förra validering så fick ni meddelandet:
+            Från er tidigare försök så fick ni meddelandet:
           </p>
           <Quote text={validationStatus.message || "(okänd anledning)"} />
         </>
@@ -110,35 +130,44 @@ const ValidationPage = props => {
 
   const renderValidationPending = () => {
     return (
-      <Article title="Validering pågår...">
+      <Article title="Tack för er ansökan!">
         <p className={classes.description}>
-          Tack för er valideringsansökan!
-          <br />
-          Vi kommer nu att granska den och återkommer så snart som möjligt.
-          Detta sker normalt inom någon dag.
+          Vi har mottagit er medlemsansökan med verifiering och vi kommer att
+          granska den och återkommer så snart som möjligt. Detta sker normalt
+          inom någon dag.
         </p>
       </Article>
     )
   }
   const renderValidationConfirmed = () => {
     return (
-      <Article title="Validering godkänd">
-        <p className={classes.description}>Validering godkänd :)</p>
+      <Article title="Medlemsansökan godkänd">
+        <p className={classes.description}>
+          Vi har godkänt er ansökan och ni är nu ett par i Night of Passion.
+          Välkommen!
+        </p>
+        <p className={classes.description}>
+          Men... Medlemssidan för Night of Passion är under uppbyggnad och vi
+          jobbar för fullt med att göra klart siten för era härliga och sexiga
+          profiler. Håll tillgodo men framförallt utkik... ses snart ;)
+        </p>
       </Article>
     )
   }
-  const renderValidationRejected = () => {
+  const renderValidationIncomplete = () => {
     return (
-      <Article title="Validering underkänd">
+      <Article title="Komplettering krävs">
         <p className={classes.description}>
-          Validering har blivit underkänd av följande orsak:
+          Vi har behandlat er medlemsansökan med verifering och vi kan tyvärr
+          inte godkänna den så som ni skickade in den. Nedan anger vi orsaken
+          och hur ni kan rätta till det.
         </p>
         <Quote text={validationStatus.message || "(okänd anledning)"} />
         <p className={classes.description}>
-          Ni kan göra en ny validering genom att klicka nedan.
+          Ni kan fortsätta er verifering genom att klicka nedan.
         </p>
         <Button onClick={revalidate} color="primary">
-          Validera
+          Verifiera
         </Button>
       </Article>
     )
@@ -146,12 +175,12 @@ const ValidationPage = props => {
 
   const renderDenied = () => {
     return (
-      <Article title="Profil underkänd">
+      <Article title="Medlemsansökan underkänd">
         <p className={classes.description}>
-          Vi har underkänt er ansökan och vi kommer därför inte att kunna
-          erbjuda er en plats i Night of Passion.
+          Vi har underkänt er ansökan och vi kommer inte att kunna erbjuda er en
+          plats i Night of Passion.
         </p>
-        <Quote text={validationStatus.message || "(okänd anledning)"} />
+        {validationStatus.message && <Quote text={validationStatus.message} />}
       </Article>
     )
   }
@@ -173,8 +202,8 @@ const ValidationPage = props => {
       case "CONFIRMED": {
         return renderValidationConfirmed()
       }
-      case "REJECTED": {
-        return renderValidationRejected()
+      case "INCOMPLETE": {
+        return renderValidationIncomplete()
       }
       case "DENIED": {
         return renderDenied()

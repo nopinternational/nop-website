@@ -289,6 +289,7 @@ const ValidationForm = props => {
           <Button color="primary" round onClick={uploadPhoto}>
             <AddAPhoto className={classes.icons} />
           </Button>
+          <br />
           <input
             style={{ display: "none" }}
             type="file"
@@ -303,7 +304,7 @@ const ValidationForm = props => {
             size="lg"
             onClick={handleSubmit}
           >
-            Validera
+            Verifiera
           </Button>
         </form>
         <Dialog

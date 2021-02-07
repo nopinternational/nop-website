@@ -43,8 +43,9 @@ const SignupPage = props => {
               värderingar.
             </p>
             <p className={classes.description}>
-              Nedan kan ni ansöka om att bli medlemmar. Efter att ni har ansökt
-              om medlemskap kommer vi att kontakta er.
+              Nedan kan ni ansöka om att bli medlemmar. För att bli medlemmar så
+              krävs det också att ni verifierar er som ett par. Det sker i nästa
+              steg efter att ni fyllt i nedanstående.
             </p>
             <BecomeAMemberForm />
           </Article>

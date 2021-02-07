@@ -30,6 +30,9 @@ import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 const BecomeAMemberForm = props => {
   const { classes } = props
 
+  const [validateOnChange, setValidateOnChange] = useState(false)
+  const [password2, setPassword2] = useState("")
+
   const [signupData, setSignupData] = useState({
     name: "",
     email: "",
@@ -58,13 +61,17 @@ const BecomeAMemberForm = props => {
   const [submitEnabled, setSubmitEnabled] = useState(true)
 
   const handleChange = event => {
+    console.log(`handle change: ${event}`)
     const name = event.target.getAttribute("name")
     const newSignupData = { ...signupData, [name]: event.target.value }
     setSignupData(newSignupData)
-    let validated = validateName(newSignupData.name)
-    validated &= validateEmail(newSignupData.email)
-    validated &= validatePassword(newSignupData.password)
-    setSubmitEnabled(validated)
+    console.log("validateOnChange: ", validateOnChange)
+    if (validateOnChange) {
+      let validated = validateName(newSignupData.name)
+      validated &= validateEmail(newSignupData.email)
+      validated &= validatePassword(newSignupData.password)
+      setSubmitEnabled(validated)
+    }
   }
 
   const handleCloseDialog = () => {
@@ -73,6 +80,7 @@ const BecomeAMemberForm = props => {
 
   const secondPasswordChange = event => {
     const pass2 = event.target.value
+    setPassword2(pass2)
     validatePassword2(pass2)
   }
 
@@ -124,9 +132,11 @@ const BecomeAMemberForm = props => {
         action: "Signup Clicked",
       })
     }
+    setValidateOnChange(true)
     let validated = validateName(signupData.name)
     validated &= validateEmail(signupData.email)
     validated &= validatePassword(signupData.password)
+    validated &= validatePassword2(password2)
     validated &= !pass2ErrorState.error || validatePassword2("")
     if (!validated) {
       //setShowDialog(true)

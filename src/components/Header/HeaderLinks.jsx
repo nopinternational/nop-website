@@ -68,7 +68,6 @@ const HeaderLinks = props => {
     ]
   }
   const getMenuItems = () => {
-    console.log("getMenuItems")
     if (isLoggedIn()) {
       return getLoggedInItems()
     }

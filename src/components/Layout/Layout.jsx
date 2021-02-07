@@ -1,5 +1,6 @@
 import React from "react"
 import Header from "components/Header/Header.jsx"
+import Footer from "components/Footer/Footer.jsx"
 import HeaderLinks from "components/Header/HeaderLinks.jsx"
 const dashboardRoutes = []
 
@@ -18,6 +19,7 @@ const Layout = ({ children }) => {
         }}
       />
       {children}
+      <Footer></Footer>
     </>
   )
 }
