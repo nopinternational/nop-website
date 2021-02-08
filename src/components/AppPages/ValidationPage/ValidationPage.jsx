@@ -88,22 +88,21 @@ const ValidationPage = props => {
         <p className={classes.description}>
           För att bli medlemmar så krävs det att ni verifierar er som ett par.
           Det gör ni så här:
-          <ul>
-            <li>
-              Skriv någon rad om er själva, ex var ni bor, ålder, hur länge ni
-              varit tillsammans, ev erfarenheter och förväntningar etc. Valfritt
-              är att skicka med andra kontaktuppgifter såsom mobilnummer,
-              facebook, kik, BC etc. Det hindrar er inte från att gå med, men
-              allt sådant bidrar till att stärka er trovärdighet som ett seriöst
-              par
-            </li>
-            <li>
-              Ladda upp en eller flera bilder på er. En av bilderna ska vara en
-              nytagen bild på er tillsammans där ni håller upp en lapp med
-              texten Night of Passion, eller NoP kort och gott.
-            </li>
-          </ul>
         </p>
+        <ul>
+          <li>
+            Skriv någon rad om er själva, ex var ni bor, ålder, hur länge ni
+            varit tillsammans, ev erfarenheter och förväntningar etc. Valfritt
+            är att skicka med andra kontaktuppgifter såsom mobilnummer,
+            facebook, kik, BC etc. Det hindrar er inte från att gå med, men allt
+            sådant bidrar till att stärka er trovärdighet som ett seriöst par
+          </li>
+          <li>
+            Ladda upp en eller flera bilder på er. En av bilderna ska vara en
+            nytagen bild på er tillsammans där ni håller upp en lapp med texten
+            Night of Passion, eller NoP kort och gott.
+          </li>
+        </ul>
         <p className={classes.description}>
           Text och bilder som ni anger här kommer endast att användas för
           verifering. Den sköts av utvalda medlemspar i Night of Passion.

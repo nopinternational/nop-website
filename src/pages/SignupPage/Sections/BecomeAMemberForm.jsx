@@ -40,6 +40,7 @@ const BecomeAMemberForm = props => {
     password: "",
   })
   const [showDialog, setShowDialog] = useState(false)
+  const [dialogMessaage, setDialogMessage] = useState("")
   const [dataSent, setDataSent] = useState(false)
   const [nameErrorState, setNameErrorState] = useState({
     error: false,
@@ -103,10 +104,24 @@ const BecomeAMemberForm = props => {
         // Handle Errors here.
         var errorCode = error.code
         var errorMessage = error.message
+        console.log("errorCode", errorCode)
+        console.log("errorMessage", errorMessage)
         if (errorCode === "auth/weak-password") {
-          alert("The password is too weak.")
-        } else {
-          alert(errorMessage)
+          setDialogMessage("Lösenordet är för enkelt, välj ett svårare")
+          setShowDialog(true)
+        } else if (errorCode === "auth/email-already-in-use") {
+          setShowDialog(true)
+          setDialogMessage(
+            "Eposten finns redan registrerad hos oss, vänligen välj en annan eller återställ ditt lösenord"
+          )
+        } else if (errorCode === "auth/invalid-email") {
+          setDialogMessage("Eposten har ett ogiltigt format")
+          setShowDialog(true)
+        } else if (errorCode === "auth/operation-not-allowed") {
+          setDialogMessage(
+            "Hoppla, nu har det hänt något oväntat. Vi ska ta reda på vad som hänt och fixa det!"
+          )
+          setShowDialog(true)
         }
         console.log(error)
       })
@@ -143,7 +158,7 @@ const BecomeAMemberForm = props => {
 
       return
     }
-    setDataSent(true)
+    //setDataSent(true)
     signupUser(signupData)
   }
 
@@ -350,7 +365,7 @@ const BecomeAMemberForm = props => {
           <DialogTitle id="alert-dialog-title">{"Felaktig epost"}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Eposten är på ett ogiltigt format.
+              {dialogMessaage}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
