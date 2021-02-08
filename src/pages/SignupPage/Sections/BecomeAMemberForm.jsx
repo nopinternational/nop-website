@@ -97,7 +97,7 @@ const BecomeAMemberForm = props => {
           category: "Signup",
           action: "Signup Ok",
         })
-
+        sendVerificationEmail(firebase)
         navigate("/app/validation")
       })
       .catch(function(error) {
@@ -124,6 +124,19 @@ const BecomeAMemberForm = props => {
           setShowDialog(true)
         }
         console.log(error)
+      })
+  }
+
+  const sendVerificationEmail = firebase => {
+    var user = firebase.auth().currentUser
+
+    user
+      .sendEmailVerification()
+      .then(function() {
+        console.log(" // Email sent.")
+      })
+      .catch(function(error) {
+        console.log("// An error happened: ", error)
       })
   }
 
@@ -362,7 +375,9 @@ const BecomeAMemberForm = props => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Felaktig epost"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">
+            {"Fel i forumläret"}
+          </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               {dialogMessaage}

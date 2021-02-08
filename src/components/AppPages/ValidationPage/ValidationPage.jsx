@@ -58,6 +58,11 @@ const ValidationPage = props => {
         console.log("cancelCallback: ", cancelCallback)
       }
     )
+
+    //componentWillUnmount
+    return () => {
+      validationDataRef.off()
+    }
   }, [])
 
   const revalidate = () => {
@@ -224,8 +229,7 @@ const ValidationPage = props => {
         </div>
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
-        <div className={classes.container}></div>
-        {renderContent()}
+        <div className={classes.container}>{renderContent()}</div>
       </div>
     </Layout>
   )

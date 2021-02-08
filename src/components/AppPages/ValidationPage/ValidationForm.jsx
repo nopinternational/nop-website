@@ -72,6 +72,11 @@ const ValidationForm = props => {
         console.log("cancelCallback: ", cancelCallback)
       }
     )
+
+    //componentWillUnmount
+    return () => {
+      validationDataRef.off()
+    }
   }, [])
 
   const handleChange = event => {
