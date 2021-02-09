@@ -22,7 +22,7 @@ import CustomInput from "components/CustomInput/CustomInput.jsx"
 import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx"
 
 import firebase from "gatsby-plugin-firebase"
-import { setUser } from "components/Auth/auth"
+import { setUser, userSignedIn } from "components/Auth/auth"
 import { compose } from "recompose"
 
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
@@ -62,11 +62,9 @@ const BecomeAMemberForm = props => {
   const [submitEnabled, setSubmitEnabled] = useState(true)
 
   const handleChange = event => {
-    console.log(`handle change: ${event}`)
     const name = event.target.getAttribute("name")
     const newSignupData = { ...signupData, [name]: event.target.value }
     setSignupData(newSignupData)
-    console.log("validateOnChange: ", validateOnChange)
     if (validateOnChange) {
       let validated = validateName(newSignupData.name)
       validated &= validateEmail(newSignupData.email)
@@ -91,6 +89,7 @@ const BecomeAMemberForm = props => {
       .createUserWithEmailAndPassword(signupData.email, signupData.password)
       .then(result => {
         // signInSuccessUrl: '/app/profile',
+        userSignedIn(firebase)
         setUser(result.user)
         writesignupDataToFirebase(result.user.uid, signupData)
         trackCustomEvent({
@@ -104,8 +103,6 @@ const BecomeAMemberForm = props => {
         // Handle Errors here.
         var errorCode = error.code
         var errorMessage = error.message
-        console.log("errorCode", errorCode)
-        console.log("errorMessage", errorMessage)
         if (errorCode === "auth/weak-password") {
           setDialogMessage("Lösenordet är för enkelt, välj ett svårare")
           setShowDialog(true)
@@ -123,7 +120,7 @@ const BecomeAMemberForm = props => {
           )
           setShowDialog(true)
         }
-        console.log(error)
+        console.error(error)
       })
   }
 
@@ -136,7 +133,7 @@ const BecomeAMemberForm = props => {
         console.log(" // Email sent.")
       })
       .catch(function(error) {
-        console.log("// An error happened: ", error)
+        console.error("// An error happened: ", error)
       })
   }
 
@@ -176,12 +173,8 @@ const BecomeAMemberForm = props => {
   }
 
   const validateName = name => {
-    console.log(`validateName('${name}')`)
     let validated = true
-    console.log(`!name: ${!name}`)
-    console.log(`name.length == 0: ${name.length == 0}`)
-    if (!name || name.length == 0) {
-      console.log("set name error")
+    if (!name || name.length === 0) {
       validated = false
       setNameErrorState({
         error: true,
@@ -201,7 +194,7 @@ const BecomeAMemberForm = props => {
     let validated = true
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-    if (!email || email.length == 0 || !re.test(String(email).toLowerCase())) {
+    if (!email || email.length === 0 || !re.test(String(email).toLowerCase())) {
       validated = false
       setEmailErrorState({
         error: true,
@@ -237,7 +230,7 @@ const BecomeAMemberForm = props => {
   }
 
   const validatePassword2 = password2 => {
-    if (password2 != signupData.password) {
+    if (password2 !== signupData.password) {
       setPass2ErrorState({ error: true, helperText: "Lösenorden stämmer inte" })
       return false
     } else {

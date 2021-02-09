@@ -7,25 +7,13 @@ import "assets/scss/material-kit-react.scss?v=1.4.0"
 import "typeface-roboto"
 import "typeface-roboto-slab"
 
-import firebase from "gatsby-plugin-firebase"
-
 import PrivateRoute from "../components/PrivateRoute"
 // pages for this product
 import ValidationPage from "../components/AppPages/ValidationPage/ValidationPage.jsx"
-import ProfilePage from "./ProfilePage/ProfilePage.jsx"
 import LoginPage from "./LoginPage/LoginPage.jsx"
 
 let hist = createMemoryHistory()
 const Index = () => {
-  console.log("Index")
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      console.log("// User is signed in.", user)
-    } else {
-      console.log("// No user is signed in.", user)
-    }
-  })
-
   return (
     <Router history={hist}>
       <PrivateRoute path="/app/validation" component={ValidationPage} />

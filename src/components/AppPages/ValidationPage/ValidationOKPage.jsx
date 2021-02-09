@@ -21,7 +21,6 @@ import ValidationForm from "./ValidationForm.jsx"
 import Logout from "./Logout.jsx"
 
 const ValidationPage = props => {
-  console.log("ValidationPage: ", props)
   const { classes } = props
 
   return (

@@ -5,12 +5,21 @@ export const getUser = () =>
     ? JSON.parse(window.localStorage.getItem("user"))
     : {}
 
+export const userSignedIn = firebase => {
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in
+    } else {
+      // No user is signed in
+    }
+  })
+}
+
 export const setUser = user =>
   isBrowser() && window.localStorage.setItem("user", JSON.stringify(user))
 
 export const isLoggedIn = () => {
   const user = getUser()
-  console.log("isLoggedIn: ", !!user.email)
   return !!user.email
 }
 

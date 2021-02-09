@@ -46,11 +46,9 @@ const ValidationForm = props => {
   })
 
   const [isValidated, setValidated] = useState(false)
-  const [fileuploaded, setFileuploaded] = useState()
   const [images, setImages] = useState([])
   const [firebaseImages, setFirebaseImages] = useState([])
   const [showDialog, setShowDialog] = useState(false)
-  const [dataSent, setDataSent] = useState(false)
 
   React.useEffect(() => {
     const user = getUser()
@@ -151,7 +149,6 @@ const ValidationForm = props => {
       .put(file, metadata)
       .then(function(snapshot) {
         //image uploaded
-        console.log(snapshot.ref.fullPath)
 
         setFirebaseImages(firebaseImages.concat(snapshot.ref.fullPath))
       })

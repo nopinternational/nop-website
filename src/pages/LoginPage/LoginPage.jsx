@@ -26,7 +26,7 @@ import CustomInput from "components/CustomInput/CustomInput.jsx"
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx"
 
 import firebase from "gatsby-plugin-firebase"
-import { setUser } from "components/Auth/auth"
+import { setUser, userSignedIn } from "components/Auth/auth"
 
 import image from "assets/img/bg7.jpg"
 
@@ -59,14 +59,14 @@ const LoginPage = props => {
       .auth()
       .signInWithEmailAndPassword(loginData.email, loginData.password)
       .then(result => {
-        console.log("signin.result: ", result)
+        userSignedIn(firebase)
         setUser(result.user)
         navigate("/app/validation")
       })
       .catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code
-        var errorMessage = error.message
+
         if (errorCode === "auth/weak-password") {
           setDialogMessage("Lösenordet är för enkelt, välj ett svårare")
           setShowDialog(true)

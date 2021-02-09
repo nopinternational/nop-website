@@ -9,15 +9,9 @@ import { compose } from "recompose"
 import typographyStyle from "../../../assets/jss/material-kit-react/views/componentsSections/typographyStyle.jsx"
 
 const ValidationImage = props => {
-  console.log("ValidationImage.props: ", props)
   const { classes, src, onDelete } = props
 
   const onclick = event => {
-    console.log("onclick: ", event)
-    console.log("onclick: ", event.target)
-    console.log("onclick.src: ", src)
-    console.log("onDElete: ", onDelete)
-
     onDelete(src)
   }
   return (

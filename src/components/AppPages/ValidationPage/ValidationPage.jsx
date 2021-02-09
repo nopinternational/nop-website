@@ -25,7 +25,6 @@ import { getUser } from "../../Auth/auth"
 import { setValidationRetry } from "../../Firebase/FirebaseService"
 
 const ValidationPage = props => {
-  console.log("ValidationPage: ", props)
   const { classes } = props
 
   const [validationStatus, setValidationStatus] = useState({
@@ -47,15 +46,12 @@ const ValidationPage = props => {
       "value",
       snapshot => {
         const data = snapshot.val()
-        //setSignupData({ ...data })
-        //setValidated(data.validation)
-        //setImages(data.images || [])
-        console.log("validationstatus: ", data)
+
         setValidationStatus({ ...data })
         setContentLoaded(true)
       },
       cancelCallback => {
-        console.log("cancelCallback: ", cancelCallback)
+        //console.log("cancelCallback: ", cancelCallback)
       }
     )
 
@@ -76,9 +72,7 @@ const ValidationPage = props => {
       .database()
       .ref(`/validation/${uid}/status/`)
 
-    console.log("setStatus: ", status)
     const newState = { ...validationStatus, status }
-    console.log("newState: ", newState)
     validationDataRef.set(newState)
     setValidationStatus(newState)
   }
@@ -212,8 +206,10 @@ const ValidationPage = props => {
       case "DENIED": {
         return renderDenied()
       }
+      default: {
+        return contentLoaded ? renderValidationForm() : renderSpinner()
+      }
     }
-    return contentLoaded ? renderValidationForm() : renderSpinner()
   }
 
   return (
