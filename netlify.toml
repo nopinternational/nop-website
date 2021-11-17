@@ -16,9 +16,14 @@
   command = "npm run build"
   
   
-  [[redirects]]
+[[redirects]]
   from = "/*"
   to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/register/*"
+  to = "https://nop-register.netlify.app/:splat"
   status = 200
 
 [[redirects]]
