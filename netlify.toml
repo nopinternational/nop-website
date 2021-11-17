@@ -17,7 +17,7 @@
   
 
 [[redirects]]
-  from = "/register/*"
+  from = "/register"
   to = "https://nop-register.netlify.app/:splat"
   status = 200
 
