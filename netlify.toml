@@ -19,7 +19,7 @@
 [[redirects]]
   from = "/register/*"
   to = "https://signup.nightofpassion.se/:splat"
-  status = 200
+  status = 301
 
 [[redirects]]
   from = "/*"
