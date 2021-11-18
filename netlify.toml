@@ -17,8 +17,8 @@
   
 
 [[redirects]]
-  from = "/register"
-  to = "https://nop-register.netlify.app/:splat"
+  from = "/register/*"
+  to = "https://signup.nightofpassion.se/:splat"
   status = 200
 
 [[redirects]]
