@@ -88,6 +88,8 @@ class Header extends React.Component {
               brandComponent
             )}
           </div>
+        </Toolbar>
+        {/*
           <Hidden smDown implementation="css">
             {rightLinks}
           </Hidden>
@@ -100,7 +102,7 @@ class Header extends React.Component {
               <Menu />
             </IconButton>
           </Hidden>
-        </Toolbar>
+
         <Hidden mdUp implementation="css">
           <Drawer
             variant="temporary"
@@ -116,7 +118,7 @@ class Header extends React.Component {
               {rightLinks}
             </div>
           </Drawer>
-        </Hidden>
+        </Hidden> */}
       </AppBar>
     );
   }
