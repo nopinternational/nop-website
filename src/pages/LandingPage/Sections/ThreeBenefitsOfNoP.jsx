@@ -27,9 +27,9 @@ const ThreeBenefitsOfNoP = ({ articles, classes }) => {
     { icon: Home, iconColor: "info" }, //default icon if articles.length > meta.length
   ]
 
-  const renderInfoArea = (article, meta) => {
+  const renderInfoArea = (article, meta, index) => {
     return (
-      <GridItem xs={12} sm={12} md={4}>
+      <GridItem xs={12} sm={12} md={4} key={index}>
         <InfoArea
           title={article.title}
           description={documentToReactComponents(article.body.json)}
@@ -46,7 +46,11 @@ const ThreeBenefitsOfNoP = ({ articles, classes }) => {
       <div>
         <GridContainer>
           {articles.map((article, index) =>
-            renderInfoArea(article, meta[Math.min(index, meta.length - 1)])
+            renderInfoArea(
+              article,
+              meta[Math.min(index, meta.length - 1)],
+              index
+            )
           )}
         </GridContainer>
       </div>
