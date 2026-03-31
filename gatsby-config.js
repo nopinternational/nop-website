@@ -23,6 +23,10 @@ module.exports = {
         host: contentful_host,
       },
     },
+    {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/app/*`] },
+    },
     "gatsby-plugin-material-ui",
     {
       resolve: `gatsby-plugin-manifest`,
@@ -41,13 +45,15 @@ module.exports = {
       options: {
         features: {
           database: true,
+          auth: true,
+          storage: true,
         },
         credentials: {
           apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
           authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
           databaseURL: process.env.REACT_APP_FIREBASE_DATABASEURL,
           projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
-          storageBucket: process.env.REACT_APP_FIREBASESTORAGEBUCKET,
+          storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
           messagingSenderId: process.env.REACT_APP_FIREBASE_MESSSAGING_SENDERID,
           appId: process.env.REACT_APP_FIREBASE_APID,
         },

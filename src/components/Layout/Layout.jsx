@@ -1,6 +1,7 @@
 import React from "react"
 import Header from "components/Header/Header.jsx"
-
+import Footer from "components/Footer/Footer.jsx"
+import HeaderLinks from "components/Header/HeaderLinks.jsx"
 const dashboardRoutes = []
 
 const Layout = ({ children }) => {
@@ -10,7 +11,7 @@ const Layout = ({ children }) => {
         color="transparent"
         routes={dashboardRoutes}
         brand="Night of Passion"
-        //rightLinks={<HeaderLinks />}
+        rightLinks={<HeaderLinks />}
         fixed
         changeColorOnScroll={{
           height: 80,
@@ -18,6 +19,7 @@ const Layout = ({ children }) => {
         }}
       />
       {children}
+      <Footer></Footer>
     </>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Link } from "gatsby"
+import { Link, navigate } from "gatsby"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles"
 import InputAdornment from "@material-ui/core/InputAdornment"
@@ -13,6 +13,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import Email from "@material-ui/icons/Email"
 import People from "@material-ui/icons/People"
 import Message from "@material-ui/icons/Message"
+import Lock from "@material-ui/icons/Lock"
 
 // core components
 import Button from "components/CustomButtons/Button.jsx"
@@ -21,6 +22,7 @@ import CustomInput from "components/CustomInput/CustomInput.jsx"
 import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx"
 
 import firebase from "gatsby-plugin-firebase"
+import { setUser, userSignedIn } from "components/Auth/auth"
 import { compose } from "recompose"
 
 import { trackCustomEvent } from "gatsby-plugin-google-analytics"
@@ -28,37 +30,121 @@ import { trackCustomEvent } from "gatsby-plugin-google-analytics"
 const BecomeAMemberForm = props => {
   const { classes } = props
 
+  const [validateOnChange, setValidateOnChange] = useState(false)
+  const [password2, setPassword2] = useState("")
+
   const [signupData, setSignupData] = useState({
     name: "",
     email: "",
     message: "",
+    password: "",
   })
   const [showDialog, setShowDialog] = useState(false)
+  const [dialogMessaage, setDialogMessage] = useState("")
   const [dataSent, setDataSent] = useState(false)
+  const [nameErrorState, setNameErrorState] = useState({
+    error: false,
+    helperText: "",
+  })
+  const [emailErrorState, setEmailErrorState] = useState({
+    error: false,
+    helperText: "",
+  })
+  const [passwordErrorState, setPasswordErrorState] = useState({
+    error: false,
+    helperText: "",
+  })
+  const [pass2ErrorState, setPass2ErrorState] = useState({
+    error: false,
+    helperText: "",
+  })
+
+  const [submitEnabled, setSubmitEnabled] = useState(true)
 
   const handleChange = event => {
     const name = event.target.getAttribute("name")
-    setSignupData({ ...signupData, [name]: event.target.value })
+    const newSignupData = { ...signupData, [name]: event.target.value }
+    setSignupData(newSignupData)
+    if (validateOnChange) {
+      let validated = validateName(newSignupData.name)
+      validated &= validateEmail(newSignupData.email)
+      validated &= validatePassword(newSignupData.password)
+      setSubmitEnabled(validated)
+    }
   }
 
   const handleCloseDialog = () => {
     setShowDialog(false)
   }
 
-  const validateEmail = email => {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    return re.test(String(email).toLowerCase())
+  const secondPasswordChange = event => {
+    const pass2 = event.target.value
+    setPassword2(pass2)
+    validatePassword2(pass2)
   }
 
-  function writesignupDataToFirebase(signupData) {
+  function signupUser(signupData) {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(signupData.email, signupData.password)
+      .then(result => {
+        // signInSuccessUrl: '/app/profile',
+        userSignedIn(firebase)
+        setUser(result.user)
+        writesignupDataToFirebase(result.user.uid, signupData)
+        trackCustomEvent({
+          category: "Signup",
+          action: "Signup Ok",
+        })
+        sendVerificationEmail(firebase)
+        navigate("/app/validation")
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code
+        var errorMessage = error.message
+        if (errorCode === "auth/weak-password") {
+          setDialogMessage("Lösenordet är för enkelt, välj ett svårare")
+          setShowDialog(true)
+        } else if (errorCode === "auth/email-already-in-use") {
+          setShowDialog(true)
+          setDialogMessage(
+            "Eposten finns redan registrerad hos oss, vänligen välj en annan eller återställ ditt lösenord"
+          )
+        } else if (errorCode === "auth/invalid-email") {
+          setDialogMessage("Eposten har ett ogiltigt format")
+          setShowDialog(true)
+        } else if (errorCode === "auth/operation-not-allowed") {
+          setDialogMessage(
+            "Hoppla, nu har det hänt något oväntat. Vi ska ta reda på vad som hänt och fixa det!"
+          )
+          setShowDialog(true)
+        }
+        console.error(error)
+      })
+  }
+
+  const sendVerificationEmail = firebase => {
+    var user = firebase.auth().currentUser
+
+    user
+      .sendEmailVerification()
+      .then(function() {
+        console.log(" // Email sent.")
+      })
+      .catch(function(error) {
+        console.error("// An error happened: ", error)
+      })
+  }
+
+  const writesignupDataToFirebase = (userid, signupData) => {
+    delete signupData["password"]
     firebase
       .database()
-      .ref("users")
-      .push()
+      .ref(`validation/${userid}/current`)
+      //.push(userid + "-hello")
       .set({
-        username: signupData.name,
-        email: signupData.email,
-        message: signupData.message,
+        ...signupData,
         created: new Date().toISOString(),
       })
   }
@@ -70,19 +156,86 @@ const BecomeAMemberForm = props => {
         category: "Signup",
         action: "Signup Clicked",
       })
+    }
+    setValidateOnChange(true)
+    let validated = validateName(signupData.name)
+    validated &= validateEmail(signupData.email)
+    validated &= validatePassword(signupData.password)
+    validated &= validatePassword2(password2)
+    validated &= !pass2ErrorState.error || validatePassword2("")
+    if (!validated) {
+      //setShowDialog(true)
 
-      if (!validateEmail(signupData.email)) {
-        setShowDialog(true)
-        return
-      }
+      return
+    }
+    //setDataSent(true)
+    signupUser(signupData)
+  }
 
-      writesignupDataToFirebase(signupData)
-      setDataSent(true)
-
-      trackCustomEvent({
-        category: "Signup",
-        action: "Signup Ok",
+  const validateName = name => {
+    let validated = true
+    if (!name || name.length === 0) {
+      validated = false
+      setNameErrorState({
+        error: true,
+        helperText: "Ni måste ange ert namn",
       })
+    } else {
+      setNameErrorState({
+        error: false,
+        helperText: "",
+      })
+    }
+
+    return validated
+  }
+
+  const validateEmail = email => {
+    let validated = true
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+    if (!email || email.length === 0 || !re.test(String(email).toLowerCase())) {
+      validated = false
+      setEmailErrorState({
+        error: true,
+        helperText: "Ni måste ange er epost",
+      })
+    } else {
+      setEmailErrorState({
+        error: false,
+        helperText: "",
+      })
+    }
+
+    return validated
+  }
+
+  const validatePassword = password => {
+    let validated = true
+
+    if (!password || password.length < 6) {
+      validated = false
+      setPasswordErrorState({
+        error: true,
+        helperText: "lösenordet måste vara minst 6 tecken",
+      })
+    } else {
+      setPasswordErrorState({
+        error: false,
+        helperText: "",
+      })
+    }
+
+    return validated
+  }
+
+  const validatePassword2 = password2 => {
+    if (password2 !== signupData.password) {
+      setPass2ErrorState({ error: true, helperText: "Lösenorden stämmer inte" })
+      return false
+    } else {
+      setPass2ErrorState({ error: false, helperText: "" })
+      return true
     }
   }
 
@@ -108,8 +261,10 @@ const BecomeAMemberForm = props => {
           <CustomInput
             labelText="Namn"
             id="name"
+            helperText={nameErrorState.helperText}
             formControlProps={{
               fullWidth: true,
+              error: nameErrorState.error,
             }}
             inputProps={{
               name: "name",
@@ -125,8 +280,10 @@ const BecomeAMemberForm = props => {
           <CustomInput
             labelText="Epost adress"
             id="email"
+            helperText={emailErrorState.helperText}
             formControlProps={{
               fullWidth: true,
+              error: emailErrorState.error,
             }}
             inputProps={{
               onChange: handleChange,
@@ -136,6 +293,44 @@ const BecomeAMemberForm = props => {
               endAdornment: (
                 <InputAdornment position="end">
                   <Email className={classes.inputIconsColor} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <CustomInput
+            labelText="Önskat lösenord"
+            id="password"
+            helperText={passwordErrorState.helperText}
+            formControlProps={{
+              fullWidth: true,
+              error: passwordErrorState.error,
+            }}
+            inputProps={{
+              onChange: handleChange,
+              name: "password",
+              type: "password",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Lock className={classes.inputIconsColor} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <CustomInput
+            labelText="Upprepa lösenord"
+            id="password2"
+            helperText={pass2ErrorState.helperText}
+            formControlProps={{
+              fullWidth: true,
+              error: pass2ErrorState.error,
+            }}
+            inputProps={{
+              onChange: secondPasswordChange,
+              name: "password2",
+              type: "password",
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Lock className={classes.inputIconsColor} />
                 </InputAdornment>
               ),
             }}
@@ -161,6 +356,7 @@ const BecomeAMemberForm = props => {
             type="button"
             color="primary"
             size="lg"
+            disabled={!submitEnabled}
             onClick={handleSubmit}
           >
             Bli medlem!
@@ -172,10 +368,12 @@ const BecomeAMemberForm = props => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Felaktig epost"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">
+            {"Fel i forumläret"}
+          </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Eposten är på ett ogiltigt format.
+              {dialogMessaage}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
