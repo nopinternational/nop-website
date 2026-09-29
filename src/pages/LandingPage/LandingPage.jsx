@@ -83,6 +83,12 @@ const LandingPage = props => {
           {renderArticles(data.contentfulPage.articles.slice(4))}
         </div>
       </div>
+      <div>
+        <img
+          src="/bodylink-banner-1920x1080.png"
+          alt="Zero"
+        />
+      </div>
     </Layout>
   )
 }
