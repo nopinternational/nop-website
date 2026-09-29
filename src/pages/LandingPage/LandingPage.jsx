@@ -84,10 +84,15 @@ const LandingPage = props => {
         </div>
       </div>
       <div>
-        <img
-          src="/bodylink-banner-1920x1080.png"
-          alt="Zero"
-        />
+        <GridContainer justify="center">
+          <GridItem xs={12} sm={12} md={8}>
+            <img
+              src="/bodylink-banner-1920x1080.png"
+              alt="Zero"
+            />
+    
+          </GridItem>
+        </GridContainer>
       </div>
     </Layout>
   )
