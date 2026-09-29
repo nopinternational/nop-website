@@ -81,18 +81,18 @@ const LandingPage = props => {
           />
 
           {renderArticles(data.contentfulPage.articles.slice(4))}
+          <div>
+            <GridContainer justify="center">
+              <GridItem xs={12} sm={12} md={8}>
+                <img
+                  src="/bodylink-banner-1920x1080.png"
+                  alt="Zero"
+                />
+        
+              </GridItem>
+            </GridContainer>
+          </div>
         </div>
-      </div>
-      <div>
-        <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={8}>
-            <img
-              src="/bodylink-banner-1920x1080.png"
-              alt="Zero"
-            />
-    
-          </GridItem>
-        </GridContainer>
       </div>
     </Layout>
   )
