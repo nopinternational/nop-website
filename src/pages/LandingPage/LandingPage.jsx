@@ -87,6 +87,7 @@ const LandingPage = props => {
                 <img
                   src="/bodylink-banner-1920x1080.png"
                   alt="Zero"
+                  width="100%"
                 />
         
               </GridItem>
